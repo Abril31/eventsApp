@@ -31,10 +31,7 @@ const CardList = ({
   return (
     <>
       <section className="flex flex-wrap justify-end mx-24 mb-14">
-        <div
-          className="grid grid-cols-2
-         gap-16"
-        >
+        <div className="grid grid-cols-3 mt-10 gap-16">
           {eventsToDisplay.map((event) => (
             <Card
               key={event.id_event}

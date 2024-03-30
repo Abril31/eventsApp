@@ -15,7 +15,7 @@ const SearchBar = ({ setFilteredEvents, resetEvents }) => {
 
   //Filtro por Ciudad
   const filterByCity = (city) => {
-    if (!city) return events;
+    if (!city) return data;
     return data.filter((event) =>
       event.city.toLowerCase().includes(city.toLowerCase())
     );
@@ -23,21 +23,21 @@ const SearchBar = ({ setFilteredEvents, resetEvents }) => {
 
   // Filtro por Categoría
   const filterByCategory = (category) => {
-    if (!category) return events;
+    if (!category) return data;
     return data.filter((event) =>
       event.category.toLowerCase().includes(category.toLowerCase())
     );
   };
   //Filtra por Ubicación
   const filterByLocation = (location) => {
-    if (!location) return events;
+    if (!location) return data;
     return data.filter((event) =>
       event.location.toLowerCase().includes(location.toLowerCase())
     );
   };
   //Filtra por nombre del evento
   const filterByName = (name) => {
-    if (!name) return events;
+    if (!name) return data;
     return data.filter((event) =>
       event.name.toLowerCase().includes(name.toLowerCase())
     );

@@ -13,12 +13,6 @@ export const citiesAndCats = async () => {
     // Almacenamos las ciudades y categorías en el estado global de Zustand
     useStore.setState({ cities, categories });
 
-    console.log("Ciudades almacenadas en el estado global de Zustand:", cities);
-    console.log(
-      "Categorías almacendas en el estado global de Zustand:",
-      categories
-    );
-
     return { cities, categories };
   } catch (error) {
     console.error("Error al obtener eventos:", error);
