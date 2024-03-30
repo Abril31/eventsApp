@@ -4,6 +4,7 @@ import NewEvent from "./views/NewEvents/NewEvent";
 import { Route, Routes } from "react-router-dom";
 import EventDetail from "./views/detail/EventDetail";
 import { Toaster } from "sonner";
+import Footer from "./components/footer/Footer";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/crear-evento" element={<NewEvent />} />
       </Routes>
       <Toaster richColors position="top-right" />
+      <Footer />
     </div>
   );
 }

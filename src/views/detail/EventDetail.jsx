@@ -9,7 +9,7 @@ const EventDetail = () => {
   if (!data) return <div>There are no details for this event.</div>;
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center h-full">
       <div className="flex m-10 gap-10">
         <div className="">
           <img

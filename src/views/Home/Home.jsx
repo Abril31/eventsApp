@@ -11,7 +11,6 @@ import {
   useGetEventsByPage,
 } from "../../hooks/useEvents";
 import { citiesAndCats } from "../../helpers/values";
-import Footer from "../../components/footer/Footer";
 
 const Home = () => {
   const setOriginalEvents = useStore((state) => state.setOriginalEvents);
@@ -20,7 +19,7 @@ const Home = () => {
   const categories = useStore((state) => state.categories);
   const originalData = useStore((state) => state.originalData);
 
-  const eventsPerPage = 4;
+  const eventsPerPage = 6;
   const currentPage = useStore((state) => state.currentPage);
   const setCurrentPage = useStore((state) => state.setCurrentPage);
   const totalEvents = useStore((state) => state.totalEvents);
@@ -89,12 +88,7 @@ const Home = () => {
       )}
 
       <div className="flex mx-10 my-10 gap-5 text-xl">
-        <div className="w-full flex gap-5 justify-between mx-20">
-          <Paginate
-            currentPage={currentPage}
-            totalPages={Math.ceil(totalEvents / eventsPerPage)}
-            setCurrentPage={setCurrentPage}
-          />
+        <div className="w-full flex gap-5 justify-center mx-20 mb-5">
           <SearchBar
             setFilteredEvents={handleFilteredEvents}
             resetEvents={handleResetEvents}
@@ -102,13 +96,17 @@ const Home = () => {
         </div>
       </div>
       <div className="">
-        <h1 className="text-2xl p-5">Filters</h1>
-        <div className="flex">
-          <div className="flex mx-5 gap-5">
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        <div className="flex justify-center mb-7 mt-3">
+          <div className="flex justify-center mx-5 gap-7">
+            <button className="bg-deco hover:bg-violet-500 text-white font-bold py-2 px-4 rounded">
               Cities
             </button>
-            <select name="city" onChange={filterByCity}>
+            <select
+              name="city"
+              onChange={filterByCity}
+              className="border border-otro p-2"
+            >
+              <option>Choose</option>
               {cities.map((city) => {
                 return <option key={city}>{city}</option>;
               })}
@@ -116,11 +114,16 @@ const Home = () => {
 
             <button
               onClick={clearFilters}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-deco hover:bg-violet-500 text-white font-bold py-2 px-4 rounded"
             >
-              All Categories
+              Categories
             </button>
-            <select name="cat" onChange={filterByCat}>
+            <select
+              name="cat"
+              onChange={filterByCat}
+              className="border border-otro p-2"
+            >
+              <option>Choose</option>
               {categories.map((category) => {
                 return (
                   <option key={category} value={category}>
@@ -129,10 +132,17 @@ const Home = () => {
                 );
               })}
             </select>
+            <div className="">
+              <Paginate
+                currentPage={currentPage}
+                totalPages={Math.ceil(totalEvents / eventsPerPage)}
+                setCurrentPage={setCurrentPage}
+              />
+            </div>
           </div>
         </div>
         {/* Aquí vienen las Cards */}
-        <div className="flex justify-end">
+        <div className="flex justify-center">
           <CardList
             currentPage={currentPage}
             totalEvents={totalEvents}
@@ -141,8 +151,6 @@ const Home = () => {
           />
         </div>
       </div>
-
-      <Footer />
     </>
   );
 };
