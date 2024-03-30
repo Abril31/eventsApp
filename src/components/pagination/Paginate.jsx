@@ -14,12 +14,12 @@ const Paginate = ({ currentPage, totalPages, setCurrentPage }) => {
   };
 
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 items-center">
       <button
         className={`${
           currentPage === 1
-            ? "bg-gray-50 text-gray-400 py-2 px-4 font-bold cursor-not-allowed"
-            : "bg-zinc-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4"
+            ? "bg-gray-50 text-gray-400 py-2 px-2 font-bold cursor-not-allowed"
+            : "bg-zinc-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-2"
         } `}
         onClick={handlePrevClick}
       >
@@ -43,7 +43,7 @@ const Paginate = ({ currentPage, totalPages, setCurrentPage }) => {
         className={`${
           currentPage === totalPages
             ? "bg-gray-50 text-gray-400 py-2 px-4 font-bold cursor-not-allowed"
-            : "bg-zinc-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4"
+            : "bg-zinc-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-2"
         } `}
         onClick={handleNextClick}
       >

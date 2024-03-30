@@ -1,25 +1,24 @@
 import { useGetEventsByPage } from "../../hooks/useEvents";
+
 import Card from "../card/Card";
 
-const CardList = ({ currentPage, totalEvents, filteredEvents }) => {
-  const eventsPerPage = 6;
-
+const CardList = ({
+  totalEvents,
+  filteredEvents,
+  currentPage,
+  eventsPerPage,
+}) => {
   const { data, isLoading, error } = useGetEventsByPage(
     currentPage,
     eventsPerPage,
     totalEvents
   );
 
-  if (isLoading)
-    return (
-      <div className="text-deco text-center font-bold text-4xl">
-        Cargando...
-      </div>
-    );
+  if (isLoading) return "";
   if (error)
     return (
       <div className="text-red-500 text-center font-bold text-4xl">
-        Error al cargar los eventos
+        There was an error!
       </div>
     );
 
@@ -28,10 +27,14 @@ const CardList = ({ currentPage, totalEvents, filteredEvents }) => {
   if (filteredEvents && filteredEvents.length > 0) {
     eventsToDisplay = filteredEvents;
   }
+
   return (
     <>
-      <section className="flex flex-wrap justify-start mx-24">
-        <div className="grid grid-cols-3 gap-16">
+      <section className="flex flex-wrap justify-end mx-24 mb-14">
+        <div
+          className="grid grid-cols-2
+         gap-16"
+        >
           {eventsToDisplay.map((event) => (
             <Card
               key={event.id_event}

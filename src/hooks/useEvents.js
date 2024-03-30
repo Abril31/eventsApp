@@ -1,6 +1,6 @@
 import api from "../api/events";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 //Todos los eventos
 
@@ -31,6 +31,34 @@ export const useGetEventsByPage = (page, eventsPerPage, totalEvents) => {
     placeholderData: keepPreviousData,
   });
 };
+
+//Eventos por Categoria
+export const getEventsByCategory = async (criterion, filter) => {
+  const url = `getallevents?criterion=${criterion}&filter=${filter}`;
+  const { data } = await api.get(url);
+  console.log("Solicitud exitosa:", data);
+  return data;
+};
+
+export const getEventsByCity = async (criterion, filter) => {
+  const url = `getallevents?criterion=${criterion}&filter=${filter}`;
+  const { data } = await api.get(url);
+  console.log("Solicitud exitosa:", data);
+  return data;
+};
+
+// export const useGetEventsByCategory = () => {
+//   const location = useLocation();
+//   const searchParams = new URLSearchParams(location.search);
+//   const criterion = searchParams.get("criterion");
+//   const filter = searchParams.get("filter");
+//   console.log("Criterion es:", criterion);
+//   console.log("Filter es:", filter);
+//   return useQuery({
+//     queryKey: ["category", filter],
+//     queryFn: () => getEventsByCategory(criterion, filter),
+//   });
+// };
 
 //Petición 1 evento
 

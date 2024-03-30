@@ -1,74 +1,94 @@
-// import eventIcon from "../../assets/icons/createEvent.svg";
-// import { Link } from "react-router-dom";
 import SearchBar from "../../components/searchBar/SearchBar";
 import CategoryBar from "../../components/categoryBar/CategoryBar";
-// import allMonths from "../../utils/months.json";
-// import allCities from "../../utils/cities.json";
 import CardList from "../../components/cardList/CardList";
 import Carousel from "../../components/carousel/Carousel";
 import Paginate from "../../components/pagination/Paginate";
 import { useState, useEffect } from "react";
-import { useGetEventsByPage } from "../../hooks/useEvents";
 import { useStore } from "../../store/eventsStore";
+import {
+  getEventsByCategory,
+  getEventsByCity,
+  useGetEventsByPage,
+} from "../../hooks/useEvents";
+import { citiesAndCats } from "../../helpers/values";
+import Footer from "../../components/footer/Footer";
 
 const Home = () => {
   const setOriginalEvents = useStore((state) => state.setOriginalEvents);
+  const setOriginalData = useStore((state) => state.setOriginalData);
+  const cities = useStore((state) => state.cities);
+  const categories = useStore((state) => state.categories);
+  const originalData = useStore((state) => state.originalData);
 
-  const [filteredEvents, setFilteredEvents] = useState();
-  const [currentPage, setCurrentPage] = useState(1);
-  const eventsPerPage = 6;
-  const totalEvents = 31;
+  const eventsPerPage = 4;
+  const currentPage = useStore((state) => state.currentPage);
+  const setCurrentPage = useStore((state) => state.setCurrentPage);
+  const totalEvents = useStore((state) => state.totalEvents);
+  const [filteredEvents, setFilteredEvents] = useState([]);
+  const { data, isLoading } = useGetEventsByPage(
+    currentPage,
+    eventsPerPage,
+    totalEvents
+  );
 
-  const { data } = useGetEventsByPage(currentPage, eventsPerPage, totalEvents);
-
+  //Para guardar en el estado Global
   useEffect(() => {
     if (data) {
       setOriginalEvents(data);
-      console.log("Eventos originales almacenados:", data);
+      setOriginalData(data);
     }
-  }, [data, setOriginalEvents]);
+  }, [data, setOriginalEvents, originalData]);
+
+  //Cats and cities
+  useEffect(() => {
+    citiesAndCats();
+    cities;
+    categories;
+  }, []);
+
+  //Filtros
 
   const handleFilteredEvents = (filteredResults) => {
     setFilteredEvents(filteredResults);
+    setCurrentPage(1);
   };
   const handleResetEvents = () => {
-    setFilteredEvents(null);
+    setFilteredEvents("");
   };
+  const filterByCat = async (event) => {
+    const catSel = event.target.value;
+    const categoria = await getEventsByCategory("category", catSel);
+    setFilteredEvents(categoria);
+    setCurrentPage(1);
+  };
+  const filterByCity = async (event) => {
+    const citySel = event.target.value;
+    const city = await getEventsByCity("city", citySel);
+    setFilteredEvents(city);
+    setCurrentPage(1);
+  };
+  const clearFilters = () => {
+    setFilteredEvents("");
+  };
+
   return (
     <>
       <div className="flex justify-between items-center">
         <div className="flex justify-center flex-grow"></div>
-
-        {/* <Link to="/crear-evento" className="flex items-center ml-auto">
-          <img src={eventIcon} alt="Event Icon" className="mr-2" />
-          <h2 className="font-semibold text-2xl">Crear Evento</h2>
-        </Link> */}
       </div>
-
-      <Carousel />
-      <CategoryBar />
-      {/* //Acá son los botones de filtrado */}
-      <h1 className="mx-40 my-10 w-3/12 px-10 font-extrabold text-3xl">
-        POPULAR EVENTS
-      </h1>
-      <div className="flex mx-10 my-10 gap-5 text-xl">
-        {/* <div>
-          <select className="font-jomhuria p-2 w-56 border border-button1">
-            <option>Mes</option>
-            {allMonths.meses.map((mes) => (
-              <option key={mes}>{mes}</option>
-            ))}
-          </select>
-        </div>
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
         <div>
-          <select className="font-jomhuria p-2 w-56 border border-button1">
-            <option>Ciudad</option>
-            {allCities.ciudades.map((ciudad) => (
-              <option key={ciudad}>{ciudad}</option>
-            ))}
-          </select>
-        </div> */}
+          <Carousel />
+          <CategoryBar />
+          <h1 className="mx-40 my-10 w-3/12 px-10 font-extrabold text-3xl">
+            EVENTS
+          </h1>
+        </div>
+      )}
 
+      <div className="flex mx-10 my-10 gap-5 text-xl">
         <div className="w-full flex gap-5 justify-between mx-20">
           <Paginate
             currentPage={currentPage}
@@ -81,17 +101,48 @@ const Home = () => {
           />
         </div>
       </div>
+      <div className="">
+        <h1 className="text-2xl p-5">Filters</h1>
+        <div className="flex">
+          <div className="flex mx-5 gap-5">
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              Cities
+            </button>
+            <select name="city" onChange={filterByCity}>
+              {cities.map((city) => {
+                return <option key={city}>{city}</option>;
+              })}
+            </select>
 
-      {/* Aquí vienen las Cards */}
-
-      <div>
-        <CardList
-          currentPage={currentPage}
-          totalEvents={totalEvents}
-          filteredEvents={filteredEvents}
-          data={data}
-        />
+            <button
+              onClick={clearFilters}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              All Categories
+            </button>
+            <select name="cat" onChange={filterByCat}>
+              {categories.map((category) => {
+                return (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+        </div>
+        {/* Aquí vienen las Cards */}
+        <div className="flex justify-end">
+          <CardList
+            currentPage={currentPage}
+            totalEvents={totalEvents}
+            filteredEvents={filteredEvents}
+            eventsPerPage={eventsPerPage}
+          />
+        </div>
       </div>
+
+      <Footer />
     </>
   );
 };
