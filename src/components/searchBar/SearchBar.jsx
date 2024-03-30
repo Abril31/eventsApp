@@ -74,10 +74,10 @@ const SearchBar = ({ setFilteredEvents, resetEvents }) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="flex gap-4">
         <div className="flex rounded-full border border-gray-950 w-96 bg-gray-100">
           <input
-            className="rounded-full border-none focus:outline-none pl-4 pr-12 pt-1 pb-1 w-full bg-transparent"
+            className="rounded-full text-sm border-none focus:outline-none pl-4 pr-12 pt-1 pb-1 w-full bg-transparent"
             type="text"
             value={input}
             placeholder="Search by city, category or location..."
@@ -87,12 +87,17 @@ const SearchBar = ({ setFilteredEvents, resetEvents }) => {
             <img
               src={search}
               alt="Search Icon"
-              className="rounded-full bg-gradient-to-r from-button1 to-deco p-2"
+              className="rounded-full bg-deco p-2"
             />
           </button>
         </div>
+        <button
+          className="p-2 border border-base text-base rounded-xl"
+          onClick={handleResetEvents}
+        >
+          Reset
+        </button>
       </form>
-      <button onClick={handleResetEvents}>Reset</button>
     </>
   );
 };

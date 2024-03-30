@@ -101,7 +101,7 @@ const Home = () => {
           />
         </div>
       </div>
-      <div className=" bg-zinc-400">
+      <div className="">
         <h1 className="text-2xl p-5">Filters</h1>
         <div className="flex">
           <div className="flex mx-5 gap-5">

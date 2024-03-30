@@ -9,9 +9,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        base: "#2C3E50",
-        deco: "#FFA500",
-        button1: "#28888C",
+        base: "#353535",
+        deco: "#3a0ca3",
+        button1: "#f4f3ee",
+        otro: "#CCCCCC",
       },
       fontFamily: {
         jomhuria: ["jomhuria-regular-webfont", "sans-serif"],
