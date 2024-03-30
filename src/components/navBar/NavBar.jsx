@@ -15,7 +15,9 @@ const NavBar = () => {
       </div>
       <div className="flex gap-6 items-center my-2">
         <div className="">
-          <h2 className="text-white cursor-pointer my-2 mx-3">Login</h2>
+          <Link to="#">
+            <h2 className="text-white cursor-pointer my-2 mx-3">Login</h2>
+          </Link>
         </div>
         <div className="bg-deco text-white font-bold py-2 px-2 rounded mr-5">
           <h2 className="cursor-pointer text-white">Sign up</h2>
