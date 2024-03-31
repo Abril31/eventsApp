@@ -12,7 +12,7 @@ export default {
         base: "#353535",
         deco: "#3a0ca3",
         button1: "#f4f3ee",
-        otro: "#CCCCCC",
+        otro: "#ffe45e",
       },
       fontFamily: {
         jomhuria: ["jomhuria-regular-webfont", "sans-serif"],

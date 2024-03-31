@@ -27,8 +27,8 @@ const EventDetail = () => {
             <div className="flex gap-5 w-1/4">
               <img src={calendar} />
               <div className="flex flex-col">
-                <p className="w-60"> Del {formatDate(data.start_date)}</p>
-                <p>al {formatDate(data.end_date)}</p>
+                <p className="w-60"> From: {formatDate(data.start_date)}</p>
+                <p>to: {formatDate(data.end_date)}</p>
               </div>
             </div>
             <div className="flex flex-col">
@@ -39,8 +39,8 @@ const EventDetail = () => {
           <div className="flex gap-5 m-2">
             <img src={clock} />
             <div className="flex flex-col">
-              <p>Desde: {formatHour(data.start_hour)}</p>
-              <p>hasta: {formatHour(data.end_hour)}</p>
+              <p>From: {formatHour(data.start_hour)}</p>
+              <p>to: {formatHour(data.end_hour)}</p>
             </div>
           </div>
           <div className="mx-3">

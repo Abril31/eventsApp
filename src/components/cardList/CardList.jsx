@@ -36,7 +36,7 @@ const CardList = ({
             <Card
               key={event.id_event}
               id={event.id_event}
-              image={event.image}
+              image={event?.image}
               description={event.description}
               name={event.name}
               city={event.city}
