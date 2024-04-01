@@ -8,6 +8,7 @@ import { useStore } from "../../store/eventsStore";
 import {
   getEventsByCategory,
   getEventsByCity,
+  useAllEvents,
   useGetEventsByPage,
 } from "../../hooks/useEvents";
 import { citiesAndCats } from "../../helpers/values";
@@ -19,7 +20,7 @@ const Home = () => {
   const cities = useStore((state) => state.cities);
   const categories = useStore((state) => state.categories);
   const originalData = useStore((state) => state.originalData);
-
+  const originalEvents = useStore((state) => state.originalEvents);
   const eventsPerPage = 6;
   const currentPage = useStore((state) => state.currentPage);
   const setCurrentPage = useStore((state) => state.setCurrentPage);
@@ -30,17 +31,15 @@ const Home = () => {
   const from = (currentPage - 1) * eventsPerPage + 1;
   const to = Math.min(currentPage * eventsPerPage, totalEvents);
   const { data, isLoading } = useGetEventsByPage(from, to);
-
-  console.log("El from es: ", from);
-  console.log("El to es: ", to);
+  const { data: eventos } = useAllEvents();
 
   //Para guardar en el estado Global
   useEffect(() => {
     if (data) {
-      setOriginalEvents(data);
+      setOriginalEvents(eventos);
       setOriginalData(data);
     }
-  }, [data, setOriginalEvents, originalData]);
+  }, [data, setOriginalEvents, originalData, eventos]);
 
   //Cats and cities
   useEffect(() => {
@@ -63,12 +62,19 @@ const Home = () => {
     const categoria = await getEventsByCategory("category", catSel);
     setFilteredEvents(categoria);
     setCurrentPage(1);
+    setTimeout(() => {
+      event.target.value = "Choose";
+    });
   };
   const filterByCity = async (event) => {
     const citySel = event.target.value;
     const city = await getEventsByCity("city", citySel);
     setFilteredEvents(city);
     setCurrentPage(1);
+    setCurrentPage(1);
+    setTimeout(() => {
+      event.target.value = "Choose";
+    });
   };
   const clearFilters = () => {
     setFilteredEvents("");
@@ -77,7 +83,7 @@ const Home = () => {
   //Ordenamiento por mes:
 
   const sortByMonth = (direction) => {
-    const sortedEvents = [...data].sort((a, b) => {
+    const sortedEvents = [...eventos].sort((a, b) => {
       const dateA = new Date(a.start_date);
       const dateB = new Date(b.start_date);
       if (dateA.getMonth() !== dateB.getMonth()) {
@@ -91,8 +97,14 @@ const Home = () => {
         ? dateA.getDate() - dateB.getDate()
         : dateB.getDate() - dateA.getDate();
     });
+    const newFrom = (currentPage - 1) * eventsPerPage + 1;
+    const newTo = Math.min(currentPage * eventsPerPage, totalEvents);
 
-    setFilteredEvents(sortedEvents);
+    // Filtra los eventos ordenados para la página actual
+    const eventsForPage = sortedEvents.slice(newFrom - 1, newTo);
+
+    // Actualiza el estado de los eventos filtrados
+    setFilteredEvents(eventsForPage);
   };
   return (
     <>
