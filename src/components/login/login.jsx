@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { authStore } from '../../store/authStore';
-import { isValidEmail, isValidPassword } from './validation'; // Importa las funciones de validación
+import { isValidEmail, isValidPassword } from './validation'; 
 import Authgoogle from './authgoogle';
 
 export default function Login() {
