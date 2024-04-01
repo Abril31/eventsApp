@@ -43,7 +43,7 @@ const SearchBar = ({ setFilteredEvents, resetEvents }) => {
     );
   };
   const handleResetEvents = () => {
-    resetEvents(); // Llamar a la función para restablecer los eventos originales
+    resetEvents();
   };
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -64,13 +64,12 @@ const SearchBar = ({ setFilteredEvents, resetEvents }) => {
     console.log("Resultados filtrados:", filteredResults);
 
     if (filteredResults.length === 0) {
-      toast.error("No se encontraron eventos que coincidan con la búsqueda");
+      toast.error("There are no results matching the search");
     } else {
       setFilteredEvents(filteredResults);
     }
     setInput("");
   };
-  //Restablecer todos los eventos con paginado
 
   return (
     <>
@@ -91,12 +90,12 @@ const SearchBar = ({ setFilteredEvents, resetEvents }) => {
             />
           </button>
         </div>
-        <button
+        {/* <button
           className="p-2 border border-base text-base rounded-xl"
           onClick={handleResetEvents}
         >
           Reset
-        </button>
+        </button> */}
       </form>
     </>
   );
