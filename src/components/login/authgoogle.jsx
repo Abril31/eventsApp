@@ -5,13 +5,17 @@ import GoogleLogin from 'react-google-login';
 
 function Authgoogle() {
     const clientID = "438503221838-iuce1ukmr3gdpfvgh06btgp8v4qfi8g5.apps.googleusercontent.com"
-    const [ setUser] = useState({});
+    const [user, setUser] = useState({});
    
   
     const onSuccess = (response) => {
         setUser(response.profileObj);
         window.location.replace('/');
       };
+
+      const onFailure = (response) => {
+        console.log("Google Login failed.");
+      };  
    
     useEffect(() => {
       function start() {
@@ -31,6 +35,7 @@ function Authgoogle() {
            
             clientId={clientID}
             onSuccess={onSuccess}
+            onFailure={onFailure}
             buttonText="Continue  with Google"
             cookiePolicy={"single_host_origin"}
           />
