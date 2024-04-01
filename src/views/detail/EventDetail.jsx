@@ -3,6 +3,7 @@ import { formatHour, formatDate } from "../../helpers/formatters";
 import calendar from "../../assets/icons/calendar.svg";
 import clock from "../../assets/icons/clock.svg";
 import buy from "../../assets/icons/buy.svg";
+import { toast } from "sonner";
 const EventDetail = () => {
   const { data, isLoading } = useGetEvent();
   if (isLoading) return <div>Loading...</div>;
@@ -11,10 +12,10 @@ const EventDetail = () => {
   return (
     <div className="flex justify-center h-full">
       <div className="flex m-10 gap-10">
-        <div className="">
+        <div className="flex justify-center">
           <img
             src={data.image}
-            width={900}
+            width={1000}
             height={500}
             className="rounded-md"
           />
@@ -46,7 +47,10 @@ const EventDetail = () => {
           <div className="mx-3">
             {data.access === "paid" ? (
               <div className="flex justify-end mt-32">
-                <button className="bg-deco text-button1 items-center align-middle gap-3 font-bold py-1 px-4 flex rounded cursor-pointer hover:scale-110 transition-transform duration-300">
+                <button
+                  className="bg-deco text-button1 items-center align-middle gap-3 font-bold py-1 px-4 flex rounded cursor-pointer hover:scale-110 transition-transform duration-300"
+                  onClick={() => toast.error("Log in to get your tickets.")}
+                >
                   <img src={buy} /> Buy Tickets
                 </button>
               </div>

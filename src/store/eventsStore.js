@@ -5,6 +5,7 @@ export const useStore = create((set) => ({
   categories: [],
   currentPage: 1,
   totalEvents: 31,
+  eventsPerPage: 6,
   originalData: [],
   setOriginalEvents: (originalEvents) =>
     set((state) => ({
@@ -35,5 +36,10 @@ export const useStore = create((set) => ({
     set((state) => ({
       ...state,
       originalData: data,
+    })),
+  setEventsPerPage: (q) =>
+    set((state) => ({
+      ...state,
+      eventsPerPage: q,
     })),
 }));

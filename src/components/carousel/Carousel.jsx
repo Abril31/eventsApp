@@ -51,9 +51,9 @@ const Carousel = () => {
           <SwiperSlide>
             <div className="relative">
               <AdvancedImage cldImg={imgOne} />
-              <div className="absolute top-20 left-20 text-white text-4xl font-bold p-4 border-4 border-white">
+              {/* <div className="absolute top-20 left-20 text-white text-4xl font-bold p-4 border-4 border-white">
                 Explore the world
-              </div>
+              </div> */}
             </div>
           </SwiperSlide>
           <SwiperSlide>

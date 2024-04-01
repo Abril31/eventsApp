@@ -18,7 +18,7 @@ const Category = () => {
         {category.toUpperCase()}
       </h1>
       <div className="flex justify-center">
-        <div className="grid grid-cols-4 gap-10 m-10 items-center">
+        <div className="grid grid-cols-3 gap-10 m-10 items-center">
           {filteredEvents.length > 0 &&
             filteredEvents.map((event) => (
               <Card

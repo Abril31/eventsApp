@@ -16,18 +16,17 @@ export const useAllEvents = () => {
 };
 
 // Función para obtener los eventos de acuerdo a la página
-const getEventsByPage = async (page, eventsPerPage, totalEvents) => {
-  const from = (page - 1) * eventsPerPage + 1;
-  const to = Math.min(page * eventsPerPage, totalEvents);
+
+const getEventsByPage = async (from, to) => {
   const url = `/getallevents?from=${from}&to=${to}`;
   const { data } = await api.get(url);
   return data;
 };
 //Ejecuta la función y guarda en caché
-export const useGetEventsByPage = (page, eventsPerPage, totalEvents) => {
+export const useGetEventsByPage = (from, to) => {
   return useQuery({
-    queryKey: ["events", page],
-    queryFn: () => getEventsByPage(page, eventsPerPage, totalEvents),
+    queryKey: ["events", from, to],
+    queryFn: () => getEventsByPage(from, to),
     placeholderData: keepPreviousData,
   });
 };

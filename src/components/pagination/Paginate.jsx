@@ -1,15 +1,16 @@
 import arrowLeft from "../../assets/icons/arrowLeft.svg";
 import arrowRight from "../../assets/icons/arrowRight.svg";
-const Paginate = ({ currentPage, totalPages, setCurrentPage }) => {
+
+const Paginate = ({ from, totalPages, setCurrentPage, currrentPage }) => {
   const handlePrevClick = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+    if (from > 1) {
+      setCurrentPage(from - 1);
     }
   };
 
   const handleNextClick = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
+    if (from < totalPages) {
+      setCurrentPage(from + 1);
     }
   };
 
@@ -17,7 +18,7 @@ const Paginate = ({ currentPage, totalPages, setCurrentPage }) => {
     <div className="flex gap-2 items-center">
       <button
         className={`${
-          currentPage === 1
+          from === 1
             ? "bg-gray-50 text-gray-400 py-2 px-2 font-bold cursor-not-allowed"
             : "bg-zinc-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-2"
         } `}
@@ -27,10 +28,10 @@ const Paginate = ({ currentPage, totalPages, setCurrentPage }) => {
       </button>
       {/* //Crear el array y obtener los numeros del array con keys */}
       {[...Array(totalPages).keys()].map((num) => (
-        <div className="" key={num + 1}>
+        <div key={num + 1}>
           <button
             className={`bg-base py-2 px-4 text-white hover:bg-deco ${
-              num + 1 === currentPage ? "font-bold bg-deco" : ""
+              num + 1 === currrentPage ? "font-bold bg-deco" : ""
             }`}
             onClick={() => setCurrentPage(num + 1)}
           >
@@ -41,7 +42,7 @@ const Paginate = ({ currentPage, totalPages, setCurrentPage }) => {
 
       <button
         className={`${
-          currentPage === totalPages
+          from === totalPages
             ? "bg-gray-50 text-gray-400 py-2 px-4 font-bold cursor-not-allowed"
             : "bg-zinc-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-2"
         } `}

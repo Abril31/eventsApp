@@ -11,7 +11,8 @@ import {
   useGetEventsByPage,
 } from "../../hooks/useEvents";
 import { citiesAndCats } from "../../helpers/values";
-
+import up from "../../assets/icons/up.svg";
+import down from "../../assets/icons/down.svg";
 const Home = () => {
   const setOriginalEvents = useStore((state) => state.setOriginalEvents);
   const setOriginalData = useStore((state) => state.setOriginalData);
@@ -24,11 +25,14 @@ const Home = () => {
   const setCurrentPage = useStore((state) => state.setCurrentPage);
   const totalEvents = useStore((state) => state.totalEvents);
   const [filteredEvents, setFilteredEvents] = useState([]);
-  const { data, isLoading } = useGetEventsByPage(
-    currentPage,
-    eventsPerPage,
-    totalEvents
-  );
+
+  // Calcular el paginado:
+  const from = (currentPage - 1) * eventsPerPage + 1;
+  const to = Math.min(currentPage * eventsPerPage, totalEvents);
+  const { data, isLoading } = useGetEventsByPage(from, to);
+
+  console.log("El from es: ", from);
+  console.log("El to es: ", to);
 
   //Para guardar en el estado Global
   useEffect(() => {
@@ -68,8 +72,28 @@ const Home = () => {
   };
   const clearFilters = () => {
     setFilteredEvents("");
+    setCurrentPage(1);
   };
+  //Ordenamiento por mes:
 
+  const sortByMonth = (direction) => {
+    const sortedEvents = [...data].sort((a, b) => {
+      const dateA = new Date(a.start_date);
+      const dateB = new Date(b.start_date);
+      if (dateA.getMonth() !== dateB.getMonth()) {
+        return direction === "asc"
+          ? dateA.getMonth() - dateB.getMonth()
+          : dateB.getMonth() - dateA.getMonth();
+      }
+
+      // Comparación por día
+      return direction === "asc"
+        ? dateA.getDate() - dateB.getDate()
+        : dateB.getDate() - dateA.getDate();
+    });
+
+    setFilteredEvents(sortedEvents);
+  };
   return (
     <>
       <div className="flex justify-between items-center">
@@ -98,13 +122,22 @@ const Home = () => {
       <div className="">
         <div className="flex justify-center mb-7 mt-3">
           <div className="flex justify-center mx-5 gap-7">
-            <button className="bg-deco hover:bg-violet-500 text-white font-bold py-2 px-4 rounded">
+            <button
+              className="bg-deco hover:bg-violet-500 text-white font-bold py-2 px-4 rounded"
+              onClick={clearFilters}
+            >
+              Reset
+            </button>
+            <button
+              className="bg-deco hover:bg-violet-500 text-white font-bold py-2 px-4 rounded"
+              onClick={clearFilters}
+            >
               Cities
             </button>
             <select
               name="city"
               onChange={filterByCity}
-              className="border border-otro p-2"
+              className="border border-base p-2"
             >
               <option>Choose</option>
               {cities.map((city) => {
@@ -121,7 +154,7 @@ const Home = () => {
             <select
               name="cat"
               onChange={filterByCat}
-              className="border border-otro p-2"
+              className="border border-base p-2"
             >
               <option>Choose</option>
               {categories.map((category) => {
@@ -134,10 +167,29 @@ const Home = () => {
             </select>
             <div className="">
               <Paginate
-                currentPage={currentPage}
+                from={from}
                 totalPages={Math.ceil(totalEvents / eventsPerPage)}
                 setCurrentPage={setCurrentPage}
+                currrentPage={currentPage}
               />
+            </div>
+            <div className="flex gap-3">
+              <button
+                className="bg-deco hover:bg-violet-500 text-white font-bold py-2 px-4 rounded"
+                onClick={() => sortByMonth("asc")}
+              >
+                <div className="flex">
+                  Sort <img src={up} />
+                </div>
+              </button>
+              <button
+                className="bg-deco hover:bg-violet-500 text-white font-bold py-2 px-4 rounded"
+                onClick={() => sortByMonth("desc")}
+              >
+                <div className="flex">
+                  Sort <img src={down} />
+                </div>
+              </button>
             </div>
           </div>
         </div>
@@ -148,6 +200,9 @@ const Home = () => {
             totalEvents={totalEvents}
             filteredEvents={filteredEvents}
             eventsPerPage={eventsPerPage}
+            sortByMonth={sortByMonth}
+            data={data}
+            isLoading={isLoading}
           />
         </div>
       </div>
