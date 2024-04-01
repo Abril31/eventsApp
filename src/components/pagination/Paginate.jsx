@@ -1,16 +1,16 @@
 import arrowLeft from "../../assets/icons/arrowLeft.svg";
 import arrowRight from "../../assets/icons/arrowRight.svg";
 
-const Paginate = ({ from, totalPages, setCurrentPage, currrentPage }) => {
+const Paginate = ({ totalPages, setCurrentPage, currrentPage }) => {
   const handlePrevClick = () => {
-    if (from > 1) {
-      setCurrentPage(from - 1);
+    if (currrentPage > 1) {
+      setCurrentPage(currrentPage - 1);
     }
   };
 
   const handleNextClick = () => {
-    if (from < totalPages) {
-      setCurrentPage(from + 1);
+    if (currrentPage < totalPages) {
+      setCurrentPage(currrentPage + 1);
     }
   };
 
@@ -18,7 +18,7 @@ const Paginate = ({ from, totalPages, setCurrentPage, currrentPage }) => {
     <div className="flex gap-2 items-center">
       <button
         className={`${
-          from === 1
+          currrentPage === 1
             ? "bg-gray-50 text-gray-400 py-2 px-2 font-bold cursor-not-allowed"
             : "bg-zinc-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-2"
         } `}
@@ -42,7 +42,7 @@ const Paginate = ({ from, totalPages, setCurrentPage, currrentPage }) => {
 
       <button
         className={`${
-          from === totalPages
+          currrentPage === totalPages
             ? "bg-gray-50 text-gray-400 py-2 px-4 font-bold cursor-not-allowed"
             : "bg-zinc-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-2"
         } `}

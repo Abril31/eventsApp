@@ -1,5 +1,3 @@
-import { useGetEventsByPage } from "../../hooks/useEvents";
-
 import Card from "../card/Card";
 
 const CardList = ({ filteredEvents, sortByMonth, data, isLoading }) => {
@@ -10,19 +8,8 @@ const CardList = ({ filteredEvents, sortByMonth, data, isLoading }) => {
   if (filteredEvents && filteredEvents.length > 0) {
     eventsToDisplay = filteredEvents;
   }
-  // const handleSortByMonth = (direction) => {
-  //   sortByMonth(direction);
-  // };
   return (
     <>
-      <div>
-        {/* <button onClick={() => handleSortByMonth("asc")}>
-          Sort by Month (Asc)
-        </button>
-        <button onClick={() => handleSortByMonth("desc")}>
-          Sort by Month (Desc)
-        </button> */}
-      </div>
       <section className="flex flex-wrap justify-end mx-24 mb-14">
         <div className="grid grid-cols-3 mt-10 gap-16">
           {eventsToDisplay.map((event) => (
