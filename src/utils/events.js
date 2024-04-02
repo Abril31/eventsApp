@@ -39,17 +39,4 @@ export const events = [
     img: "https://images.unsplash.com/photo-1582711012124-a56cf82307a0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZmVzdGl2YWwlMjBkZSUyMG0lQzMlQkFzaWNhfGVufDB8fDB8fHww",
     city: "Corrientes",
   },
-  {
-    name: "Summer Jazz Fest",
-    description:
-      "A celebration of jazz music with performances by talented artists.",
-    start_date: "2025-07-20",
-    end_date: "2025-07-22",
-    start_hour: "18:00:00",
-    end_hour: "22:00:00",
-    location: "City Park Amphitheater",
-    event_type: "Music Festival",
-    img: "https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    city: "Salta",
-  },
 ];

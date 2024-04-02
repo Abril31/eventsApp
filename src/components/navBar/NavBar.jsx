@@ -14,13 +14,13 @@ const NavBar = () => {
         <h1 className="text-white text-4xl font-jomhuria mb-2">EventApp</h1>
       </div>
       <div className="flex gap-6 items-center my-2">
-        <div className="">
-          <Link to="#">
+        <div className="flex items-center">
+          <Link to="/login">
             <h2 className="text-white cursor-pointer my-2 mx-3">Login</h2>
           </Link>
         </div>
-        <div className="bg-button1 font-bold py-2 px-2 rounded mr-5">
-          <h2 className="cursor-pointer text-base">Sign up</h2>
+        <div className="bg-deco text-white font-bold py-2 px-2 rounded mr-5">
+          <h2 className="cursor-pointer text-white">Sign up</h2>
         </div>
       </div>
     </div>
