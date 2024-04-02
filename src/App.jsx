@@ -4,7 +4,11 @@ import NewEvent from "./views/NewEvents/NewEvent";
 import { Route, Routes } from "react-router-dom";
 import EventDetail from "./views/detail/EventDetail";
 import { Toaster } from "sonner";
+import Footer from "./components/footer/Footer";
+
 import LoginForm from "./components/login/login";
+
+import Category from "./views/categorias/Category";
 
 function App() {
   return (
