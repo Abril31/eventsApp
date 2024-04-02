@@ -1,44 +1,43 @@
-import { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { authStore } from '../../store/authStore';
-import { isValidEmail, isValidPassword } from './validation'; 
-import Authgoogle from './authgoogle';
+import { useState } from "react";
+import api from "../../api/events";
+import { useNavigate } from "react-router-dom";
+import { authStore } from "../../store/authStore";
+import { isValidEmail, isValidPassword } from "./validation";
+import Authgoogle from "./authgoogle";
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { setToken } = authStore(); // Utiliza el método set proporcionado por authStore
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-   if (!isValidEmail(email)) {
-      alert('Please enter a valid email address.');
+    if (!isValidEmail(email)) {
+      alert("Please enter a valid email address.");
       return;
     }
 
-    
-    axios
-    .post('http://localhost:3001/api/v1/login', {
-      email,
-      password,
-    })
-    .then((response) => {
-      const token = response.data.token;
-      setToken({ token }); 
-      navigate('/');
-    })
-    .catch((error) => {
-      if (!isValidPassword(password)) {
-        alert('Incorrect Password.');
-        return;
-      }
-      console.error('Error en el login:', error);
-    });
+    api
+      .post("/login", {
+        email,
+        password,
+      })
+      .then((response) => {
+        const token = response.data.token;
+        setToken({ token });
+        navigate("/");
+      })
+      .catch((error) => {
+        if (!isValidPassword(password)) {
+          alert("Incorrect Password.");
+          return;
+        }
+        console.error("Error en el login:", error);
+      });
   };
-  
+
   return (
     <div className="login-container justify-center">
       <div className="max-w-md mx-auto bg-white p-8 rounded shadow">
@@ -77,8 +76,8 @@ export default function Login() {
               log in
             </button>
           </div>
-                 {/* Componente de autenticación de Google */}
-        <Authgoogle />
+          {/* Componente de autenticación de Google */}
+          <Authgoogle />
         </form>
       </div>
     </div>
