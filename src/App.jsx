@@ -6,9 +6,8 @@ import EventDetail from "./views/detail/EventDetail";
 import { Toaster } from "sonner";
 import Footer from "./components/footer/Footer";
 
-import LoginForm from "./components/login/login";
-
 import Category from "./views/categorias/Category";
+import Login from "./components/login/Login";
 
 function App() {
   return (
@@ -19,7 +18,7 @@ function App() {
         <Route path="/evento/:id" element={<EventDetail />} />
         <Route path="/categories/:category" element={<Category />} />
         <Route path="/crear-evento" element={<NewEvent />} />
-        <Route path="/login" element={<LoginForm />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
       <Toaster richColors position="top-right" />
       <Footer />
