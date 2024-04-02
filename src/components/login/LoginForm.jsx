@@ -5,7 +5,7 @@ import { authStore } from "../../store/authStore";
 import { isValidEmail, isValidPassword } from "./validation";
 import Authgoogle from "./authgoogle";
 
-export default function Login() {
+export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();

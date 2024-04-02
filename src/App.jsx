@@ -7,7 +7,7 @@ import { Toaster } from "sonner";
 import Footer from "./components/footer/Footer";
 
 import Category from "./views/categorias/Category";
-import Login from "./components/login/Login";
+import LoginForm from "./components/login/LoginForm";
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
         <Route path="/evento/:id" element={<EventDetail />} />
         <Route path="/categories/:category" element={<Category />} />
         <Route path="/crear-evento" element={<NewEvent />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<LoginForm />} />
       </Routes>
       <Toaster richColors position="top-right" />
       <Footer />
