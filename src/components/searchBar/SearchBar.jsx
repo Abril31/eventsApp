@@ -2,10 +2,14 @@ import { useState } from "react";
 import search from "../../assets/icons/searchIcon.svg";
 import { useAllEvents } from "../../hooks/useEvents";
 import { toast } from "sonner";
-
-const SearchBar = ({ setFilteredEvents, resetEvents }) => {
+import { useStore } from "../../store/eventsStore";
+const SearchBar = () => {
   //Estado local y manejo del input
   const [input, setInput] = useState("");
+  const setSearchResults = useStore((state) => state.setSearchResults);
+  const searchResults = useStore((state) => state.searchResults);
+
+  console.log("Resultados de la búsqueda:", searchResults);
 
   const handleChange = (event) => {
     setInput(event.target.value);
@@ -42,9 +46,7 @@ const SearchBar = ({ setFilteredEvents, resetEvents }) => {
       event.name.toLowerCase().includes(name.toLowerCase())
     );
   };
-  const handleResetEvents = () => {
-    resetEvents();
-  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -61,12 +63,10 @@ const SearchBar = ({ setFilteredEvents, resetEvents }) => {
       ]),
     ];
 
-    console.log("Resultados filtrados:", filteredResults);
-
     if (filteredResults.length === 0) {
       toast.error("There are no results matching the search");
     } else {
-      setFilteredEvents(filteredResults);
+      setSearchResults(filteredResults);
     }
     setInput("");
   };
@@ -90,12 +90,6 @@ const SearchBar = ({ setFilteredEvents, resetEvents }) => {
             />
           </button>
         </div>
-        {/* <button
-          className="p-2 border border-base text-base rounded-xl"
-          onClick={handleResetEvents}
-        >
-          Reset
-        </button> */}
       </form>
     </>
   );

@@ -18,6 +18,7 @@ const Card = ({
   eventType,
   location,
   category,
+  access,
 }) => {
   //Formateando fechas
   const formattedStartDate = formatDate(startDate);
@@ -49,7 +50,7 @@ const Card = ({
               <div>
                 <p>{location}</p>
                 <p className="text-sm">
-                  {formattedStartDate} - {formattedStartHour}
+                  {formattedStartDate} - {formattedStartHour} - {access}
                 </p>
                 <hr className="mt-2" />
               </div>
