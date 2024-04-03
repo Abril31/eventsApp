@@ -5,7 +5,7 @@ import { useLocation, useParams } from "react-router-dom";
 //Todos los eventos
 
 export const allEvents = async () => {
-  const { data } = await api.get("/getallevents");
+  const { data } = await api.get("/");
   return data;
 };
 export const useAllEvents = () => {
@@ -18,7 +18,7 @@ export const useAllEvents = () => {
 // Función para obtener los eventos de acuerdo a la página
 
 const getEventsByPage = async (from, to) => {
-  const url = `/getallevents?from=${from}&to=${to}`;
+  const url = `?from=${from}&to=${to}`;
   const { data } = await api.get(url);
   return data;
 };
@@ -33,14 +33,14 @@ export const useGetEventsByPage = (from, to) => {
 
 //Eventos por Categoria
 export const getEventsByCategory = async (criterion, filter) => {
-  const url = `getallevents?criterion=${criterion}&filter=${filter}`;
+  const url = `?criterion=${criterion}&filter=${filter}`;
   const { data } = await api.get(url);
   console.log("Solicitud exitosa:", data);
   return data;
 };
 
 export const getEventsByCity = async (criterion, filter) => {
-  const url = `getallevents?criterion=${criterion}&filter=${filter}`;
+  const url = `?criterion=${criterion}&filter=${filter}`;
   const { data } = await api.get(url);
   console.log("Solicitud exitosa:", data);
   return data;
@@ -62,7 +62,7 @@ export const getEventsByCity = async (criterion, filter) => {
 //Petición 1 evento
 
 const getEvent = async (id) => {
-  const { data } = await api.get(`getallevents/${id}`, {
+  const { data } = await api.get(`/${id}`, {
     // Para que pueda comparar en la base de datos
     values: { id_event: id },
   });
