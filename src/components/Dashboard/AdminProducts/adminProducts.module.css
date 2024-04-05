@@ -1,0 +1,208 @@
+.productsContainer {
+  width: 98%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.buttonContainer {
+  width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.buttonDashboard {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.buttonDashboard {
+  color: #007bff;
+}
+
+.buttonCreation {
+  margin-right: 20px;
+  background-color: #ff7f50;
+  color: white;
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.buttonCreation:hover {
+  background-color: #ffa07a;
+}
+.titleContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.name {
+  font-size: 16px;
+  margin: 10px;
+}
+
+.searchBarContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  margin: 10px;
+}
+
+.productTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.productTable th,
+.productTable td {
+  padding: 8px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.productTable th {
+  background-color: #f2f2f2;
+}
+
+.imagesContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.productImage {
+  max-width: 400px;
+  max-height: 400px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.actionButton,
+.deleteButton,
+.restoreButton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.restoreButton {
+  background-color: #28a745;
+  color: white;
+}
+
+.linkEditar {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  background-color: #add8e6;
+  color: #212529;
+  border: 2px solid transparent;
+}
+
+.linkEditar:hover {
+  background-color: rgba(9, 33, 186, 0.591);
+}
+
+.deletedProduct {
+  opacity: 0.5;
+  background-color: #f8d7da;
+}
+
+.productImage {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.votesList {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.voteItem {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.actionButton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.deleteButton {
+  background-color: #dc3545;
+  color: white;
+  border-radius: 5px;
+  border: none;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.deleteButton:hover {
+  background-color: #c82333;
+}
+
+.restoreButton {
+  background-color: #28a745;
+  color: white;
+  border-radius: 5px;
+  border: none;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.restoreButton:hover {
+  background-color: #218838;
+}
+
+.filterContainer {
+  margin-top: 4px;
+  margin-right: 100px;
+}
+
+.filterLabel {
+  font-weight: bold;
+  font-size: 18px;
+  margin-right: 5px;
+}
+
+.filterSelect {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
