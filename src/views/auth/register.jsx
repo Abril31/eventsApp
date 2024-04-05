@@ -1,5 +1,5 @@
 import RegistrationForm from "../../components/login/signUp";
-console.log 
+
 
 const register = () => {
   return (
