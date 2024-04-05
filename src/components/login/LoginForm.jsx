@@ -1,7 +1,7 @@
 import { useState } from "react";
 import api from "../../api/events";
 import { useNavigate } from "react-router-dom";
-import { authStore } from "../../store/authStore";
+import { useAuthStore } from "../../store/authStore";
 import { isValidEmail, isValidPassword } from "./validation";
 import Authgoogle from "./authgoogle";
 
@@ -9,7 +9,7 @@ export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { login } = authStore(); // Utiliza el método login proporcionado por authStore
+  const { login } = useAuthStore(); // Utiliza el método login proporcionado por authStore
 
   const handleSubmit = (e) => {
     e.preventDefault();
