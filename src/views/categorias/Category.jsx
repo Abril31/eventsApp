@@ -38,6 +38,7 @@ const Category = ({ setCurrentPage, currentPage }) => {
                 image={event.image}
                 description={event.description}
                 name={event.name}
+                access={event.access}
                 city={event.city}
                 location={event.location}
                 eventType={event.event_type}

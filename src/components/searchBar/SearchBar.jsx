@@ -7,9 +7,6 @@ const SearchBar = () => {
   //Estado local y manejo del input
   const [input, setInput] = useState("");
   const setSearchResults = useStore((state) => state.setSearchResults);
-  const searchResults = useStore((state) => state.searchResults);
-
-  console.log("Resultados de la búsqueda:", searchResults);
 
   const handleChange = (event) => {
     setInput(event.target.value);
