@@ -20,7 +20,7 @@ const NavBar = () => {
           </h2>
         </Link>
         <div className="">
-          <Link to="#">
+          <Link to="/login">
             <h2 className="text-white cursor-pointer my-2 mx-3">Login</h2>
           </Link>
         </div>
