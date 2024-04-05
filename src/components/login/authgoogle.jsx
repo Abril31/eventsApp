@@ -9,6 +9,8 @@ function Authgoogle() {
 
   const onSuccess = (response) => {
     setUser(response.profileObj);
+    onSuccessGoogle(response.profileObj);
+    console.log("Usuario autenticado correctamente con Google:", profileObj);
     window.location.replace("/");
   };
 
