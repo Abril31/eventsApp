@@ -59,10 +59,9 @@ const AdminUsers = () => {
         <div className={styles.container}>
             <h1 className={styles.h1}>Administración de usuarios</h1>
             <button className={styles.homeButton}>
-            <Link to="/dashboard" className={styles.homeLink}>
-               HomeDashboard
-            </Link>
-
+                <Link to="/dashboard" className={styles.homeLink}>
+                HomeDashboard
+                </Link>
             </button>
             <ul className={styles.userList}>
                 {users.map((user) => (

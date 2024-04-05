@@ -60,7 +60,7 @@ const validation = (formData) => {
   }
 
   if (formData.access !== "paid" && formData.access !== "free") {
-    errors.access = "El tipo de evento debe ser PAGO o LIBRE";
+    errors.access = "Elija el tipo de pago";
   } 
 
   if (formData.city.trim() === "") {
