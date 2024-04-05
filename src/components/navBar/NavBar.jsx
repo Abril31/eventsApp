@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-
+import myTicket from "../../assets/icons/myTicket.svg";
 const NavBar = () => {
   return (
     <div className="flex justify-between gap-10 bg-base text-xl h-16 items-center font-jomhuria">
@@ -14,8 +14,13 @@ const NavBar = () => {
         <h1 className="text-white text-4xl font-jomhuria mb-2">EventApp</h1>
       </div>
       <div className="flex gap-6 items-center my-2">
-        <div className="flex items-center">
-          <Link to="/login">
+        <Link to="#">
+          <h2 className="flex gap-3 align-middle justify-center items-center">
+            <img src={myTicket} alt="tickets" />
+          </h2>
+        </Link>
+        <div className="">
+          <Link to="#">
             <h2 className="text-white cursor-pointer my-2 mx-3">Login</h2>
           </Link>
         </div>
