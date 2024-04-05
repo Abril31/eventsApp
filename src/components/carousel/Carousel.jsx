@@ -21,7 +21,7 @@ const Carousel = () => {
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
       <div
-        className="swiper-container custom-swiper-container"
+        className="swiper-container custom-swiper-container relative"
         style={{
           width: "100%",
           justifyItems: "center",
@@ -49,7 +49,12 @@ const Carousel = () => {
           pagination={{ clickable: true }}
         >
           <SwiperSlide>
-            <AdvancedImage cldImg={imgOne} />
+            <div className="relative">
+              <AdvancedImage cldImg={imgOne} />
+              {/* <div className="absolute top-20 left-20 text-white text-4xl font-bold p-4 border-4 border-white">
+                Explore the world
+              </div> */}
+            </div>
           </SwiperSlide>
           <SwiperSlide>
             <AdvancedImage cldImg={imgTwo} />

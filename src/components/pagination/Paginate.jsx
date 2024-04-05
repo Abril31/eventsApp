@@ -1,53 +1,57 @@
-import arrowLeft from "../../assets/icons/arrowLeft.svg";
-import arrowRight from "../../assets/icons/arrowRight.svg";
-const Paginate = ({ currentPage, totalPages, setCurrentPage }) => {
-  const handlePrevClick = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
+import leftArrow from "../../assets/icons/arrowLeft.svg";
+import rightArrow from "../../assets/icons/arrowRight.svg";
+
+import { usePaginationStore } from "../../store/paginationStore";
+
+const Paginate = ({ totalEvents, eventsPerPage }) => {
+  const currentPage = usePaginationStore((state) => state.currentPage);
+  const setCurrentPage = usePaginationStore((state) => state.setCurrentPage);
+  const totalPages = Math.ceil(totalEvents / eventsPerPage);
+
+  const handlePageClick = (page) => {
+    setCurrentPage(page);
   };
 
-  const handleNextClick = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
+  const getPageButtons = () => {
+    const buttons = [];
+    for (let i = 1; i <= totalPages; i++) {
+      buttons.push(
+        <button
+          key={i}
+          onClick={() => handlePageClick(i)}
+          className={`px-3 bg-base text-white ${
+            currentPage === i ? "bg-deco" : ""
+          }`}
+        >
+          {i}
+        </button>
+      );
     }
+    return buttons;
   };
 
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-3">
       <button
-        className={`${
-          currentPage === 1
-            ? "bg-gray-50 text-gray-400 py-2 px-4 font-bold cursor-not-allowed"
-            : "bg-zinc-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4"
-        } `}
-        onClick={handlePrevClick}
+        onClick={() => handlePageClick(currentPage - 1)}
+        disabled={currentPage === 1}
       >
-        <img src={arrowLeft} alt="Arrow Left" />
+        <img
+          src={leftArrow}
+          alt={leftArrow}
+          className="bg-otro rounded-full p-1"
+        />
       </button>
-      {/* //Crear el array y obtener los numeros del array con keys */}
-      {[...Array(totalPages).keys()].map((num) => (
-        <div className="" key={num + 1}>
-          <button
-            className={`bg-base py-2 px-4 text-white hover:bg-deco ${
-              num + 1 === currentPage ? "font-bold bg-deco" : ""
-            }`}
-            onClick={() => setCurrentPage(num + 1)}
-          >
-            {num + 1}
-          </button>
-        </div>
-      ))}
-
+      {getPageButtons()}
       <button
-        className={`${
-          currentPage === totalPages
-            ? "bg-gray-50 text-gray-400 py-2 px-4 font-bold cursor-not-allowed"
-            : "bg-zinc-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4"
-        } `}
-        onClick={handleNextClick}
+        onClick={() => handlePageClick(currentPage + 1)}
+        disabled={currentPage === totalPages}
       >
-        <img src={arrowRight} alt="Arrow Right" />
+        <img
+          src={rightArrow}
+          alt={rightArrow}
+          className="bg-otro rounded-full p-1"
+        />
       </button>
     </div>
   );

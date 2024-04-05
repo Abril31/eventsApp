@@ -18,7 +18,7 @@ const literatura = cld.image("event_images/literatura_a8km2e");
 const theater = cld.image("event_images/teatro_wsub7q");
 const concert = cld.image("event_images/concerts_g1z6wn");
 const sports = cld.image("event_images/deportes_y8ycgy");
-const arts = cld.image("event_images/arts_ddy1yi");
+const arts = cld.image("event_images/arteCrea_qief1o");
 
 export const imgOne = losOtros.resize(fill().width(1920).height(700));
 export const imgTwo = otros.resize(fill().width(1920).height(700));
@@ -54,5 +54,10 @@ export const foodImg = food
   .roundCorners(max());
 const fair = cld.image("event_images/fairs_fntvdx");
 export const fairImg = fair
+  .resize(fill().width(150).height(150).gravity(focusOn(face())))
+  .roundCorners(max());
+
+const enter = cld.image("event_images/entretenimiento_rzzwlm");
+export const enterImg = enter
   .resize(fill().width(150).height(150).gravity(focusOn(face())))
   .roundCorners(max());

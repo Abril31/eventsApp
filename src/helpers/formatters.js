@@ -1,17 +1,17 @@
 export function formatDate(dateString) {
   const months = [
-    "Enero",
-    "Febrero",
-    "Marzo",
-    "Abril",
-    "Mayo",
-    "Junio",
-    "Julio",
-    "Agosto",
-    "Septiembre",
-    "Octubre",
-    "Noviembre",
-    "Diciembre",
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
 
   const date = new Date(dateString);
@@ -19,7 +19,7 @@ export function formatDate(dateString) {
   const monthIndex = date.getMonth();
   const year = date.getFullYear();
 
-  return `${day} de ${months[monthIndex]} ${year}`;
+  return `${months[monthIndex]} ${day}, ${year}`;
 }
 
 export function formatHour(hourString) {
