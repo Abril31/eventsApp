@@ -16,6 +16,7 @@ export default {
       },
       fontFamily: {
         jomhuria: ["jomhuria-regular-webfont", "sans-serif"],
+        lobster: ["Lobster-Regular"],
       },
     },
   },
