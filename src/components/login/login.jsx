@@ -1,42 +1,38 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { authStore } from '../../store/authStore';
+import { useAuthStore } from '../../store/authStore'; // Importa useAuthStore
 import { isValidEmail, isValidPassword } from './validation'; 
 import Authgoogle from './authgoogle';
-
+import api from '../../api/events';
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const { setToken } = authStore(); // Utiliza el método set proporcionado por authStore
+  const { login } = useAuthStore(); // Utiliza el método login proporcionado por useAuthStore
+  
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-   if (!isValidEmail(email)) {
+  
+    if (!isValidEmail(email)) {
       alert('Please enter a valid email address.');
       return;
     }
-
-    
-    axios
-    .post('http://localhost:3001/api/v1/login', {
-      email,
-      password,
-    })
-    .then((response) => {
-      const token = response.data.token;
-      setToken({ token }); 
+  
+    try {
+      await api.post('/login', {
+        email,
+        password,
+      });
+      login({ email, password }); // Llama al método login con el email y la contraseña
       navigate('/');
-    })
-    .catch((error) => {
+    } catch (error) {
       if (!isValidPassword(password)) {
         alert('Incorrect Password.');
         return;
       }
       console.error('Error en el login:', error);
-    });
+    }
   };
   
   return (
@@ -51,7 +47,7 @@ export default function Login() {
               className="block w-full bg-gray-200 border-gray-300 rounded py-2 px-4 text-gray-700"
               type="email"
               id="email"
-              placeholder="Ingresa tu correo"
+              placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -64,7 +60,7 @@ export default function Login() {
               className="block w-full bg-gray-200 border-gray-300 rounded py-2 px-4 text-gray-700"
               type="password"
               id="password"
-              placeholder="Ingresa tu contraseña"
+              placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />

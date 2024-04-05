@@ -4,7 +4,10 @@ export function isValidEmail(email) {
   }
   
   export function isValidPassword(password) {
-    const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]+$/;
-    return passwordRegex.test(password);
+    return password.length > 6; // Verificar si la longitud de la contraseña es mayor que 6 caracteres
   }
   
+  export function isValidname(name) {
+    const nameParts = name.split(' ');
+    return nameParts.length === 2 && nameParts.every((part) => part.trim().length > 0);
+  }

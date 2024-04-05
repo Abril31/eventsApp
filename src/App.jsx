@@ -5,12 +5,13 @@ import { Route, Routes } from "react-router-dom";
 import EventDetail from "./views/detail/EventDetail";
 import { Toaster } from "sonner";
 import LoginForm from "./components/login/login";
-
+import RegistrationForm from "./components/login/signUp";
 function App() {
   return (
     <div>
       <NavBar />
       <Routes>
+         <Route path="/register" element={<RegistrationForm/>} />
         <Route path="/" element={<Home />} />
         <Route path="/evento/:id" element={<EventDetail />} />
         <Route path="/crear-evento" element={<NewEvent />} />
