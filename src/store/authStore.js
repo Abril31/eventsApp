@@ -29,9 +29,7 @@ export const useAuthStore = create((set) => ({
     try {
       console.log("data",userData)
       const response = await axios.post(`http://localhost:3001/api/v1/register`, userData);
-      console.log
       const newUser = response.data;
-      console.log("pruebau",newUser)  
   
       set({
         isRegistering: false,
@@ -42,8 +40,13 @@ export const useAuthStore = create((set) => ({
           email: newUser.email,
           image: newUser.image || '',
         
-        },
-      });
+        }, });
+        localStorage.setItem(
+          'authState',
+          JSON.stringify({ user: newUser,  registerSuccess: true})
+        );
+      console.log("pruebau",newUser)  
+  
     } catch (error) {
       set({ isRegistering: false, registerSuccess: false });
       alert('Registration failed. Please try again.');

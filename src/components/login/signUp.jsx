@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { isValidEmail, isValidPassword, isValidname } from './validation';
 
+
 export default function RegistrationForm() {
   const [name, setName] = useState(''); // Cambiado de 'fullName' a 'name'
   const [email, setEmail] = useState('');
