@@ -28,10 +28,7 @@ export const useAuthStore = create((set) => ({
 
     try {
       console.log("data", userData);
-      const response = await axios.post(
-        `http://localhost:3001/api/v1/register`,
-        userData
-      );
+      const response = await axios.post("/register", userData);
       const newUser = response.data;
 
       set({
