@@ -1,5 +1,5 @@
 import LoginForm from "../../components/login/login";
-
+console.log 
 
 const login = () => {
   return (
