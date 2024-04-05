@@ -9,7 +9,7 @@ export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { setToken } = authStore(); // Utiliza el método set proporcionado por authStore
+  const { login } = authStore(); // Utiliza el método login proporcionado por authStore
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -26,7 +26,7 @@ export default function LoginForm() {
       })
       .then((response) => {
         const token = response.data.token;
-        setToken({ token });
+        login({ token });
         navigate("/");
       })
       .catch((error) => {
@@ -73,7 +73,7 @@ export default function LoginForm() {
               className="block w-full bg-blue-500 text-white font-bold py-2 px-4 hover:bg-blue-700 transition ease-in-out duration-150"
               type="submit"
             >
-              log in
+              Log in
             </button>
           </div>
           {/* Componente de autenticación de Google */}
