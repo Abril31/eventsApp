@@ -1,23 +1,24 @@
 import { useState, useEffect } from "react";
 import { gapi } from "gapi-script";
 import GoogleLogin from "react-google-login";
+import { useAuthStore } from "../../store/authStore"; // Importa el hook useAuthStore
 
 function Authgoogle() {
   const clientID =
     "820127376127-j56dpiu9dsl9aok9aiv4namiu6m9egac.apps.googleusercontent.com";
   const [user, setUser] = useState({});
+  const { login } = useAuthStore(); // Obtiene la función login del store
 
   const onSuccess = (response) => {
     setUser(response.profileObj);
-    onSuccessGoogle(response.profileObj);
-    console.log("Usuario autenticado correctamente con Google:", profileObj);
+    login(response.profileObj.email); // Almacena el correo electrónico utilizando la función login del store
+
+    // Guardar el nombre completo y la imagen en el localStorage
+    localStorage.setItem("name", response.profileObj.name);
+    localStorage.setItem("image", response.profileObj.imageUrl);
+
     window.location.replace("/");
   };
-
-  const onFailure = (response) => {
-    console.log("Google Login failed.");
-  };
-
   useEffect(() => {
     function start() {
       gapi.client.init({
@@ -33,8 +34,7 @@ function Authgoogle() {
         <GoogleLogin
           clientId={clientID}
           onSuccess={onSuccess}
-          onFailure={onFailure}
-          buttonText="Continue  with Google"
+          buttonText="Continue with Google"
           cookiePolicy={"single_host_origin"}
         />
       </div>
