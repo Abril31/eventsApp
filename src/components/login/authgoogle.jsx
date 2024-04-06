@@ -36,6 +36,7 @@ function Authgoogle() {
           onSuccess={onSuccess}
           buttonText="Continue with Google"
           cookiePolicy={"single_host_origin"}
+          scope="https://www.googleapis.com/auth/userinfo.profile"
         />
       </div>
     </div>
