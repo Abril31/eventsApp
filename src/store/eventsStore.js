@@ -3,10 +3,10 @@ export const useStore = create((set) => ({
   originalEvents: [],
   cities: [],
   categories: [],
-  currentPage: 1,
-  totalEvents: 31,
-  eventsPerPage: 6,
-  originalData: [],
+  searchResults: [],
+  sortAsc: [],
+  sort: [],
+
   setOriginalEvents: (originalEvents) =>
     set((state) => ({
       ...state,
@@ -22,24 +22,9 @@ export const useStore = create((set) => ({
       ...state,
       categories: categories,
     })),
-  setCurrentPage: (page) =>
+  setSearchResults: (searchResults) =>
     set((state) => ({
       ...state,
-      currentPage: page,
-    })),
-  setTotalEvents: (total) =>
-    set((state) => ({
-      ...state,
-      totalEvents: total,
-    })),
-  setOriginalData: (data) =>
-    set((state) => ({
-      ...state,
-      originalData: data,
-    })),
-  setEventsPerPage: (q) =>
-    set((state) => ({
-      ...state,
-      eventsPerPage: q,
+      searchResults: searchResults,
     })),
 }));
