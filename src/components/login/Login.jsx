@@ -1,17 +1,16 @@
 import { useState } from "react";
-import api from "../../api/events";
 import { useNavigate } from "react-router-dom";
-import { useAuthStore } from "../../store/authStore";
+import { useAuthStore } from "../../store/authStore"; // Importa useAuthStore
 import { isValidEmail, isValidPassword } from "./validation";
 import Authgoogle from "./authgoogle";
-
-export default function LoginForm() {
+import api from "../../api/events";
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { login } = useAuthStore(); // Utiliza el método login proporcionado por authStore
+  const { login } = useAuthStore(); // Utiliza el método login proporcionado por useAuthStore
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!isValidEmail(email)) {
@@ -19,23 +18,20 @@ export default function LoginForm() {
       return;
     }
 
-    api
-      .post("/login", {
+    try {
+      await api.post("/login", {
         email,
         password,
-      })
-      .then((response) => {
-        const token = response.data.token;
-        login({ token });
-        navigate("/");
-      })
-      .catch((error) => {
-        if (!isValidPassword(password)) {
-          alert("Incorrect Password.");
-          return;
-        }
-        console.error("Error en el login:", error);
       });
+      login({ email, password }); // Llama al método login con el email y la contraseña
+      navigate("/");
+    } catch (error) {
+      if (!isValidPassword(password)) {
+        alert("Incorrect Password.");
+        return;
+      }
+      console.error("Error en el login:", error);
+    }
   };
 
   return (
@@ -50,7 +46,7 @@ export default function LoginForm() {
               className="block w-full bg-gray-200 border-gray-300 rounded py-2 px-4 text-gray-700"
               type="email"
               id="email"
-              placeholder="Ingresa tu correo"
+              placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -63,7 +59,7 @@ export default function LoginForm() {
               className="block w-full bg-gray-200 border-gray-300 rounded py-2 px-4 text-gray-700"
               type="password"
               id="password"
-              placeholder="Ingresa tu contraseña"
+              placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -73,7 +69,7 @@ export default function LoginForm() {
               className="block w-full bg-blue-500 text-white font-bold py-2 px-4 hover:bg-blue-700 transition ease-in-out duration-150"
               type="submit"
             >
-              Log in
+              log in
             </button>
           </div>
           {/* Componente de autenticación de Google */}
