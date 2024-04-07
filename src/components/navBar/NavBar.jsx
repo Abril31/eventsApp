@@ -6,10 +6,15 @@ const Navbar = () => {
 
   return (
     <div className="flex justify-between gap-10 bg-base text-xl h-16 items-center font-jomhuria">
-      <div className="ml-5">
+      <div className="flex ml-5">
         <Link to="/">
-          <h2 className="text-white border-r-4 border-button1 pr-3 cursor-pointer my-5 mx-3">
+          <h2 className="text-white border-r-4 border-otro pr-3 cursor-pointer my-5 mx-3">
             HOME
+          </h2>
+        </Link>
+        <Link to="/about">
+          <h2 className="text-white border-r-4 border-otro pr-3 cursor-pointer my-5 mx-3">
+            ABOUT US
           </h2>
         </Link>
       </div>
