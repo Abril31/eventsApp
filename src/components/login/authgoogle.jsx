@@ -10,13 +10,13 @@ function Authgoogle() {
 
     const onSuccess = (response) => {
         const user = {
-            id_user: response.id, // Asume que el id de Google es el id_user
-            access: true, // Puedes cambiar esto según tus necesidades
+            id_user: response.googleId,// saco el id desde  google
+            access: true, 
           name: response.profileObj.name,
           email: response.profileObj.email,
-          password: '', // Google Auth no proporciona la contraseña, puedes dejarlo vacío o manejarlo de otra manera
-          type_user: 'user', // Puedes cambiar esto según tus necesidades
-          status: true, // Puedes cambiar esto según tus necesidades
+          password: '', // Google Auth no proporciona la contraseña
+          type_user: 'user', // 
+          status: true, 
           image: response.profileObj.imageUrl
         };
       

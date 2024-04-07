@@ -27,12 +27,12 @@ export const useAuthStore = create((set) => ({
   
   
   login: (userData) => {
-    const { access, name, email, password, type_user, status, image } = userData;
+    const { access, name, email, password, type_user, status, image,user_id } = userData;
     set({ user: userData, isLogged: true });
     localStorage.setItem(
       'login',
       JSON.stringify({ 
-        user: { access, name, email, password, type_user, status, image },
+        user: { access, name, email, password, type_user, status, image,user_id },
         isLogged: true 
       })
     );
