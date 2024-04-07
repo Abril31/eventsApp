@@ -6,15 +6,22 @@ import { useAuthStore } from '../../store/authStore';// Importa el hook useAuthS
 function Authgoogle() {
     const clientID = "438503221838-iuce1ukmr3gdpfvgh06btgp8v4qfi8g5.apps.googleusercontent.com"
     const [user,setUser] = useState({});
-    const { login } = useAuthStore(); // Obtiene la función login del store
+    const { authgoogle } = useAuthStore(); // Obtiene la función login del store
 
     const onSuccess = (response) => {
-        setUser(response.profileObj);
-        login(response.profileObj.email); // Almacena el correo electrónico utilizando la función login del store
+        const user = {
+            id_user: response.id, // Asume que el id de Google es el id_user
+            access: true, // Puedes cambiar esto según tus necesidades
+          name: response.profileObj.name,
+          email: response.profileObj.email,
+          password: '', // Google Auth no proporciona la contraseña, puedes dejarlo vacío o manejarlo de otra manera
+          type_user: 'user', // Puedes cambiar esto según tus necesidades
+          status: true, // Puedes cambiar esto según tus necesidades
+          image: response.profileObj.imageUrl
+        };
       
-        // Guardar el nombre completo y la imagen en el localStorage
-        localStorage.setItem('name', response.profileObj.name);
-        localStorage.setItem('image', response.profileObj.imageUrl);
+        setUser(user);
+        authgoogle(user); // Almacena el objeto de usuario completo utilizando la función login del store
       
         window.location.replace('/');
       };

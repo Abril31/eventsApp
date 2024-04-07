@@ -12,6 +12,19 @@ export const useAuthStore = create((set) => ({
   isRegistering: false,
   registerSuccess: false,
   
+  authgoogle: (userData) => {
+    set({ user: userData, isLogged: true });
+    localStorage.setItem(
+      'login',
+      JSON.stringify({ 
+        user: userData,
+        isLogged: true 
+      })
+    );
+  },
+  
+  
+  
   
   login: (userData) => {
     const { access, name, email, password, type_user, status, image } = userData;
