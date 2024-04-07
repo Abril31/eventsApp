@@ -5,7 +5,7 @@ import { useAuthStore } from '../../store/authStore';// Importa el hook useAuthS
 
 function Authgoogle() {
     const clientID = "438503221838-iuce1ukmr3gdpfvgh06btgp8v4qfi8g5.apps.googleusercontent.com"
-    const [user, setUser] = useState({});
+    const [user,setUser] = useState({});
     const { login } = useAuthStore(); // Obtiene la función login del store
 
     const onSuccess = (response) => {
