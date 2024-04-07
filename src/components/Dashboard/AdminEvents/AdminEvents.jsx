@@ -1,80 +1,81 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import styles from "./adminProducts.module.css";
-import SearchBarProductos from "../SearchBar/SearchBarProductos";
+import styles from "./adminEvents.module.css";
+import SearchBar from "../searchBar/SearchBar";
 
-const AdminProducts = () => {
-  const [products, setProducts] = useState([]);
+const AdminEvents = () => {
+  const [events, setEvents] = useState([]);
   const [filter, setFilter] = useState("all");
+  const url='ttp://localhost:3001/api/v1'
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchEvents = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/productos");
-        setProducts(response.data);
+        const response = await axios.get(`${url}/getallevents`);
+        setEvents(response.data);
       } catch (error) {
-        console.error("Error trayendo los productos:", error);
+        console.error("Error trayendo los Events:", error);
       }
     };
 
-    fetchProducts();
+    fetchEvents();
   }, []);
 
   const handleSearch = (data) => {
-    setProducts(data);
+    setEvents(data);
   };
 
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
   };
 
-  const restoreProduct = async (productId) => {
+  const restoreEvent = async (id) => {
     const confirmRestore = window.confirm(
-      "¿Está seguro que desea restaurar este producto?"
+      "¿Está seguro que desea restaurar este Evento?"
     );
     if (confirmRestore) {
       try {
-        await axios.put(`http://localhost:3001/productos/change/${productId}`, {
+        await axios.put(`${url}/`, {
           estado: true,
         });
-        const response = await axios.get("http://localhost:3001/productos");
-        setProducts(response.data);
+        const response = await axios.get(`${url}/getallevents`);
+        setEvents(response.data);
       } catch (error) {
         console.error("Error al actualizar producto:", error);
       }
     }
   };
 
-  const deleteProduct = async (productId) => {
+  const deleteEvent = async (id_user, id_event) => {
     const confirmDelete = window.confirm(
-      "¿Está seguro que desea eliminar este producto?"
+      "¿Está seguro que desea eliminar este Evento?"
     );
     if (confirmDelete) {
       try {
-        await axios.put(`http://localhost:3001/productos/change/${productId}`, {
+        await axios.put(`${url}/dashboard/${id_user}/${id_event}`, {
           estado: false,
         });
-        const response = await axios.get("http://localhost:3001/productos");
-        setProducts(response.data);
+        const response = await axios.get(`${url}/getallevents`);
+        setEvents(response.data);
       } catch (error) {
-        console.error("Error al eliminar producto:", error);
+        console.error("Error al eliminar Evento:", error);
       }
     }
   };
 
-  const filteredProducts = products.filter((product) => {
+  const filteredEvents = events.filter((event) => {
     if (filter === "all") {
       return true;
     } else if (filter === "active") {
-      return product.estado;
+      return event.status;
     } else if (filter === "deleted") {
-      return !product.estado;
+      return !event.status;
     }
   });
 
   return (
-    <div className={styles.productsContainer}>
+    <div className={styles.eventsContainer}>
       <div className={styles.buttonContainer}>
         <div>
           <Link to="/dashboard" className={styles.buttonDashboard}>
@@ -82,7 +83,7 @@ const AdminProducts = () => {
           </Link>
         </div>
         <div className={styles.searchBarContainer}>
-          <SearchBarProductos onSearch={handleSearch} />
+          <SearchBarEvents onSearch={handleSearch} />
         </div>
         <div className={styles.filterContainer}>
           <label htmlFor="filter" className={styles.filterLabel}>Filtrar: </label>
@@ -99,12 +100,12 @@ const AdminProducts = () => {
         </div>
       </div>
       <div className={styles.titleContainer}>
-        <h1 className={styles.title}>Lista de productos</h1>
+        <h1 className={styles.title}>Lista de Eventos</h1>
         <Link
-          to="/dashboard/creationProduct"
+          to="/dashboard/events/new"
           className={styles.buttonCreation}
         >
-          Creation Product
+          Nuevo Evento
         </Link>
       </div>
       <table className={styles.productTable}>
@@ -126,7 +127,7 @@ const AdminProducts = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredProducts.map((product) => (
+          {filteredEvents.map((product) => (
             <tr
               key={product.id}
               className={`${product.estado ? "" : styles.deletedProduct}`}
@@ -170,20 +171,20 @@ const AdminProducts = () => {
                 {product.estado ? (
                   <button
                     className={`${styles.actionButton} ${styles.deleteButton}`}
-                    onClick={() => deleteProduct(product.id)}
+                    onClick={() => deleteEvent(product.id)}
                   >
                     Eliminar
                   </button>
                 ) : (
                   <button
                     className={`${styles.actionButton} ${styles.restoreButton}`}
-                    onClick={() => restoreProduct(product.id)}
+                    onClick={() => restoreEvent(product.id)}
                   >
                     Restaurar
                   </button>
                 )}
                 <Link
-                  to={`/dashboard/modifications/products/${product.id}`}
+                  to={`/dashboard/events/change/${product.id}`}
                   className={styles.linkEditar}
                 >
                   Editar
@@ -197,4 +198,4 @@ const AdminProducts = () => {
   );
 };
 
-export default AdminProducts;
+export default AdminEvents;

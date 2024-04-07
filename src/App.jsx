@@ -6,8 +6,10 @@ import { Toaster } from "sonner";
 import Footer from "./components/footer/Footer";
 import Category from "./views/categorias/Category";
 import HomeDashboard from "./components/Dashboard/HomeDashboard/HomeDashboard";
-import CreateEvent from "./components/Dashboard/Creation/CreateEvent";
+import CreateEvent from "./components/Dashboard/AdminEvents/CreateEvent";
+import AdminEvents from "./components/Dashboard/AdminEvents/AdminEvents";
 import AdminUsers from "./components/Dashboard/AdminUser/AdminUsers";
+import AdminSponsors from "./components/Dashboard/AdminSponsors/AdminSponsors";
 
 function App() {
   return (
@@ -18,8 +20,10 @@ function App() {
         <Route path="/evento/:id" element={<EventDetail />} />
         <Route path="/categories/:category" element={<Category />} />
         <Route path="/dashboard" element={<HomeDashboard />} />
-        <Route path="/dashboard/creationEvent" element={<CreateEvent />} />
+        <Route path="/dashboard/events/new" element={<CreateEvent />} />
+        <Route path="/dashboard/events" element={<AdminEvents />} />
         <Route path="/dashboard/users" element={<AdminUsers />} />
+        <Route path="/dashboard/sponsor" element={<AdminSponsors />} />
       </Routes>
       <Toaster richColors position="top-right" />
       <Footer />

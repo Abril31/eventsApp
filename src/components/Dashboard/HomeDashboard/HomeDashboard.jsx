@@ -33,7 +33,7 @@ const HomeDashboard = () => {
     if (confirmRestore) {
       try {
         await axios.put(`${url}/events/change/${id_event}`, {
-          state: true,
+          status: true,
         });
         const response = await axios.get(`${url}/getallevents`);
         setevents(response.data);
@@ -50,7 +50,7 @@ const HomeDashboard = () => {
     if (confirmDelete) {
       try {
         await axios.put(`${url}/events/change/${id_event}`, {
-          state: false,
+          status: false,
         });
         const response = await axios.get(`${url}/getallevents`);
         setevents(response.data);
@@ -67,7 +67,10 @@ const HomeDashboard = () => {
           <Link to="/dashboard/users" className={styles.buttonDashboard}>Admin Usuarios</Link>
         </div>
         <div>
-          <Link to="/dashboard/creationEvent" className={styles.buttonCreation}>Nuevo Evento</Link>
+          <Link to="/dashboard/event/new" className={styles.buttonCreation}>Nuevo Evento</Link>
+        </div>
+        <div>
+          <Link to="/dashboard/sponsors" className={styles.buttonCreation}>Admin Sponsors</Link>
         </div>
       </div>
       <h1 className={styles.title}>Lista de eventos</h1>
@@ -94,7 +97,7 @@ const HomeDashboard = () => {
         </thead>
         <tbody>
           {events.map((event) => (
-            <tr key={event.id_event} className={`${event.state ? "" : styles.deletedEvent}`}>
+            <tr key={event.id_event} className={`${event.status ? "" : styles.deletedEvent}`}>
               <td className={styles.name}>{event.id_event}</td>
               <td className={styles.name}>{event.name}</td>
               <td className={styles.name}>{event.description}</td>
@@ -115,7 +118,7 @@ const HomeDashboard = () => {
               </td>
               <td className={styles.name}>{event.city}</td>
               <td>
-                {event.state ? (
+                {event.status ? (
                   <button
                     className={`${styles.actionButton} ${styles.deleteButton}`}
                     onClick={() => deleteEvent(event.id_event)}
