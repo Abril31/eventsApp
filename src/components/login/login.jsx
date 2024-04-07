@@ -20,11 +20,11 @@ export default function Login() {
     }
   
     try {
-      await api.post('/login', {
+      const response=await api.post('/login', {
         email,
         password,
       });
-      login({ email, password }); // Llama al método login con el email y la contraseña
+      login(response.data); // Llama al método login con el email y la contraseña
       navigate('/');
     } catch (error) {
       if (!isValidPassword(password)) {
