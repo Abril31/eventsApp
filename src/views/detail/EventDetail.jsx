@@ -3,41 +3,25 @@ import { formatHour, formatDate } from "../../helpers/formatters";
 import calendar from "../../assets/icons/calendar.svg";
 import clock from "../../assets/icons/clock.svg";
 import buy from "../../assets/icons/buy.svg";
-import minus from "../../assets/icons/minus.svg";
-import plus from "../../assets/icons/plus.svg";
-import { useTicketStore } from "../../store/ticketStore";
 import { BackButton } from "../../components/buttons/Buttons";
 import cosmic from "../../assets/icons/cosmic.svg";
 import { useEffect, useState } from "react";
 import { Modal } from "../../components/modal/Modal";
 
 const EventDetail = () => {
+  const [selectedTicket, setSelectedTicket] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const incrementTicketCount = useTicketStore(
-    (state) => state.incrementTicketCount
-  );
-  const decrementTicketCount = useTicketStore(
-    (state) => state.decrementTicketCount
-  );
-  const ticketCounts = useTicketStore((state) => state.ticketCounts);
 
-  const handleAddTicket = (ticketType) => {
-    incrementTicketCount(ticketType);
-  };
-
-  const handleRemoveTicket = (ticketType) => {
-    decrementTicketCount(ticketType);
-  };
   useEffect(() => {
     console.log("Modal abierto:", isModalOpen);
   }, [isModalOpen]);
   const { data, isLoading } = useGetEvent();
+  const handleOpenModal = (ticket) => {
+    setSelectedTicket(ticket);
+    setIsModalOpen(true);
+  };
   if (isLoading) return <div>Loading...</div>;
   if (!data) return <div>There are no details for this event.</div>;
-
-  const hasSelectedTicket = Object.values(ticketCounts).some(
-    (count) => count > 0
-  );
 
   return (
     <div className="flex flex-col mt-10">
@@ -134,97 +118,66 @@ const EventDetail = () => {
                 <p className="flex w-full justify-center text-2xl font-semibold border-otro border-b-4 py-2">
                   Ticket Information
                 </p>
-                {data.Tickets?.map((ticket) => (
+                {data.Tickets?.map((ticket, index) => (
                   <div key={ticket.id_ticket}>
                     <div className="flex items-center gap-10 justify-end border-b-2 border-zinc-300">
                       <p className="w-48 py-2 text-xl font-bold">
                         {ticket.ticket_type}
                       </p>
-                      {/* <div className="flex gap-2">
-                        <img
-                          src={minus}
-                          className="cursor-pointer"
-                          onClick={() => handleRemoveTicket(ticket.ticket_type)}
-                        />
-                        <p className="flex items-center">
-                          {ticketCounts[ticket.ticket_type] || 0}
-                        </p>
-                        <img
-                          src={plus}
-                          className="cursor-pointer"
-                          onClick={() => handleAddTicket(ticket.ticket_type)}
-                        />
-                      </div> */}
+
                       <div className="flex justify-end">
                         <p className="text-xl">
                           <span className="font-semibold">
                             $ {ticket.price}
                           </span>
-                          {/* <span className="">
-                            avail.
-                            {ticket.available_quantity}
-                          </span> */}
                         </p>
                       </div>
                     </div>
+
+                    {index === data.Tickets.length - 1 && (
+                      <div>
+                        {ticket.price ? (
+                          <div className="flex justify-center mb-3">
+                            <button
+                              className="bg-deco text-button1 items-center align-middle gap-3 font-bold py-1 px-4 flex rounded cursor-pointer hover:scale-110 transition-transform duration-300"
+                              onClick={() => handleOpenModal(ticket)}
+                            >
+                              <img src={buy} /> Get Tickets
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col justify-center mb-3">
+                            <p className="flex justify-center font-semibold text-xl py-2 mt-2">
+                              FREE
+                            </p>
+                            <button
+                              className="flex font-bold px-4 py-2 bg-deco rounded text-white items-center justify-center mt-4 text-xl hover:scale-110 transition-transform duration-300"
+                              onClick={() => handleOpenModal(ticket)}
+                            >
+                              <span className="mx-3">Get Tickets</span>
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 ))}
-                <div>
-                  {data.Tickets[0] && (
-                    <p className="italic text-red-800 font-semibold mb-5">
-                      *Sales end on {formatDate(data.Tickets[0]?.sell_by_date)}
-                    </p>
-                  )}
-                </div>
-                {data.Tickets[0]?.price ? (
-                  <div className="flex justify-center mb-3">
-                    <button
-                      className="bg-deco text-button1 items-center align-middle gap-3 font-bold py-1 px-4 flex rounded cursor-pointer hover:scale-110 transition-transform duration-300"
-                      onClick={() => {
-                        setIsModalOpen(true);
-                      }}
-                      // className={`bg-deco text-button1 items-center align-middle gap-3 font-bold py-1 px-4 flex rounded cursor-pointer hover:scale-110 transition-transform duration-300 ${
-                      //   !hasSelectedTicket
-                      //     ? "opacity-50 pointer-events-none cursor-not-allowed"
-                      //     : ""
-                      // }`}
-                      // disabled={!hasSelectedTicket}
-                      // style={{
-                      //   backgroundColor: !hasSelectedTicket ? "#D1D5DB" : "",
-                      // }}
-                    >
-                      <img src={buy} /> Get Tickets
-                    </button>
-                    <Modal
-                      isOpen={isModalOpen}
-                      closeModal={() => setIsModalOpen(false)}
-                    />
-                  </div>
-                ) : (
-                  <div className="flex flex-col justify-center mb-3">
-                    <p className="flex justify-center font-semibold text-xl py-2 mt-2">
-                      FREE
-                    </p>
-                    <button
-                      className="flex font-bold px-4 py-2 bg-deco rounded text-white items-center justify-center mt-4 text-xl hover:scale-110 transition-transform duration-300"
-                      onClick={() => {
-                        setIsModalOpen(true);
-                        console.log("Modal abierto:", isModalOpen);
-                      }}
-                    >
-                      <span className="mx-3">Get Tickets</span>
-                    </button>
-                    <Modal
-                      isOpen={isModalOpen}
-                      closeModal={() => setIsModalOpen(false)}
-                    />
-                  </div>
-                )}
               </div>
             </div>
           </div>
         </div>
       </div>
+      {selectedTicket && (
+        <Modal
+          isOpen={isModalOpen}
+          closeModal={() => setIsModalOpen(false)}
+          idEvent={data.id_event}
+          eventName={data.name}
+          ticketType={selectedTicket.ticket_type}
+          ticketPrice={selectedTicket.price}
+          quantityAvailable={selectedTicket.available_quantity}
+        />
+      )}
       <BackButton />
     </div>
   );
