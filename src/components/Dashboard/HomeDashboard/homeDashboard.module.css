@@ -1,0 +1,273 @@
+
+
+.eventsContainer {
+  width: 98%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-family: "Urbanist", sans-serif;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.buttonDashboard,
+.buttonCreation {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  font-size: 15px;
+  text-decoration: none;
+  cursor: pointer;
+  background-color: #204E4C;
+  color: white;
+  text-align: center;
+  justify-content: space-between;
+}
+
+.buttonDashboard:hover {
+  background-color: #3D2B29;
+}
+
+.buttonCreation {
+  margin-left: 100px;
+  margin-right: 70px;
+}
+.buttonDashboard {
+  color: white;
+}
+
+.name {
+  font-size: 12px;
+  margin: 3px;
+  font-weight: 100;
+}
+.buttonCreation {
+  background-color: #D76A29;
+  color: white;
+}
+
+.buttonCreation:hover {
+  background-color: #872812;
+}
+
+.title {
+  margin: 18px;
+}
+
+.cardContainer {
+  flex-wrap: wrap;
+  justify-content: center;
+  text-align: center;
+  border: 5px solid silver;
+}
+
+.eventTable {
+  width: 100%;
+  border-collapse: collapse;
+  border: 5px solid silver;
+}
+
+.eventTable th,
+.eventTable td {
+  padding: 6px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.eventTable th {
+  background-color: #f2f2f2;
+}
+
+.eventTable .name {
+  font-weight: 400;
+}
+
+.imagesContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.eventImage {
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.votesList {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.voteItem {
+  margin-bottom: 5px;
+}
+
+.actionButton,
+.deleteButton,
+.restoreButton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+.deleteButton {
+  background-color: #dc3545;
+  color: white;
+}
+
+.restoreButton {
+  background-color: #28a745;
+  color: white;
+}
+
+.deleteButton:hover,
+.deleteButton2:hover {
+  background-color: #c82333;
+}
+
+.restoreButton,
+.restoreButton2 {
+  background-color: #28a745;
+  color: white;
+}
+
+.restoreButton:hover,
+.restoreButton2:hover {
+  background-color: #218838;
+}
+
+.linkEditar {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  background-color: #add8e6;
+  color: #212529;
+  border: 2px solid transparent;
+}
+
+.linkEditar:hover {
+  background-color: rgba(9, 33, 186, 0.591);
+}
+.deletedevent,
+.deletedCategoria {
+  opacity: 0.5;
+  background-color: #f8d7da;
+}
+
+.cardContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.card {
+  width: calc(33.33% - 20px);
+  margin: 10px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.eventName {
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 24px;
+  text-align: center;
+}
+
+.eventImage {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.votesList {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.voteItem {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.actionButton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.deletedEvent,
+.deletedCategoria {
+  opacity: 0.5;
+  background-color: #f8d7da;
+}
+
+.nombre {
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.itemLista {
+  display: flex;
+  align-items: center;
+}
+
+.deleteButton,
+.deleteButton2 {
+  background-color: #dc3545;
+  color: white;
+  border-radius: 5px;
+  border: none;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.deleteButton:hover,
+.deleteButton2:hover {
+  background-color: #c82333;
+}
+
+.restoreButton,
+.restoreButton2 {
+  background-color: #28a745;
+  color: white;
+  border-radius: 5px;
+  border: none;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.restoreButton:hover,
+.restoreButton2:hover {
+  background-color: #218838;
+}
+
+.deleteButton2,
+.restoreButton2 {
+  margin-left: auto;
+}
