@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import styles from "./adminEvents.module.css";
-import SearchBar from "../searchBar/SearchBar";
+//import SearchBar from "../searchBar/SearchBar";
 
 const AdminEvents = () => {
   const [events, setEvents] = useState([]);
