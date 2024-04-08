@@ -1,10 +1,11 @@
+import { useAuthStore } from "../../store/authStore";
 import CategoryBar from "../../components/categoryBar/CategoryBar";
 import CardList from "../../components/cardList/CardList";
 import Carousel from "../../components/carousel/Carousel";
 
 const Home = () => {
   //Filtros
-
+  const { user } = useAuthStore();
   return (
     <>
       <div className="flex justify-between items-center">

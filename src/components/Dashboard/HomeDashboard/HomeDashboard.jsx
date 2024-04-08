@@ -67,7 +67,7 @@ const HomeDashboard = () => {
           <Link to="/dashboard/users" className={styles.buttonDashboard}>Admin Usuarios</Link>
         </div>
         <div>
-          <Link to="/dashboard/event/new" className={styles.buttonCreation}>Nuevo Evento</Link>
+          <Link to="/dashboard/events/new" className={styles.buttonCreation}>Nuevo Evento</Link>
         </div>
         <div>
           <Link to="/dashboard/sponsors" className={styles.buttonCreation}>Admin Sponsors</Link>

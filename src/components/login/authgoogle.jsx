@@ -9,7 +9,7 @@ function Authgoogle() {
     const { authgoogle } = useAuthStore(); // Obtiene la función login del store
 
     const onSuccess = (response) => {
-        const user = {
+        const userData = {
             id_user: response.googleId,// saco el id desde  google
             access: true, 
           name: response.profileObj.name,
@@ -20,8 +20,9 @@ function Authgoogle() {
           image: response.profileObj.imageUrl
         };
       
-        setUser(user);
-        authgoogle(user); // Almacena el objeto de usuario completo utilizando la función login del store
+        setUser(userData);
+        authgoogle(userData); // Almacena el objeto de usuario completo utilizando la función login del store
+        localStorage.setItem("userData", JSON.stringify(userData)); // Guarda los datos de usuario en el localStorage
       
         window.location.replace('/');
       };
