@@ -1,40 +1,40 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../../store/authStore'; // Importa useAuthStore
-import { isValidEmail, isValidPassword } from './validation'; 
-import Authgoogle from './authgoogle';
-import api from '../../api/events';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../store/authStore"; // Importa useAuthStore
+import { isValidEmail, isValidPassword } from "./validation";
+import Authgoogle from "./authgoogle";
+import api from "../../api/events";
+import { toast } from "sonner";
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { login } = useAuthStore(); // Utiliza el método login proporcionado por useAuthStore
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (!isValidEmail(email)) {
-      alert('Please enter a valid email address.');
+      toast.error("Please enter a valid email address.");
       return;
     }
-  
+
     try {
-      const response=await api.post('/login', {
+      const response = await api.post("/login", {
         email,
         password,
       });
       login(response.data); // Llama al método login con el email y la contraseña
-      navigate('/');
+      navigate("/");
     } catch (error) {
       if (!isValidPassword(password)) {
-        alert('Incorrect Password.');
+        toast.error("Incorrect Password.");
         return;
       }
-      console.error('Error en el login:', error);
+      console.error("Error en el login:", error);
     }
   };
-  
+
   return (
     <div className="login-container justify-center">
       <div className="max-w-md mx-auto bg-white p-8 rounded shadow">
@@ -73,8 +73,8 @@ export default function Login() {
               log in
             </button>
           </div>
-                 {/* Componente de autenticación de Google */}
-        <Authgoogle />
+          {/* Componente de autenticación de Google */}
+          <Authgoogle />
         </form>
       </div>
     </div>
