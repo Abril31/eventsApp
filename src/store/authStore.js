@@ -11,12 +11,30 @@ export const useAuthStore = create((set) => ({
   isLogged: false,
   isRegistering: false,
   registerSuccess: false,
-
-  login: (userData) => {
+  
+  authgoogle: (userData) => {
     set({ user: userData, isLogged: true });
     localStorage.setItem(
-      'authState',
-      JSON.stringify({ user: userData, isLogged: true })
+      'login',
+      JSON.stringify({ 
+        user: userData,
+        isLogged: true 
+      })
+    );
+  },
+  
+  
+  
+  
+  login: (userData) => {
+    const { access, name, email, password, type_user, status, image,user_id } = userData;
+    set({ user: userData, isLogged: true });
+    localStorage.setItem(
+      'login',
+      JSON.stringify({ 
+        user: { access, name, email, password, type_user, status, image,user_id },
+        isLogged: true 
+      })
     );
   },
 
