@@ -7,6 +7,7 @@ import LoginForm from "./components/login/login";
 import RegistrationForm from "./components/login/signUp";
 import Footer from "./components/footer/Footer";
 import Category from "./views/categorias/Category";
+import Profile from "./components/Profile/Profile";
 import HomeDashboard from "./components/Dashboard/HomeDashboard/HomeDashboard";
 import CreateEvent from "./components/Dashboard/AdminEvents/CreateEvent";
 import AdminEvents from "./components/Dashboard/AdminEvents/AdminEvents";
@@ -18,13 +19,14 @@ function App() {
     <div>
       <NavBar />
       <Routes>
-         <Route path="/register" element={<RegistrationForm/>} />
+        <Route path="/register" element={<RegistrationForm/>} />
         <Route path="/" element={<Home />} />
         <Route path="/evento/:id" element={<EventDetail />} />
         <Route path="/categories/:category" element={<Category />} />
         <Route path="/dashboard" element={<HomeDashboard />} />
         <Route path="/dashboard/events/new" element={<CreateEvent />} />
         <Route path="/login" element={<LoginForm/>} />
+        <Route path="/profile" element={<Profile/>} />
         <Route path="/dashboard/events" element={<AdminEvents />} />
         <Route path="/dashboard/users" element={<AdminUsers />} />
         <Route path="/dashboard/sponsor" element={<AdminSponsors />} />

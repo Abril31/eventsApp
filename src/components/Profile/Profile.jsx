@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
+import { useAuthStore } from "../../store/authStore";
+import profile from "../../assets/icons/profile.svg";
 import { useForm } from 'react-hook-form';
 import styles from './Profile.module.css';
 import { FaStar } from 'react-icons/fa';
@@ -8,18 +9,19 @@ import { FaCamera } from 'react-icons/fa';
 
 
 const Profile = () => {
-  const { user, isAuthenticated } = useAuth0();
+  const { isLogged,user } = useAuthStore();
   const [userData, setUserData] = useState({});
   const [userVotes, setUserVotes] = useState([]);
   const [userUpdated, setUserUpdated] = useState(false);
-  const { register, handleSubmit, formState: { errors }, setValue } = useForm();
-  const [products, setProducts] = useState([]);
+  const [events, setEvents] = useState([]);
   const [image, setImage] = useState(null);
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm();
+  const url='http://localhost:3001/api/v1/';
 
   const fetchUserVotes = async () => {
     try {
       if (userData.id) {
-        const response = await axios.get(`http://localhost:3001/votos/user/${userData.id}`);
+        const response = await axios.get(`${url}/votos/user/${userData.id}`);
         setUserVotes(response.data);
       }
     } catch (error) {
@@ -30,17 +32,15 @@ const Profile = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        if (isAuthenticated && user && user.email) {
-          const response = await axios.get(`http://localhost:3001/usuarios/email/${user.email}`);
+        if (user.id) {
+          const response = await axios.get(`${url}/getoneuser/${user.id}`);
           if (response.data.length > 0) {
-            const userData = response.data[0];
+            const userData = response.data;
             setUserData(userData);
-            setValue('nombre', userData.nombre || '');
-            setValue('dirEnvio', userData.dirEnvio || '');
-            setValue('dirFacturacion', userData.dirFacturacion || '');
+            setValue('nombre', userData.name || '');
             setValue('telefono', userData.telefono || '');
           } else {
-            console.error('No se encontraron usuarios con ese email.');
+            console.error('No se encontraron usuarios con ese id.');
           }
         }
       } catch (error) {
@@ -49,34 +49,34 @@ const Profile = () => {
     };
   
     fetchUserData();
-  }, [isAuthenticated, user, setValue]);
+  }, [user, setValue]);
 
   useEffect(() => {
     if (userData.id) {
       fetchUserVotes();
     }
-  }, [userData.id]);
+  }, [fetchUserVotes,userData.id]);
 
   useEffect(() => {
-    const fetchProductDetails = async (idProducto) => {
+    const fetchEventDetails = async (idEvento) => {
       try {
-        const response = await axios.get(`http://localhost:3001/productos/${idProducto}`);
+        const response = await axios.get(`http://localhost:3001/Eventos/${idEvento}`);
         return response.data;
       } catch (error) {
-        console.error("Error trayendo el detalle del producto:", error);
+        console.error("Error trayendo el detalle del Evento:", error);
         return null;
       }
     };
 
-    const fetchAllProductDetails = async () => {
-      const productDetails = await Promise.all(userVotes.map(vote => fetchProductDetails(vote.idProducto)));
-      setProducts(productDetails);
+    const fetchAllEventDetails = async () => {
+      const eventDetails = await Promise.all(userVotes.map(vote => fetchEventDetails(vote.idEvento)));
+      setEvents(eventDetails);
     };
 
-    fetchAllProductDetails();
+    fetchAllEventDetails();
   }, [userVotes]);
 
-  const displayName = userData.nombre || (user ? user.name || 'unknown' : 'unknown');
+  const displayName = userData.name || (user ? user.name || 'unknown' : 'unknown');
 
   const onSubmit = async (data) => {
     try {
@@ -142,45 +142,28 @@ const Profile = () => {
   
 
   return (
-    isAuthenticated && (
+    isLogged && (
       <div className={styles.profileContainer}>
         <div className={styles.profileHeader}>
-        <img className={styles.profilePicture} src={userData.picture || user.picture} alt={displayName} />
+        <img className={styles.profilePicture} src={userData.image || user.image || profile} alt={displayName} />
 
           <div className={styles.profileDetails}>
-            <h2 className={styles.profileName}>Nombre: {displayName}</h2>
+            <h2 className={styles.profileName}>Nombre: {user.name}</h2>
             <p className={styles.profileEmail}>Email: {user.email}</p>
           </div>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className={styles.profileForm}>
-          
-        <label htmlFor="upload-image" className={styles.cameraIcon}>
-  <input id="upload-image" type="file" accept="image/*" onChange={handleImageChange} className={styles.hiddenInput} />
-  <FaCamera />
-</label>
-
-          
+          <label htmlFor="upload-image" className={styles.cameraIcon}>
+            <input id="upload-image" type="file" accept="image/*" onChange={handleImageChange} className={styles.hiddenInput} />
+            <FaCamera />
+          </label>
           <h3 className={styles.profileSectionTitle}>Nombre:</h3>
           <input
             type="text"
             {...register('nombre', { required: 'El nombre es requerido', maxLength: { value: 20, message: 'El nombre no puede tener más de 20 caracteres' } })}
           />
           {errors.nombre && <p className={styles.errorMessage}>{errors.nombre.message}</p>}
-
-          <h3 className={styles.profileSectionTitle}>Dirección de Envío:</h3>
-          <input
-            type="text"
-            {...register('dirEnvio', { maxLength: { value: 30, message: 'La dirección de envío no puede tener más de 30 caracteres' } })}
-          />
-          {errors.dirEnvio && <p className={styles.errorMessage}>{errors.dirEnvio.message}</p>}
-
-          <h3 className={styles.profileSectionTitle}>Dirección de Facturación:</h3>
-          <input
-            type="text"
-            {...register('dirFacturacion', { maxLength: { value: 30, message: 'La dirección de facturación no puede tener más de 30 caracteres' } })}
-          />
-          {errors.dirFacturacion && <p className={styles.errorMessage}>{errors.dirFacturacion.message}</p>}
 
           <h3 className={styles.profileSectionTitle}>Teléfono:</h3>
           <input
@@ -201,13 +184,13 @@ const Profile = () => {
             <ul className={styles.commentList}>
               {userVotes.map((vote, index) => (
                 <li key={vote.id} className={styles.commentItem}>
-                  {products[index] && (
-                    <div className={styles.productDetails}>
-                      <p className={styles.productName}>{products[index].nombre}</p>
+                  {events[index] && (
+                    <div className={styles.eventDetails}>
+                      <p className={styles.eventName}>{events[index].nombre}</p>
                       <div>
-                        <img className={styles.productImage} src={products[index].Imagenes[0].url} alt={products[index].nombre} />
+                        <img className={styles.eventImage} src={events[index].Imagenes[0].url} alt={events[index].nombre} />
                       </div>
-                      <div className={styles.productInfo}></div>
+                      <div className={styles.eventInfo}></div>
                     </div>
                   )}
                   <div className={styles.commentContent}>

@@ -101,9 +101,7 @@ const CreateEvent = () => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-
     const errors = validation(formData);
-    
 
     if (Object.values(errors).some((error) => error !== "")) {
         setFormErrors(errors);
@@ -310,14 +308,14 @@ const CreateEvent = () => {
                 {formErrors.access && <p className={styles.errors}>{formErrors.access}</p>}
             </div>
             <div className={styles.formControl}>
-                <label className={styles.stock}>Cantidad de tickets a la venta: </label>
+                <label className={styles.available_quantity}>Cantidad de tickets a la venta: </label>
                 <input 
                 type="number" 
                 name="available_quantity"
                 value={formData.available_quantity}
                 onChange={handleChange}
                 />
-                {formErrors.stock && <p className={styles.errors}> {formErrors.stock}</p>}
+                {formErrors.available_quantity && <p className={styles.errors}> {formErrors.available_quantity}</p>}
             </div>
             <button type="sumbit"  className={styles.button}>Crear Evento</button>
          </form>
