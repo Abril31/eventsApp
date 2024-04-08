@@ -1,19 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore"; // Importa useAuthStore
 import { isValidEmail, isValidPassword } from "./validation";
 import Authgoogle from "./authgoogle";
 import api from "../../api/events";
 import { toast } from "sonner";
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { login } = useAuthStore(); // Utiliza el método login proporcionado por useAuthStore
 
+  useEffect(() => {
+    const userData = localStorage.getItem("userData");
+    if (userData) {
+      const userDataObj = JSON.parse(userData);
+      login(userDataObj);
+      navigate("/");
+    }
+  }, [login, navigate]);
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!isValidEmail(email)) {
       toast.error("Please enter a valid email address.");
       return;
@@ -24,7 +33,10 @@ export default function Login() {
         email,
         password,
       });
-      login(response.data); // Llama al método login con el email y la contraseña
+      login(response.data);
+      // Guardar los datos del usuario en localStorage al iniciar sesión
+      localStorage.setItem("userData", JSON.stringify(response.data)); // Llama al método login con el email y la contraseña
+      console.log('localStorage--->', localStorage.userData);
       navigate("/");
     } catch (error) {
       if (!isValidPassword(password)) {

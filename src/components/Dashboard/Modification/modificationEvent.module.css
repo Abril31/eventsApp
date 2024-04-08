@@ -1,0 +1,67 @@
+.container {
+  max-width: 600px;
+  border: 1px solid #ccc;
+  margin: auto;
+  margin-top: 10px;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.formControl {
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
+.successMessage {
+  color: #4caf50;
+  font-weight: bold;
+  font-size: 17px;
+}
+.title {
+  font-size: 26px;
+  text-align: center;
+}
+
+.nombre,
+.descripcion,
+.especificaciones,
+.nroserie,
+.nromac,
+.precio,
+.stock,
+.categoria,
+.marca,
+.fabricante,
+.minimo,
+.preferencia {
+  font-size: 17px;
+}
+
+.button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.link {
+  display: block;
+  margin-top: 20px;
+  color: #007bff;
+  text-decoration: none;
+  text-align: center;
+  font-size: 15px;
+}
+
+.link:hover {
+  text-decoration: underline;
+}

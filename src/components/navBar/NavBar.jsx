@@ -1,10 +1,19 @@
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
+import styles from "./navBar.module.css";
 import profile from "../../assets/icons/profile.svg";
 import cart from "../../assets/icons/cart.svg";
 
 const Navbar = () => {
   const { isLogged, logout, user } = useAuthStore();
+  console.log('user-->',user);
+  const renderUserImage = () => {
+    if (user.image) {
+      return <img src={user.image} alt="Profile" className={styles.image} />;
+    } else {
+      return <img src={profile} alt="Profile" className={styles.image} />;
+    }
+  };
   return (
     <div className="flex justify-between gap-10 bg-base text-xl h-16 items-center font-jomhuria">
       <div className="flex ml-5">
@@ -29,11 +38,7 @@ const Navbar = () => {
             <div className="flex items-center gap-2">
               <p className="text-white">{user.name}</p>
               <Link to="/profile">
-                <img
-                  src={profile}
-                  alt="Profile"
-                  className="cursor-pointer my-2 mx-3"
-                />
+              {renderUserImage()}
               </Link>
               <Link to="/cart">
                 <img
@@ -49,6 +54,13 @@ const Navbar = () => {
             >
               Log out
             </button>
+            {user.type_user === 'admin' && (
+              <Link to="/dashboard">
+                <button className="bg-button1 text-base font-bold py-2 px-2 rounded mr-5">
+                  Dashboard
+                </button>
+              </Link>
+            )}
           </>
         ) : (
           // Mostrar los botones de Login y SignUp si el usuario no ha iniciado sesión
