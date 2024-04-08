@@ -1,16 +1,14 @@
 import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import styles from "./adminSponsors.module.css";
-import axios from "axios";
 
 const AdminSponsors = () => {
   const [sponsors, setSponsor] = useState([]);
-  const url="http://localhost:3001/api/v1";
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${url}/sponsor`);
+        const response = await api.get("/getallevents/sponsor");
         setSponsor(response.data);
       } catch (error) {
         console.error("Error:", error);
@@ -25,10 +23,10 @@ const AdminSponsors = () => {
     );
     if (confirmDelete) {
       try {
-        await axios.delete(`${url}/sponsor/${id}`, {
+        await api.delete(`/getallevents/sponsor/${id}`, {
           estado: false,
         });
-        const response = await axios.get(`${url}/sponsor`);
+        const response = await api.get("/getallevents/sponsor");
         setSponsor(response.data);
       } catch (error) {
         console.error("Error al eliminar elemento:", error);
@@ -42,10 +40,10 @@ const AdminSponsors = () => {
     );
     if (confirmRestore) {
       try {
-        await axios.put(`${url}/sponsor/${id}`, {
+        await api.put(`/getallevents/sponsor/${id}`, {
           estado: true,
         });
-        const response = await axios.get(`http://localhost:3001/${url}`);
+        const response = await api.get("/getallevents");
         setSponsor(response.data);
       } catch (error) {
         console.error("Error al restaurar elemento:", error);
@@ -56,22 +54,41 @@ const AdminSponsors = () => {
   return (
     <div>
       <div>
-        <Link to="/dashboard" className={styles.buttonDashboard}>Admin Users</Link>
+        <Link to="/dashboard" className={styles.buttonDashboard}>
+          Admin Users
+        </Link>
       </div>
       <div className={styles.cardContainer}>
-      
         <div className={styles.card}>
-        <div className={styles.contenedor}>
-          <h2 className={styles.productName}>Lista de Sponsors</h2>
-        <Link to="/dashboard/create/sponsor" className={styles.buttonCreation}>Nuevo Sponsor</Link>
+          <div className={styles.contenedor}>
+            <h2 className={styles.productName}>Lista de Sponsors</h2>
+            <Link
+              to="/dashboard/create/sponsor"
+              className={styles.buttonCreation}
+            >
+              Nuevo Sponsor
+            </Link>
           </div>
           <div className={styles.listContainer}>
             {sponsors.map((sponsor) => (
-              <div key={sponsor.id_sponsor} className={`${styles.itemLista} ${!sponsor.status ? styles.deletedSponsor : ""}`}>
+              <div
+                key={sponsor.id_sponsor}
+                className={`${styles.itemLista} ${
+                  !sponsor.status ? styles.deletedSponsor : ""
+                }`}
+              >
                 <div className={styles.nombre}>{sponsor.enterprise_name}</div>
                 <button
-                  className={sponsor.status ? styles.deleteButton2 : styles.restoreButton2}
-                  onClick={() => sponsor.status ? deleteItem('sponsors', sponsor.id_sponsor, setSponsor) : restoreItem('sponsors', sponsor.id, setSponsor)}
+                  className={
+                    sponsor.status
+                      ? styles.deleteButton2
+                      : styles.restoreButton2
+                  }
+                  onClick={() =>
+                    sponsor.status
+                      ? deleteItem("sponsors", sponsor.id_sponsor, setSponsor)
+                      : restoreItem("sponsors", sponsor.id, setSponsor)
+                  }
                 >
                   {sponsor.status ? "Eliminar" : "Restaurar"}
                 </button>

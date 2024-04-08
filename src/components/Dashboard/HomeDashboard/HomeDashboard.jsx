@@ -1,16 +1,14 @@
 import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import styles from "./homeDashboard.module.css";
-import axios from "axios";
 
 const HomeDashboard = () => {
   const [events, setevents] = useState([]);
-  const url="http://localhost:3001/api/v1";
 
   useEffect(() => {
     const fetchevents = async () => {
       try {
-        const response = await axios.get(`${url}/getallevents`);
+        const response = await api.get("/getallevents");
         setevents(response.data);
       } catch (error) {
         console.error("Error trayendo los eventos:", error);
@@ -22,7 +20,9 @@ const HomeDashboard = () => {
 
   const formatDateTime = (datetime) => {
     const date = new Date(datetime);
-    const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+    const formattedDate = `${date.getDate()}/${
+      date.getMonth() + 1
+    }/${date.getFullYear()}`;
     return { formattedDate };
   };
 
@@ -32,10 +32,10 @@ const HomeDashboard = () => {
     );
     if (confirmRestore) {
       try {
-        await axios.put(`${url}/events/change/${id_event}`, {
+        await api.put(`/getallevents/events/change/${id_event}`, {
           status: true,
         });
-        const response = await axios.get(`${url}/getallevents`);
+        const response = await api.get("/getallevents");
         setevents(response.data);
       } catch (error) {
         console.error("Error al actualizar evento:", error);
@@ -49,10 +49,10 @@ const HomeDashboard = () => {
     );
     if (confirmDelete) {
       try {
-        await axios.put(`${url}/events/change/${id_event}`, {
+        await api.delete(`/getallevents/events/change/${id_event}`, {
           status: false,
         });
-        const response = await axios.get(`${url}/getallevents`);
+        const response = await api.get("/getallevents");
         setevents(response.data);
       } catch (error) {
         console.error("Error al eliminar evento:", error);
@@ -64,13 +64,19 @@ const HomeDashboard = () => {
     <div className={styles.eventsContainer}>
       <div className={styles.buttonContainer}>
         <div>
-          <Link to="/dashboard/users" className={styles.buttonDashboard}>Admin Usuarios</Link>
+          <Link to="/dashboard/users" className={styles.buttonDashboard}>
+            Admin Usuarios
+          </Link>
         </div>
         <div>
-          <Link to="/dashboard/events/new" className={styles.buttonCreation}>Nuevo Evento</Link>
+          <Link to="/dashboard/events/new" className={styles.buttonCreation}>
+            Nuevo Evento
+          </Link>
         </div>
         <div>
-          <Link to="/dashboard/sponsors" className={styles.buttonCreation}>Admin Sponsors</Link>
+          <Link to="/dashboard/sponsors" className={styles.buttonCreation}>
+            Admin Sponsors
+          </Link>
         </div>
       </div>
       <h1 className={styles.title}>Lista de eventos</h1>
@@ -97,24 +103,31 @@ const HomeDashboard = () => {
         </thead>
         <tbody>
           {events.map((event) => (
-            <tr key={event.id_event} className={`${event.status ? "" : styles.deletedEvent}`}>
+            <tr
+              key={event.id_event}
+              className={`${event.status ? "" : styles.deletedEvent}`}
+            >
               <td className={styles.name}>{event.id_event}</td>
               <td className={styles.name}>{event.name}</td>
               <td className={styles.name}>{event.description}</td>
-              <td className={styles.name}>{formatDateTime(event.start_date).formattedDate}</td>
-            <td className={styles.name}>{formatDateTime(event.end_date).formattedDate}</td>
-            <td className={styles.name}>{event.start_hour}</td>
-            <td className={styles.name}>{event.end_hour}</td>
+              <td className={styles.name}>
+                {formatDateTime(event.start_date).formattedDate}
+              </td>
+              <td className={styles.name}>
+                {formatDateTime(event.end_date).formattedDate}
+              </td>
+              <td className={styles.name}>{event.start_hour}</td>
+              <td className={styles.name}>{event.end_hour}</td>
               <td className={styles.name}>{event.location}</td>
               <td className={styles.name}>{event.category}</td>
               <td className={styles.name}>{event.access}</td>
               <td>
-                    <img
-                      key={event.id_event}
-                      src={event.image}
-                      alt={`Imagen ${event.name}`}
-                      className={styles.eventImage}
-                    />
+                <img
+                  key={event.id_event}
+                  src={event.image}
+                  alt={`Imagen ${event.name}`}
+                  className={styles.eventImage}
+                />
               </td>
               <td className={styles.name}>{event.city}</td>
               <td>
@@ -133,7 +146,10 @@ const HomeDashboard = () => {
                     Restaurar
                   </button>
                 )}
-                <Link to={`/dashboard/modifications/events/${event.id_event}`} className={styles.linkEditar}>
+                <Link
+                  to={`/dashboard/modifications/events/${event.id_event}`}
+                  className={styles.linkEditar}
+                >
                   Editar
                 </Link>
               </td>

@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import styles from "./adminEvents.module.css";
+import api from "../../../api/events";
 //import SearchBar from "../searchBar/SearchBar";
 
 const AdminEvents = () => {
   const [events, setEvents] = useState([]);
   const [filter, setFilter] = useState("all");
-  const url='ttp://localhost:3001/api/v1'
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get(`${url}/getallevents`);
+        const response = await api.get("/getallevents");
         setEvents(response.data);
       } catch (error) {
         console.error("Error trayendo los Events:", error);
@@ -36,10 +35,10 @@ const AdminEvents = () => {
     );
     if (confirmRestore) {
       try {
-        await axios.put(`${url}/`, {
+        await api.put("/getallevents", {
           estado: true,
         });
-        const response = await axios.get(`${url}/getallevents`);
+        const response = await api.get("/getallevents");
         setEvents(response.data);
       } catch (error) {
         console.error("Error al actualizar producto:", error);
@@ -53,10 +52,10 @@ const AdminEvents = () => {
     );
     if (confirmDelete) {
       try {
-        await axios.put(`${url}/dashboard/${id_user}/${id_event}`, {
+        await api.delete(`/deleteevent/${id_user}/${id_event}`, {
           estado: false,
         });
-        const response = await axios.get(`${url}/getallevents`);
+        const response = await api.get("/getallevents");
         setEvents(response.data);
       } catch (error) {
         console.error("Error al eliminar Evento:", error);
@@ -86,7 +85,9 @@ const AdminEvents = () => {
           <SearchBarEvents onSearch={handleSearch} />
         </div>
         <div className={styles.filterContainer}>
-          <label htmlFor="filter" className={styles.filterLabel}>Filtrar: </label>
+          <label htmlFor="filter" className={styles.filterLabel}>
+            Filtrar:{" "}
+          </label>
           <select
             id="filter"
             value={filter}
@@ -101,10 +102,7 @@ const AdminEvents = () => {
       </div>
       <div className={styles.titleContainer}>
         <h1 className={styles.title}>Lista de Eventos</h1>
-        <Link
-          to="/dashboard/events/new"
-          className={styles.buttonCreation}
-        >
+        <Link to="/dashboard/events/new" className={styles.buttonCreation}>
           Nuevo Evento
         </Link>
       </div>

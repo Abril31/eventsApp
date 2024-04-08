@@ -26,7 +26,7 @@ function App() {
         <Route path="/categories/:category" element={<Category />} />
         <Route path="/dashboard" element={<HomeDashboard />} />
         <Route path="/dashboard/events/new" element={<CreateEvent />} />
-        <Route path="/login" element={<LoginForm />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/dashboard/events" element={<AdminEvents />} />
         <Route path="/dashboard/users" element={<AdminUsers />} />
