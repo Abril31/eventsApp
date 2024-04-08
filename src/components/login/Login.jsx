@@ -4,6 +4,7 @@ import { useAuthStore } from "../../store/authStore"; // Importa useAuthStore
 import { isValidEmail, isValidPassword } from "./validation";
 import Authgoogle from "./authgoogle";
 import api from "../../api/events";
+import { toast } from "sonner";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,7 +15,7 @@ export default function Login() {
     e.preventDefault();
 
     if (!isValidEmail(email)) {
-      alert("Please enter a valid email address.");
+      toast.error("Please enter a valid email address.");
       return;
     }
 
@@ -27,7 +28,7 @@ export default function Login() {
       navigate("/");
     } catch (error) {
       if (!isValidPassword(password)) {
-        alert("Incorrect Password.");
+        toast.error("Incorrect Password.");
         return;
       }
       console.error("Error en el login:", error);
