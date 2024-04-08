@@ -4,7 +4,7 @@ import NewEvent from "./views/NewEvents/NewEvent";
 import { Route, Routes } from "react-router-dom";
 import EventDetail from "./views/detail/EventDetail";
 import { Toaster } from "sonner";
-import LoginForm from "./components/login/login";
+import Login from "./components/login/Login";
 import RegistrationForm from "./components/login/signUp";
 import Footer from "./components/footer/Footer";
 
