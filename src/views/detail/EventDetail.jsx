@@ -136,7 +136,7 @@ const EventDetail = () => {
                     {index === data.Tickets.length - 1 && (
                       <div>
                         {ticket.price ? (
-                          <div className="flex justify-center mb-3">
+                          <div className="flex justify-center mb-3 mt-5">
                             <button
                               className="bg-deco text-button1 items-center align-middle gap-3 font-bold py-1 px-4 flex rounded cursor-pointer hover:scale-110 transition-transform duration-300"
                               onClick={() => handleOpenModal(ticket)}
@@ -172,6 +172,7 @@ const EventDetail = () => {
           closeModal={() => setIsModalOpen(false)}
           idEvent={data.id_event}
           eventName={data.name}
+          startDate={formatDate(data.start_date)}
           ticketType={selectedTicket.ticket_type}
           ticketPrice={selectedTicket.price}
           quantityAvailable={selectedTicket.available_quantity}

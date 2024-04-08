@@ -1,31 +1,78 @@
 import minus from "../../assets/icons/minus.svg";
 import plus from "../../assets/icons/plus.svg";
+import close from "../../assets/icons/close.svg";
+import { useTicketStore } from "../../store/ticketStore";
 
 export const Modal = ({
   isOpen,
   closeModal,
   idEvent,
   eventName,
+  startDate,
   ticketPrice,
   ticketType,
   quantityAvailable,
 }) => {
+  const count = useTicketStore((state) => state.count);
+  const incrementCount = useTicketStore((state) => state.incrementCount);
+  const decrementCount = useTicketStore((state) => state.decrementCount);
+
   if (!isOpen) return null;
+
   return (
-    <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
+    <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-70 z-50">
       <div className="absolute bg-white p-8 rounded-lg">
         <p
           className="cursor-pointer text-black absolute top-4 right-4"
           onClick={closeModal}
         >
-          X
+          <img src={close} />
         </p>
-        <p className="text-xl">Complete your purchase</p>
-        <p className="text-2xl">{eventName}</p>
-        <div className="flex gap-3 border border-deco mx-3 my-3 p-3 text-2xl">
-          <p>{ticketType}</p>
-          <p>{ticketPrice}</p>
-          <p>{quantityAvailable}</p>
+
+        <div className="flex flex-col">
+          <p className="flex justify-center text-2xl py-3 border-b-4">
+            Complete your purchase
+          </p>
+          <p className="flex justify-end text-xl ">{eventName}</p>
+          <p className="flex justify-end text-md border-b-4 italic">
+            Begins on {startDate}
+          </p>
+        </div>
+        <h2 className="flex justify-center rounded p-1 mt-2 font-semibold text-lg text-button1 bg-base w-20 ">
+          TICKETS
+        </h2>
+        <div className="flex flex-col w-full justify-between align-middle items-center border-2 border-deco my-3 text-2xl p-2 rounded-md">
+          <div className="flex w-full mx-4 gap-16 align-middle items-center justify-between py-2">
+            <h2>{ticketType}</h2>
+            <div className="flex flex-col gap-3">
+              <div className="flex gap-5">
+                <img
+                  src={minus}
+                  onClick={decrementCount}
+                  className="cursor-pointer"
+                  alt="minus"
+                />
+                <p>{count}</p>
+                <img
+                  src={plus}
+                  onClick={incrementCount}
+                  className="cursor-pointer"
+                  alt="plus"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col w-full">
+            <p className="flex justify-between text-xl">
+              Price <span className="text-deco font-bold">$ {ticketPrice}</span>
+            </p>
+            <p className="text-sm italic">*Available: {quantityAvailable}</p>
+          </div>
+        </div>
+        <div className="flex justify-end">
+          <button className="flex font-bold px-4 py-2 bg-otro rounded text-base items-center justify-end mt-4 text-xl hover:scale-110 transition-transform duration-300">
+            Check out
+          </button>
         </div>
       </div>
     </div>
