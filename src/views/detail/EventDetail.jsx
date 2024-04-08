@@ -118,6 +118,7 @@ const EventDetail = () => {
                 <p className="flex w-full justify-center text-2xl font-semibold border-otro border-b-4 py-2">
                   Ticket Information
                 </p>
+
                 {data.Tickets?.map((ticket, index) => (
                   <div key={ticket.id_ticket}>
                     <div className="flex items-center gap-10 justify-end border-b-2 border-zinc-300">
@@ -127,9 +128,7 @@ const EventDetail = () => {
 
                       <div className="flex justify-end">
                         <p className="text-xl">
-                          <span className="font-semibold">
-                            $ {ticket.price}
-                          </span>
+                          <span className="font-semibold">{ticket.price}</span>
                         </p>
                       </div>
                     </div>
