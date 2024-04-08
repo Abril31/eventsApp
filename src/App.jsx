@@ -4,16 +4,18 @@ import NewEvent from "./views/NewEvents/NewEvent";
 import { Route, Routes } from "react-router-dom";
 import EventDetail from "./views/detail/EventDetail";
 import { Toaster } from "sonner";
+import Login from "./components/login/Login";
+import RegistrationForm from "./components/login/signUp";
 import Footer from "./components/footer/Footer";
 
 import Category from "./views/categorias/Category";
-import Login from "./components/login/Login";
 
 function App() {
   return (
     <div>
       <NavBar />
       <Routes>
+        <Route path="/register" element={<RegistrationForm />} />
         <Route path="/" element={<Home />} />
         <Route path="/evento/:id" element={<EventDetail />} />
         <Route path="/categories/:category" element={<Category />} />
