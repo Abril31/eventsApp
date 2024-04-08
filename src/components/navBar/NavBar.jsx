@@ -1,6 +1,9 @@
-import { Link } from "react-router-dom";
-import cart from "../../assets/icons/cart.svg";
-const NavBar = () => {
+import { Link } from 'react-router-dom';
+
+
+const Navbar = () => {
+ 
+
   return (
     <div className="flex justify-between gap-10 bg-base text-xl h-16 items-center font-jomhuria">
       <div className="flex ml-5">
@@ -19,22 +22,20 @@ const NavBar = () => {
         <h1 className="text-white text-4xl font-jomhuria mb-2">EventApp</h1>
       </div>
       <div className="flex gap-6 items-center my-2">
-        <Link to="/cart">
-          <h2 className="flex gap-3 align-middle justify-center items-center">
-            <img src={cart} alt="tickets" />
-          </h2>
-        </Link>
-        <div className="">
-          <Link to="#">
+        <div className="flex items-center">
+          <Link to="/login">
             <h2 className="text-white cursor-pointer my-2 mx-3">Login</h2>
           </Link>
         </div>
-        <div className="bg-button1 font-bold py-2 px-2 rounded mr-5">
-          <h2 className="cursor-pointer text-base">Sign up</h2>
+        <div className="bg-deco text-white font-bold py-2 px-2 rounded mr-5">
+         <Link to="/register" >  
+          <h2 className="cursor-pointer text-white">
+            Sign up </h2>
+           </Link>
         </div>
       </div>
     </div>
   );
 };
 
-export default NavBar;
+export default Navbar;
