@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import axios from "axios";
+import { toast } from "sonner";
 
 export const useAuthStore = create((set) => ({
   user: {
@@ -53,7 +54,10 @@ export const useAuthStore = create((set) => ({
 
     try {
       console.log("data", userData);
-      const response = await axios.post("/register", userData);
+      const response = await axios.post(
+        `http://localhost:3001/api/v1/register`,
+        userData
+      );
       const newUser = response.data;
 
       set({
@@ -73,12 +77,11 @@ export const useAuthStore = create((set) => ({
       console.log("pruebau", newUser);
     } catch (error) {
       set({ isRegistering: false, registerSuccess: false });
-      alert("Registration failed. Please try again.");
+      toast.error("Registration failed. Please try again.");
     }
   },
   logout: () => {
     set({ user: null, isLogged: false });
-    localStorage.removeItem("authState");
     localStorage.removeItem("authState");
   },
 }));
