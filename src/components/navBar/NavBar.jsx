@@ -6,7 +6,7 @@ import cart from "../../assets/icons/cart.svg";
 
 const Navbar = () => {
   const { isLogged, logout, user } = useAuthStore();
-  console.log('user-->',user);
+  console.log("user-->", user);
   const renderUserImage = () => {
     if (user.image) {
       return <img src={user.image} alt="Profile" className={styles.image} />;
@@ -37,10 +37,8 @@ const Navbar = () => {
           <>
             <div className="flex items-center gap-2">
               <p className="text-white">{user.name}</p>
-              <Link to="/profile">
-              {renderUserImage()}
-              </Link>
-              <Link to="/cart">
+              <Link to="/profile">{renderUserImage()}</Link>
+              <Link to="/purchase">
                 <img
                   src={cart}
                   alt="Cart"
@@ -54,7 +52,7 @@ const Navbar = () => {
             >
               Log out
             </button>
-            {user.type_user === 'admin' && (
+            {user.type_user === "admin" && (
               <Link to="/dashboard">
                 <button className="bg-button1 text-base font-bold py-2 px-2 rounded mr-5">
                   Dashboard

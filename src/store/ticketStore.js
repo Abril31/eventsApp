@@ -1,41 +1,74 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+
 export const useTicketStore = create(
-  persist(
-    (set) => ({
-      ticketCounts: [],
-      count: 0,
+  (set) => ({
+    cartTickets: [],
+    count: 0,
 
-      incrementTicketCount: (ticketType) =>
-        set((state) => ({
-          ticketCounts: {
-            ...state.ticketCounts,
-            [ticketType]: (state.ticketCounts[ticketType] || 0) + 1,
-          },
-        })),
+    addToCartTickets: ({
+      image,
+      eventName,
+      ticketPrice,
+      idEvent,
+      id_user,
+      total,
+      count,
+    }) =>
+      set((state) => {
+        // Verificar si el ticket ya está en el carrito
+        const ticketIndex = state.cartTickets.findIndex(
+          (ticket) => ticket.idEvent === idEvent
+        );
 
-      decrementTicketCount: (ticketType) =>
-        set((state) => ({
-          ticketCounts: {
-            ...state.ticketCounts,
-            [ticketType]: Math.max(
-              (state.ticketCounts[ticketType] || 0) - 1,
-              0
-            ),
-          },
-        })),
-      incrementCount: () =>
-        set((state) => ({
-          count: state.count + 1,
-        })),
+        // Actualizas solo las propiedades
+        if (ticketIndex !== -1) {
+          const updatedCartTickets = [...state.cartTickets];
+          updatedCartTickets[ticketIndex] = {
+            ...updatedCartTickets[ticketIndex],
 
-      decrementCount: () =>
-        set((state) => ({
-          count: Math.max(state.count - 1, 0),
-        })),
-    }),
-    {
-      name: "almacen-tickets",
-    }
-  )
+            count: updatedCartTickets[ticketIndex].count + count,
+          };
+          return {
+            cartTickets: updatedCartTickets,
+            count: state.count + count,
+          };
+        }
+
+        return {
+          cartTickets: [
+            ...state.cartTickets,
+            {
+              image,
+              eventName,
+              ticketPrice,
+              idEvent,
+              id_user,
+              total,
+              count,
+            },
+          ],
+          count: state.count + count,
+        };
+      }),
+    removeFromCartTickets: (idEvent) =>
+      set((state) => ({
+        cartTickets: state.cartTickets.filter(
+          (item) => item.idEvent !== idEvent
+        ),
+      })),
+
+    incrementCount: () =>
+      set((state) => ({
+        count: state.count + 1,
+      })),
+
+    decrementCount: () =>
+      set((state) => ({
+        count: Math.max(state.count - 1, 0),
+      })),
+  }),
+  {
+    name: "almacen-tickets",
+  }
 );
