@@ -2,6 +2,7 @@ import minus from "../../assets/icons/minus.svg";
 import plus from "../../assets/icons/plus.svg";
 import close from "../../assets/icons/close.svg";
 import { useTicketStore } from "../../store/ticketStore";
+import { Link } from "react-router-dom";
 
 export const Modal = ({
   isOpen,
@@ -12,10 +13,26 @@ export const Modal = ({
   ticketPrice,
   ticketType,
   quantityAvailable,
+  image,
+  id_user,
 }) => {
   const count = useTicketStore((state) => state.count);
   const incrementCount = useTicketStore((state) => state.incrementCount);
   const decrementCount = useTicketStore((state) => state.decrementCount);
+  const addToCartTickets = useTicketStore((state) => state.addToCartTickets);
+
+  const total = count * ticketPrice;
+  const handleAddToCart = () => {
+    addToCartTickets({
+      image: image,
+      eventName: eventName,
+      idEvent: idEvent,
+      ticketPrice: ticketPrice,
+      id_user: id_user,
+      total,
+      count,
+    });
+  };
 
   if (!isOpen) return null;
 
@@ -68,11 +85,19 @@ export const Modal = ({
             </p>
             <p className="text-sm italic">*Available: {quantityAvailable}</p>
           </div>
+          <div className="flex w-full justify-between">
+            Total: <span className="flex justify-between">$ {total}</span>
+          </div>
         </div>
         <div className="flex justify-end">
-          <button className="flex font-bold px-4 py-2 bg-otro rounded text-base items-center justify-end mt-4 text-xl hover:scale-110 transition-transform duration-300">
-            Check out
-          </button>
+          <Link to="/purchase">
+            <button
+              className="flex font-bold px-4 py-2 bg-otro rounded text-base items-center justify-end mt-4 text-xl hover:scale-110 transition-transform duration-300"
+              onClick={handleAddToCart}
+            >
+              Check out
+            </button>
+          </Link>
         </div>
       </div>
     </div>

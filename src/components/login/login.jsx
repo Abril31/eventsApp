@@ -20,7 +20,7 @@ export default function Login() {
       navigate("/");
     }
   }, [login, navigate]);
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!isValidEmail(email)) {
@@ -36,7 +36,7 @@ export default function Login() {
       login(response.data);
       // Guardar los datos del usuario en localStorage al iniciar sesión
       localStorage.setItem("userData", JSON.stringify(response.data)); // Llama al método login con el email y la contraseña
-      console.log('localStorage--->', localStorage.userData);
+      console.log("localStorage--->", localStorage.userData);
       navigate("/");
     } catch (error) {
       if (!isValidPassword(password)) {
