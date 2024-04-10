@@ -14,6 +14,8 @@ import AdminEvents from "./components/Dashboard/AdminEvents/AdminEvents";
 import AdminUsers from "./components/Dashboard/AdminUser/AdminUsers";
 import AdminSponsors from "./components/Dashboard/AdminSponsors/AdminSponsors";
 import Purchase from "./views/purchase/Purchase";
+import Succes from "./views/succes/Succes";
+
 
 function App() {
   return (
@@ -32,6 +34,7 @@ function App() {
         <Route path="/dashboard/users" element={<AdminUsers />} />
         <Route path="/dashboard/sponsor" element={<AdminSponsors />} />
         <Route path="/purchase" element={<Purchase />} />
+        <Route path="/succes" element={<Succes />}  />
       </Routes>
       <Toaster richColors position="top-right" />
       <Footer />
