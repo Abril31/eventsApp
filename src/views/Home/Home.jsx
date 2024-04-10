@@ -6,6 +6,7 @@ import Carousel from "../../components/carousel/Carousel";
 const Home = () => {
   //Filtros
   const { user } = useAuthStore();
+  
   return (
     <>
       <div className="flex justify-between items-center">
