@@ -5,8 +5,8 @@ import tik from "../../assets/icons/tiktok.svg";
 
 const Footer = () => {
   return (
-    <footer className="bg-base text-white font-bold text-xl mt-10">
-      <div className="flex place-content-evenly text-xl mt-10 py-7 h-full">
+    <footer className="bg-base text-white font-bold text-xl mt-10 flex flex-col">
+      <div className="flex place-content-evenly text-xl mt-10 py-7">
         <div>
           <h2 className="mb-2">Top Categories</h2>
           <Link to="/categories/music">
