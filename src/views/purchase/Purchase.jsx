@@ -6,13 +6,26 @@ const Purchase = () => {
   const removeFromCartTickets = useTicketStore(
     (state) => state.removeFromCartTickets
   );
+  const checkout = useTicketStore((state) => state.checkout);
+
   const finalAmount = cartTickets.reduce(
     (total, item) => total + item.total,
     0
   );
+
   const handleRemoveFromCart = (idEvent) => {
     removeFromCartTickets(idEvent);
   };
+
+  const handleCheckout = async () => {
+    try {
+      await checkout(finalAmount); // Pasa el valor total como argumento
+      console.log("Checkout exitoso");
+    } catch (error) {
+      console.error('Error al procesar el pago:', error);
+    }
+  };
+
 
   return (
     <div className="flex flex-col m-10 gap-5">
@@ -43,7 +56,7 @@ const Purchase = () => {
         <p className="font-bold">
           Total: <span className="border-t-4 border-deco">$ {finalAmount}</span>
         </p>
-        <p></p>
+        <button onClick={handleCheckout}>Checkout</button>
       </div>
     </div>
   );
