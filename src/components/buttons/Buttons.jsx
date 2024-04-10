@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import goBack from "../../assets/icons/back.svg";
+import goBack from "../../assets/icons/left.svg";
 
 export const BackButton = () => {
   const navigate = useNavigate();
