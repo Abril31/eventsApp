@@ -21,14 +21,17 @@ const EventDetail = () => {
   if (!data) return <div>There are no details for this event.</div>;
 
   return (
-    <div className="flex flex-col mt-10">
-      <div className="flex justify-center">
-        <div className="relative">
+    <div className="flex flex-col my-10 mx-10">
+      <div className="flex justify-center mx-32 p-5">
+        <div className="relative w-full ">
           <p className="absolute text-7xl text-left mx-5 w-3/2 p-3 font-extrabold mt-10 -mb-5 text-white border-b-8 border-otro">
             {data.name}
           </p>
-          <div>
-            <img src={data.image} className="rounded-3xl z-0" width={1200} />
+          <div className="">
+            <img
+              src={data.image}
+              className="rounded-3xl z-0 flex justify-center w-full"
+            />
             <p
               className="relative text-white p-5 w-full h-20 bg-deco mb-5 font-extrabold text-3xl text-end -mt-20 bg-cover bg-top rounded-b-3xl"
               style={{ backgroundImage: `url(${cosmic})` }}
@@ -110,15 +113,15 @@ const EventDetail = () => {
                   </div>
                 </div>
               )}
-
+              <div></div>
               <div className="py-2 mt-5 border border-gray-300 p-4 rounded-md shadow-2xl">
                 <p className="flex w-full justify-center text-2xl font-semibold border-otro border-b-4 py-2">
                   Ticket Information
                 </p>
 
-                {data.Tickets.length > 0 && (
+                {data.Tickets.length > 0 ? (
                   <div key={data.Tickets[0].id_ticket}>
-                    <div className="flex items-center gap-10 justify-end border-b-2 border-zinc-300">
+                    <div className="flex items-center gap-10 border-b-2 border-zinc-300">
                       <p className="w-48 py-2 text-xl font-bold">
                         {data.Tickets[0].ticket_type}
                       </p>
@@ -131,7 +134,7 @@ const EventDetail = () => {
                       </div>
                     </div>
                     <button
-                      className="flex bg-deco justify-center w-full rounded text-button1 font-bold text-xl items-center gap-2 my-3"
+                      className="flex bg-deco justify-center w-full rounded text-button1 font-bold text-xl items-center gap-2 my-5 py-2"
                       onClick={() => handleOpenModal(data.Tickets[0])}
                     >
                       <img
@@ -141,15 +144,12 @@ const EventDetail = () => {
                       Get Tickets
                     </button>
                   </div>
+                ) : (
+                  <button className="flex bg-deco rounded text-button1 px-24 py-2 my-3 font-bold text-xl">
+                    FREE
+                  </button>
                 )}
               </div>
-            </div>
-            <div>
-              {data.access === "free" && (
-                <button className="flex bg-deco rounded text-button1 px-24 py-2 mt-2 font-bold text-xl">
-                  {data.access.toUpperCase()}
-                </button>
-              )}
             </div>
           </div>
         </div>
