@@ -35,6 +35,7 @@ export const Modal = ({
   };
 
   if (!isOpen) return null;
+  
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-70 z-50">
