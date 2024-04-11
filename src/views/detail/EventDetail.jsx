@@ -5,33 +5,33 @@ import clock from "../../assets/icons/clock.svg";
 import buy from "../../assets/icons/buy.svg";
 import { BackButton } from "../../components/buttons/Buttons";
 import cosmic from "../../assets/icons/cosmic.svg";
-import { useEffect, useState } from "react";
 import { Modal } from "../../components/modal/Modal";
+import { useState } from "react";
 
 const EventDetail = () => {
-  const [selectedTicket, setSelectedTicket] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  useEffect(() => {
-    console.log("Modal abierto:", isModalOpen);
-  }, [isModalOpen]);
   const { data, isLoading } = useGetEvent();
-  const handleOpenModal = (ticket) => {
-    setSelectedTicket(ticket);
+  console.log(data);
+  const handleOpenModal = () => {
     setIsModalOpen(true);
+    data.Tickets[0];
   };
   if (isLoading) return <div>Loading...</div>;
   if (!data) return <div>There are no details for this event.</div>;
 
   return (
-    <div className="flex flex-col mt-10">
-      <div className="flex justify-center">
-        <div className="relative">
+    <div className="flex flex-col my-10 mx-10">
+      <div className="flex justify-center mx-32 p-5">
+        <div className="relative w-full ">
           <p className="absolute text-7xl text-left mx-5 w-3/2 p-3 font-extrabold mt-10 -mb-5 text-white border-b-8 border-otro">
             {data.name}
           </p>
-          <div>
-            <img src={data.image} className="rounded-3xl z-0" width={1400} />
+          <div className="">
+            <img
+              src={data.image}
+              className="rounded-3xl z-0 flex justify-center w-full"
+            />
             <p
               className="relative text-white p-5 w-full h-20 bg-deco mb-5 font-extrabold text-3xl text-end -mt-20 bg-cover bg-top rounded-b-3xl"
               style={{ backgroundImage: `url(${cosmic})` }}
@@ -113,71 +113,60 @@ const EventDetail = () => {
                   </div>
                 </div>
               )}
-
+              <div></div>
               <div className="py-2 mt-5 border border-gray-300 p-4 rounded-md shadow-2xl">
                 <p className="flex w-full justify-center text-2xl font-semibold border-otro border-b-4 py-2">
                   Ticket Information
                 </p>
 
-                {data.Tickets?.map((ticket, index) => (
-                  <div key={ticket.id_ticket}>
-                    <div className="flex items-center gap-10 justify-end border-b-2 border-zinc-300">
+                {data.Tickets.length > 0 ? (
+                  <div key={data.Tickets[0].id_ticket}>
+                    <div className="flex items-center gap-10 border-b-2 border-zinc-300">
                       <p className="w-48 py-2 text-xl font-bold">
-                        {ticket.ticket_type}
+                        {data.Tickets[0].ticket_type}
                       </p>
-
                       <div className="flex justify-end">
                         <p className="text-xl">
-                          <span className="font-semibold">{ticket.price}</span>
+                          <span className="font-semibold">
+                            $ {data.Tickets[0].price}
+                          </span>
                         </p>
                       </div>
                     </div>
-
-                    {index === data.Tickets.length - 1 && (
-                      <div>
-                        {ticket.price ? (
-                          <div className="flex justify-center mb-3 mt-5">
-                            <button
-                              className="bg-deco text-button1 items-center align-middle gap-3 font-bold py-1 px-4 flex rounded cursor-pointer hover:scale-110 transition-transform duration-300"
-                              onClick={() => handleOpenModal(ticket)}
-                            >
-                              <img src={buy} /> Get Tickets
-                            </button>
-                          </div>
-                        ) : (
-                          <div className="flex flex-col justify-center mb-3">
-                            <p className="flex justify-center font-semibold text-xl py-2 mt-2">
-                              FREE
-                            </p>
-                            <button
-                              className="flex font-bold px-4 py-2 bg-deco rounded text-white items-center justify-center mt-4 text-xl hover:scale-110 transition-transform duration-300"
-                              onClick={() => handleOpenModal(ticket)}
-                            >
-                              <span className="mx-3">Get Tickets</span>
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    )}
+                    <button
+                      className="flex bg-deco justify-center w-full rounded text-button1 font-bold text-xl items-center gap-2 my-5 py-2"
+                      onClick={() => handleOpenModal(data.Tickets[0])}
+                    >
+                      <img
+                        src={buy}
+                        className="flex align-middle items-start"
+                      />
+                      Get Tickets
+                    </button>
                   </div>
-                ))}
+                ) : (
+                  <button className="flex bg-deco rounded text-button1 px-24 py-2 my-3 font-bold text-xl">
+                    FREE
+                  </button>
+                )}
               </div>
             </div>
           </div>
         </div>
       </div>
-      {selectedTicket && (
-        <Modal
-          isOpen={isModalOpen}
-          closeModal={() => setIsModalOpen(false)}
-          idEvent={data.id_event}
-          eventName={data.name}
-          startDate={formatDate(data.start_date)}
-          ticketType={selectedTicket.ticket_type}
-          ticketPrice={selectedTicket.price}
-          quantityAvailable={selectedTicket.available_quantity}
-        />
-      )}
+
+      <Modal
+        isOpen={isModalOpen}
+        closeModal={() => setIsModalOpen(false)}
+        idEvent={data.id_event}
+        eventName={data.name}
+        startDate={formatDate(data.start_date)}
+        ticketType={data?.Tickets[0]?.ticket_type}
+        ticketPrice={data?.Tickets[0]?.price}
+        quantityAvailable={data?.Tickets[0]?.available_quantity}
+        id_user={data?.Tickets[0]?.id_user}
+        image={data?.image}
+      />
       <BackButton />
     </div>
   );
