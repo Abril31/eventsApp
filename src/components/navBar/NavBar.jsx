@@ -39,7 +39,7 @@ const Navbar = () => {
               <div className="flex items-center gap-2">
                 <p className="text-white">{user.name}</p>
                 <Link to="/profile">{renderUserImage()}</Link>
-                <Link to="/purchase">
+                <Link to="/cart">
                   <img
                     src={cart}
                     alt="Cart"
@@ -51,7 +51,7 @@ const Navbar = () => {
                 onClick={logout}
                 className="bg-button1 text-base font-bold py-2 px-2 rounded mr-5"
               >
-                Log out
+                Sign Out
               </button>
               {user.type_user === "admin" && (
                 <Link to="/dashboard">
@@ -66,7 +66,9 @@ const Navbar = () => {
             <>
               <div className="flex items-center">
                 <Link to="/login">
-                  <h2 className="text-white cursor-pointer my-2 mx-3">Login</h2>
+                  <h2 className="border border-otro text-button1 px-3 py-1 font-semibold rounded">
+                    Sign In
+                  </h2>
                 </Link>
               </div>
               <div className="bg-deco text-white font-bold py-2 px-2 rounded mr-5">

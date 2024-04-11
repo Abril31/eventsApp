@@ -16,7 +16,6 @@ import AdminSponsors from "./components/Dashboard/AdminSponsors/AdminSponsors";
 import Purchase from "./views/purchase/Purchase";
 import Succes from "./views/succes/Succes";
 
-
 function App() {
   return (
     <div className="flex flex-col h-screen justify-between">
@@ -33,8 +32,8 @@ function App() {
         <Route path="/dashboard/events" element={<AdminEvents />} />
         <Route path="/dashboard/users" element={<AdminUsers />} />
         <Route path="/dashboard/sponsor" element={<AdminSponsors />} />
-        <Route path="/purchase" element={<Purchase />} />
-        <Route path="/succes" element={<Succes />}  />
+        <Route path="/cart" element={<Purchase />} />
+        <Route path="/succes" element={<Succes />} />
       </Routes>
       <Toaster richColors position="top-right" />
       <Footer />
