@@ -3,7 +3,7 @@ import Home from "./views/Home/Home";
 import { Route, Routes } from "react-router-dom";
 import EventDetail from "./views/detail/EventDetail";
 import { Toaster } from "sonner";
-import LoginForm from "./components/login/login";
+import Login from "./components/login/Login";
 import RegistrationForm from "./components/login/signUp";
 import Footer from "./components/footer/Footer";
 import Category from "./views/categorias/Category";
@@ -16,10 +16,9 @@ import AdminSponsors from "./components/Dashboard/AdminSponsors/AdminSponsors";
 import Purchase from "./views/purchase/Purchase";
 import Succes from "./views/succes/Succes";
 
-
 function App() {
   return (
-    <div>
+    <div className="flex flex-col h-screen justify-between">
       <NavBar />
       <Routes>
         <Route path="/register" element={<RegistrationForm />} />
@@ -28,13 +27,13 @@ function App() {
         <Route path="/categories/:category" element={<Category />} />
         <Route path="/dashboard" element={<HomeDashboard />} />
         <Route path="/dashboard/events/new" element={<CreateEvent />} />
-        <Route path="/login" element={<LoginForm />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/dashboard/events" element={<AdminEvents />} />
         <Route path="/dashboard/users" element={<AdminUsers />} />
         <Route path="/dashboard/sponsor" element={<AdminSponsors />} />
-        <Route path="/purchase" element={<Purchase />} />
-        <Route path="/succes" element={<Succes />}  />
+        <Route path="/cart" element={<Purchase />} />
+        <Route path="/succes" element={<Succes />} />
       </Routes>
       <Toaster richColors position="top-right" />
       <Footer />

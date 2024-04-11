@@ -35,11 +35,10 @@ export const Modal = ({
   };
 
   if (!isOpen) return null;
-  
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-70 z-50">
-      <div className="absolute bg-white p-8 rounded-lg">
+      <div className="absolute bg-white p-8 rounded-lg w-4/12">
         <p
           className="cursor-pointer text-black absolute top-4 right-4"
           onClick={closeModal}
@@ -91,7 +90,7 @@ export const Modal = ({
           </div>
         </div>
         <div className="flex justify-end">
-          <Link to="/purchase">
+          <Link to="/cart">
             <button
               className="flex font-bold px-4 py-2 bg-otro rounded text-base items-center justify-end mt-4 text-xl hover:scale-110 transition-transform duration-300"
               onClick={handleAddToCart}
