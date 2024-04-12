@@ -3,6 +3,7 @@ import { useTicketStore } from "../../store/ticketStore";
 import { BackButton } from "../../components/buttons/Buttons";
 import { useAuthStore } from "../../store/authStore";
 import { Link } from "react-router-dom";
+import trash from "../../assets/icons/trash.svg";
 
 const Purchase = () => {
   const isLogged = useAuthStore((state) => state.isLogged);
@@ -31,40 +32,74 @@ const Purchase = () => {
   };
 
   return (
-    <>
-      {isLogged ? ( // Verifica si el usuario está autenticado
-        <div className="flex flex-col mx-11 gap-5">
-          {cartTickets.length > 0 &&
+    <div className="flex w-screen h-screen justify-center">
+      {isLogged ? (
+        <div className="flex flex-col w-full mx-24 gap-5 place-content-center items-center py-4 mt-10 px-48">
+          <div className="flex w-full justify-between border-y-2 border-deco text-xl font-semibold py-3 ">
+            <p className="text-center text-xl flex-none px-64 ml-4">Event</p>
+            <p className="w-20 text-center">Price</p>
+            <p className="">Quantity</p>
+            <p className=" mr-5">Total</p>
+          </div>
+          {cartTickets.length > 0 ? (
             cartTickets.map((item, index) => (
               <div
                 key={index}
-                className="flex gap-10 w-full bg-green-500 justify-between"
+                className="flex w-full justify-between border-b-2 border-gray-300 pb-4 text-xl align-middle items-center"
               >
-                <img src={item.image} width={200} />
-                <div className="flex bg-slate-400 w-full justify-between">
-                  <p className="bg-blue-400 w-72">{item.eventName}</p>
-                  <p>{item.ticketPrice}</p>
-                  <p>{item.count}</p>
+                <img src={item.image} className="flex" width={290} />
+                <div className="flex w-full justify-between">
+                  <p className="flex w-72 px-10">{item.eventName}</p>
+                  <p className=" w-20 text-center ml-4">$ {item.ticketPrice}</p>
+                  <p className=" w-20 ml-5 text-center">{item.count}</p>
                   <div className="flex flex-col items-center">
-                    <p>$ {item.total}</p>
+                    <p className="text-xl font-bold text-deco">
+                      $ {item.total}
+                    </p>
                     <button
-                      className="flex justify-center bg-red-600 rounded px-2 cursor-pointer h-6 w-16 mx-3 text-white"
+                      className="flex justify-center rounded px-2 cursor-pointer h-6 w-16 mx-3 text-white mt-5"
                       onClick={() => handleRemoveFromCart(item.idEvent)}
                     >
-                      Remove
+                      <img src={trash} alt="Remove" />
                     </button>
                   </div>
                 </div>
               </div>
-            ))}
-          <div className="flex text-2xl justify-end">
-            <p className="font-bold">
-              Total:{" "}
-              <span className="border-t-4 border-deco">$ {finalAmount}</span>
+            ))
+          ) : (
+            <div className="text-lg">
+              <p>It seems u don't have any tickets in your cart 😔!</p>
+              <p>
+                Looking for some interesting events? Check{" "}
+                <Link to="/">
+                  <span className="font-bold text-deco text-2xl">here!</span>
+                </Link>
+              </p>
+            </div>
+          )}
+          <div className="flex  text-2xl justify-end w-full">
+            <p className="flex items-center font-bold gap-2">
+              Total:
+              <span className="w-28 text-center">$ {finalAmount}</span>
             </p>
-            <button onClick={handleCheckout}>Checkout</button>
           </div>
-          <BackButton />
+          <div className="flex justify-between w-full">
+            <p></p>
+            <button
+              onClick={handleCheckout}
+              disabled={finalAmount === 0}
+              className={`rounded px-3 py-2 font-bold text-xl ${
+                finalAmount === 0
+                  ? "bg-gray-400 text-gray-500 cursor-not-allowed"
+                  : "bg-otro text-gray-700 cursor-pointer hover:scale-110 transition-transform duration-300"
+              }`}
+            >
+              Checkout
+            </button>
+          </div>
+          <div className="flex w-full">
+            <BackButton />
+          </div>
         </div>
       ) : (
         <div className="flex flex-col justify-center items-center h-full">
@@ -89,7 +124,7 @@ const Purchase = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
