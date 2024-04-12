@@ -95,7 +95,7 @@ export const Modal = ({
               className="flex font-bold px-4 py-2 bg-otro rounded text-base items-center justify-end mt-4 text-xl hover:scale-110 transition-transform duration-300"
               onClick={handleAddToCart}
             >
-              Check out
+              Proceed
             </button>
           </Link>
         </div>
