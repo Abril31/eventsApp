@@ -9,7 +9,7 @@ export const BackButton = () => {
   };
   return (
     <button
-      className="bg-deco text-button1 text-3xl justify-center gap-3 font-bold py-2 px-10 rounded cursor-pointer mx-auto mt-16 hover:bg-gray-600"
+      className="bg-deco text-button1 text-2xl justify-center gap-3 font-bold px-2 rounded cursor-pointer mt-7 mx-auto hover:bg-gray-600"
       onClick={back}
     >
       <img src={goBack} />
