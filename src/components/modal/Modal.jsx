@@ -15,6 +15,7 @@ export const Modal = ({
   quantityAvailable,
   image,
   id_user,
+  id_ticket,
 }) => {
   const count = useTicketStore((state) => state.count);
   const incrementCount = useTicketStore((state) => state.incrementCount);
@@ -31,6 +32,8 @@ export const Modal = ({
       id_user: id_user,
       total,
       count,
+      id_ticket,
+      ticketType,
     });
   };
 

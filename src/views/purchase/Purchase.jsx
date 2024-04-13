@@ -8,6 +8,7 @@ import trash from "../../assets/icons/trash.svg";
 const Purchase = () => {
   const isLogged = useAuthStore((state) => state.isLogged);
   const cartTickets = useTicketStore((state) => state.cartTickets);
+  console.log("Estos son mis tickets agregados al Carrito: ", cartTickets);
   const removeFromCartTickets = useTicketStore(
     (state) => state.removeFromCartTickets
   );

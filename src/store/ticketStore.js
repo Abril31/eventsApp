@@ -22,6 +22,7 @@ export const useTicketStore = create(
         id_user,
         total,
         count,
+        id_ticket,
       }) =>
         set((state) => {
           // Verificar si el ticket ya está en el carrito
@@ -53,6 +54,7 @@ export const useTicketStore = create(
                 id_user,
                 total,
                 count,
+                id_ticket,
               },
             ],
             count: state.count + count,
