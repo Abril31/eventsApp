@@ -7,17 +7,21 @@ import { BackButton } from "../../components/buttons/Buttons";
 import cosmic from "../../assets/icons/cosmic.svg";
 import { Modal } from "../../components/modal/Modal";
 import { useState } from "react";
+import Loading from "../../components/spinner/Loading";
 
 const EventDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { data, isLoading } = useGetEvent();
   console.log(data);
+
   const handleOpenModal = () => {
     setIsModalOpen(true);
     data.Tickets[0];
   };
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) {
+    return <Loading />;
+  }
   if (!data) return <div>There are no details for this event.</div>;
 
   return (
@@ -32,14 +36,17 @@ const EventDetail = () => {
               src={data.image}
               className="rounded-3xl z-0 flex justify-center w-full"
             />
-            <p
-              className="relative text-white p-5 w-full h-20 bg-deco mb-5 font-extrabold text-3xl text-end -mt-20 bg-cover bg-top rounded-b-3xl"
+            <h2
+              className="relative text-white p-5 w-full h-28 mb-5 font-extrabold text-4xl text-end -mt-20 bg-cover bg-top rounded-b-3xl"
               style={{ backgroundImage: `url(${cosmic})` }}
             >
-              <span className="border-l-8 border-otro mx-3 pl-3">
-                {data.city}
-              </span>
-            </p>
+              <p className="flex justify-end h-full">
+                <span className="flex items-center border-l-8 border-otro px-4">
+                  {" "}
+                  {data.city}
+                </span>
+              </p>
+            </h2>
           </div>
           <div className="flex flex-col mt-2">
             <p className="text-4xl border-otro border-b-4 w-72 pb-1 font-semibold pt-5">
@@ -114,12 +121,11 @@ const EventDetail = () => {
                 </div>
               )}
               <div></div>
-              <div className="py-2 mt-5 border border-gray-300 p-4 rounded-md shadow-2xl">
-                <p className="flex w-full justify-center text-2xl font-semibold border-otro border-b-4 py-2">
-                  Ticket Information
-                </p>
-
-                {data.Tickets.length > 0 ? (
+              {data.Tickets.length > 0 ? (
+                <div className="py-2 mt-5 border border-gray-300 p-4 rounded-md shadow-2xl">
+                  <p className="flex w-full justify-center text-2xl font-semibold border-otro border-b-4 py-2">
+                    Ticket Information
+                  </p>
                   <div key={data.Tickets[0].id_ticket}>
                     <div className="flex items-center gap-10 border-b-2 border-zinc-300">
                       <p className="w-48 py-2 text-xl font-bold">
@@ -144,12 +150,17 @@ const EventDetail = () => {
                       Get Tickets
                     </button>
                   </div>
-                ) : (
-                  <button className="flex bg-deco rounded text-button1 px-24 py-2 my-3 font-bold text-xl">
+                </div>
+              ) : (
+                <div className="border border-gray-300 h-40 rounded-md shadow-xl py-3 px-10 mt-10">
+                  <p className="flex w-full justify-center text-2xl font-semibold border-otro border-b-4 py-2">
+                    Ticket Information
+                  </p>
+                  <button className="bg-deco rounded text-button1 px-24 py-2 my-3 font-bold text-xl h-14">
                     FREE
                   </button>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -166,6 +177,7 @@ const EventDetail = () => {
         quantityAvailable={data?.Tickets[0]?.available_quantity}
         id_user={data?.Tickets[0]?.id_user}
         image={data?.image}
+        id_ticket={data?.Tickets[0].id_ticket}
       />
       <BackButton />
     </div>
