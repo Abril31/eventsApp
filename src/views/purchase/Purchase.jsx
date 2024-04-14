@@ -1,17 +1,22 @@
-import React from "react";
 import { useTicketStore } from "../../store/ticketStore";
 import { BackButton } from "../../components/buttons/Buttons";
 import { useAuthStore } from "../../store/authStore";
 import { Link } from "react-router-dom";
 import trash from "../../assets/icons/trash.svg";
+import { BiMinus, BiPlus } from "react-icons/bi";
 
 const Purchase = () => {
   const isLogged = useAuthStore((state) => state.isLogged);
   const cartTickets = useTicketStore((state) => state.cartTickets);
+  const incrementCount = useTicketStore((state) => state.incrementCount);
+  const decrementCount = useTicketStore((state) => state.decrementCount);
+  const clearTickets = useTicketStore((state) => state.clearTickets);
   console.log("Estos son mis tickets agregados al Carrito: ", cartTickets);
+
   const removeFromCartTickets = useTicketStore(
     (state) => state.removeFromCartTickets
   );
+
   const checkout = useTicketStore((state) => state.checkout);
 
   const finalAmount = cartTickets.reduce(
@@ -35,7 +40,7 @@ const Purchase = () => {
   return (
     <div className="flex w-screen h-screen justify-center">
       {isLogged ? (
-        <div className="flex flex-col w-full mx-24 gap-5 place-content-center items-center py-4 mt-10 px-48">
+        <div className="flex flex-col w-full mx-24 gap-5 justify-center items-center py-4 mt-10 px-48">
           <div className="flex w-full justify-between border-y-2 border-deco text-xl font-semibold py-3 ">
             <p className="text-center text-xl flex-none px-64 ml-4">Event</p>
             <p className="w-20 text-center">Price</p>
@@ -50,12 +55,33 @@ const Purchase = () => {
               >
                 <img src={item.image} className="flex" width={290} />
                 <div className="flex w-full justify-between">
-                  <p className="flex w-72 px-10">{item.eventName}</p>
+                  <div className="flex flex-col w-72 px-10">
+                    <p className="text-2xl font-bold">{item.eventName}</p>{" "}
+                    <p className="text-md">{item.location}</p>{" "}
+                    <p className="text-md">
+                      Ticket:{" "}
+                      <span className="text-deco font-semibold">
+                        {item.ticketType}
+                      </span>
+                    </p>
+                  </div>
                   <p className=" w-20 text-center ml-4">$ {item.ticketPrice}</p>
-                  <p className=" w-20 ml-5 text-center">{item.count}</p>
+                  <div className="flex w-20 items-center h-9 ml-6">
+                    <BiMinus
+                      size={50}
+                      className="cursor-pointer bg-deco text-white font-extrabold h-6"
+                      onClick={() => decrementCount(item.idEvent)}
+                    />
+                    <p className=" w-20 text-center">{item.count}</p>
+                    <BiPlus
+                      size={50}
+                      className="cursor-pointer bg-deco text-white font-extrabold h-6"
+                      onClick={() => incrementCount(item.idEvent)}
+                    />
+                  </div>
                   <div className="flex flex-col items-center">
                     <p className="text-xl font-bold text-deco">
-                      $ {item.total}
+                      $ {item.total.toFixed(2)}
                     </p>
                     <button
                       className="flex justify-center rounded px-2 cursor-pointer h-6 w-16 mx-3 text-white mt-5"
@@ -85,7 +111,12 @@ const Purchase = () => {
             </p>
           </div>
           <div className="flex justify-between w-full">
-            <p></p>
+            <button
+              className="bg-red-600 px-2 rounded text-white font-bold"
+              onClick={clearTickets}
+            >
+              Remove All
+            </button>
             <button
               onClick={handleCheckout}
               disabled={finalAmount === 0}

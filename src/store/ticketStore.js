@@ -23,6 +23,10 @@ export const useTicketStore = create(
         total,
         count,
         id_ticket,
+        city,
+        ticketType,
+        location,
+        quantityAvailable,
       }) =>
         set((state) => {
           // Verificar si el ticket ya está en el carrito
@@ -36,29 +40,51 @@ export const useTicketStore = create(
             updatedCartTickets[ticketIndex] = {
               ...updatedCartTickets[ticketIndex],
               count: updatedCartTickets[ticketIndex].count + count,
+              total:
+                (updatedCartTickets[ticketIndex].count + count) * ticketPrice,
             };
+            // Verificar si la cantidad disponible es suficiente
+            if (quantityAvailable >= count) {
+              updatedTicket.quantityAvailable -= count;
+              updatedCartTickets[ticketIndex] = updatedTicket;
+            } else {
+              console.error(
+                "La cantidad solicitada excede la cantidad disponible."
+              );
+              return state; // No actualiza el estado si no hay suficientes tickets disponibles
+            }
             return {
               cartTickets: updatedCartTickets,
               count: state.count + count,
             };
           }
-
-          return {
-            cartTickets: [
-              ...state.cartTickets,
-              {
-                image,
-                eventName,
-                ticketPrice,
-                idEvent,
-                id_user,
-                total,
-                count,
-                id_ticket,
-              },
-            ],
-            count: state.count + count,
-          };
+          if (quantityAvailable >= count) {
+            return {
+              cartTickets: [
+                ...state.cartTickets,
+                {
+                  image,
+                  eventName,
+                  ticketPrice,
+                  idEvent,
+                  id_user,
+                  total,
+                  count,
+                  id_ticket,
+                  city,
+                  ticketType,
+                  location,
+                  quantityAvailable: quantityAvailable - count,
+                },
+              ],
+              count: state.count + count,
+            };
+          } else {
+            console.error(
+              "La cantidad solicitada excede la cantidad disponible."
+            );
+            return state;
+          }
         }),
       removeFromCartTickets: (idEvent) =>
         set((state) => ({
@@ -67,16 +93,45 @@ export const useTicketStore = create(
           ),
         })),
 
-      incrementCount: () =>
+      incrementCount: (idEvent) =>
         set((state) => ({
+          cartTickets: state.cartTickets.map((ticket) =>
+            ticket.idEvent === idEvent
+              ? {
+                  ...ticket,
+                  count: ticket.count + 1,
+                  total: (ticket.count + 1) * ticket.ticketPrice,
+                }
+              : ticket
+          ),
           count: state.count + 1,
         })),
-
-      decrementCount: () =>
+      decrementCount: (idEvent) =>
         set((state) => ({
+          cartTickets: state.cartTickets.map((ticket) =>
+            ticket.idEvent === idEvent
+              ? {
+                  ...ticket,
+                  count: Math.max(ticket.count - 1, 0),
+                  total: Math.max(ticket.count - 1, 0) * ticket.ticketPrice,
+                }
+              : ticket
+          ),
           count: Math.max(state.count - 1, 0),
         })),
 
+      updateCartTicket: (idEvent, count) =>
+        set((state) => ({
+          cartTickets: state.cartTickets.map((ticket) =>
+            ticket.idEvent === idEvent
+              ? {
+                  ...ticket,
+                  count: count,
+                  total: count * ticket.ticketPrice,
+                }
+              : ticket
+          ),
+        })),
       checkout: async (totalAmount) => {
         const stripe = await stripePromise;
 
@@ -86,6 +141,7 @@ export const useTicketStore = create(
           const eventNames = get()
             .cartTickets.map((item) => item.eventName)
             .join(", "); // Convierte la lista de nombres de eventos en una cadena separada por comas
+          const idTickets = get().cartTickets.map((item) => item.id_ticket);
           const response = await axios.post(
             "http://localhost:3001/api/v1/payment/create-checkout-session",
             {
@@ -111,7 +167,13 @@ export const useTicketStore = create(
           console.error("Error al procesar el pago:", error);
         }
       },
+      clearTickets: () =>
+        set((state) => ({
+          cartTickets: [],
+          count: 0,
+        })),
     }),
+
     {
       name: "almacen-tickets",
     }

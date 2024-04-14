@@ -3,6 +3,7 @@ import plus from "../../assets/icons/plus.svg";
 import close from "../../assets/icons/close.svg";
 import { useTicketStore } from "../../store/ticketStore";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 export const Modal = ({
   isOpen,
@@ -16,6 +17,8 @@ export const Modal = ({
   image,
   id_user,
   id_ticket,
+  city,
+  location,
 }) => {
   const count = useTicketStore((state) => state.count);
   const incrementCount = useTicketStore((state) => state.incrementCount);
@@ -34,11 +37,20 @@ export const Modal = ({
       count,
       id_ticket,
       ticketType,
+      city,
+      ticketType,
+      location,
+      quantityAvailable: quantityAvailable - count,
     });
   };
 
   if (!isOpen) return null;
-
+  const handleNotisAdd = () => {
+    toast.success("Ticket Saved");
+  };
+  const handleNotisRem = () => {
+    toast.warning("Ticket Removed");
+  };
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-70 z-50">
       <div className="absolute bg-white p-8 rounded-lg w-4/12">
@@ -68,14 +80,20 @@ export const Modal = ({
               <div className="flex gap-5">
                 <img
                   src={minus}
-                  onClick={decrementCount}
+                  onClick={() => {
+                    decrementCount();
+                    handleNotisRem();
+                  }}
                   className="cursor-pointer"
                   alt="minus"
                 />
                 <p>{count}</p>
                 <img
                   src={plus}
-                  onClick={incrementCount}
+                  onClick={() => {
+                    incrementCount();
+                    handleNotisAdd();
+                  }}
                   className="cursor-pointer"
                   alt="plus"
                 />
@@ -92,11 +110,19 @@ export const Modal = ({
             Total: <span className="flex justify-between">$ {total}</span>
           </div>
         </div>
+        <p className="flex w-full italic font-bold justify-end -mt-3">
+          *Select at least 1 ticket
+        </p>
         <div className="flex justify-end">
           <Link to="/cart">
             <button
-              className="flex font-bold px-4 py-2 bg-otro rounded text-base items-center justify-end mt-4 text-xl hover:scale-110 transition-transform duration-300"
+              className={`flex font-bold px-4 py-2 rounded text-base items-center justify-end mt-4 text-xl transition-transform duration-300 ${
+                count > 0
+                  ? "bg-otro hover:scale-110 cursor-pointer"
+                  : "bg-gray-400 cursor-not-allowed"
+              }`}
               onClick={handleAddToCart}
+              disabled={count === 0}
             >
               Proceed
             </button>
