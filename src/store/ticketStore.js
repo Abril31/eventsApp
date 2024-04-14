@@ -22,11 +22,6 @@ export const useTicketStore = create(
         id_user,
         total,
         count,
-        id_ticket,
-        city,
-        ticketType,
-        location,
-        quantityAvailable,
       }) =>
         set((state) => {
           // Verificar si el ticket ya está en el carrito
