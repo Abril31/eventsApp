@@ -23,8 +23,16 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (email.indexOf("@") === -1) {
+      toast.error("Please, use a valid email address with @ symbol.");
+      return;
+    }
+    if (password.trim() === "") {
+      toast.error("Please, enter your password.");
+      return;
+    }
     if (!isValidEmail(email)) {
-      toast.error("Please enter a valid email address.");
+      toast.error("Please, enter a valid email address.");
       return;
     }
 
@@ -57,7 +65,7 @@ export default function Login() {
             </label>
             <input
               className="block w-full bg-gray-200 border-gray-300 rounded py-2 px-4 text-gray-700"
-              type="email"
+              type="text"
               id="email"
               placeholder="Enter your email"
               value={email}
