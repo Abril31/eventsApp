@@ -155,7 +155,7 @@ export const useTicketStore = create(
             );
 
           const session = response.data;
-          console.log("Sesión de pago creada:", session);
+          console.log("Sesión deee pago creada:", session);
 
           // Cuando se haya creado la sesión de pago, redirige al usuario a la página de pago de Stripe
           const result = await stripe.redirectToCheckout({
