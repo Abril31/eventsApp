@@ -3,7 +3,7 @@ import Home from "./views/Home/Home";
 import { Route, Routes } from "react-router-dom";
 import EventDetail from "./views/detail/EventDetail";
 import { Toaster } from "sonner";
-import Login from "./components/login/Login";
+import Login from "./components/login/login";
 import RegistrationForm from "./components/login/signUp";
 import Footer from "./components/footer/Footer";
 import Category from "./views/categorias/Category";
@@ -27,7 +27,7 @@ function App() {
         <Route path="/categories/:category" element={<Category />} />
         <Route path="/dashboard" element={<HomeDashboard />} />
         <Route path="/dashboard/events/new" element={<CreateEvent />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login/>} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/dashboard/events" element={<AdminEvents />} />
         <Route path="/dashboard/users" element={<AdminUsers />} />
