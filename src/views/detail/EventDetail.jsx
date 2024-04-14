@@ -178,6 +178,8 @@ const EventDetail = () => {
         id_user={data?.Tickets[0]?.id_user}
         image={data?.image}
         id_ticket={data?.Tickets[0].id_ticket}
+        city={data?.city}
+        location={data?.location}
       />
       <BackButton />
     </div>
