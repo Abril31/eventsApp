@@ -139,7 +139,8 @@ export const useTicketStore = create(
             
           const quantity = cartTickets.reduce((total, ticket) => total + ticket.count, 0);
             console.log("quantity", quantity);
-
+            const id_user = cartTickets[0]?.id_user;
+            console.log("id_user", id_user);
         
             const response = await axios.post(
               "http://localhost:3001/api/v1/payment/create-checkout-session",
@@ -147,7 +148,9 @@ export const useTicketStore = create(
                 eventName: eventNames,
                 eventPrice: totalAmount,
                 id_ticket: idEvent,
-                quantity: quantity
+                quantity: quantity,
+                id_user:id_user
+                
               }
             );
 
