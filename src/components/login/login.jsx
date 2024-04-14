@@ -82,7 +82,7 @@ export default function Login() {
               className="block w-full bg-blue-500 text-white font-bold py-2 px-4 hover:bg-blue-700 transition ease-in-out duration-150"
               type="submit"
             >
-              log in
+              Login
             </button>
           </div>
           {/* Componente de autenticación de Google */}
