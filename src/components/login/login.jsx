@@ -20,11 +20,19 @@ export default function Login() {
       navigate("/");
     }
   }, [login, navigate]);
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (email.indexOf("@") === -1) {
+      toast.error("Please, use a valid email address with @ symbol.");
+      return;
+    }
+    if (password.trim() === "") {
+      toast.error("Please, enter your password.");
+      return;
+    }
     if (!isValidEmail(email)) {
-      toast.error("Please enter a valid email address.");
+      toast.error("Please, enter a valid email address.");
       return;
     }
 
@@ -36,7 +44,7 @@ export default function Login() {
       login(response.data);
       // Guardar los datos del usuario en localStorage al iniciar sesión
       localStorage.setItem("userData", JSON.stringify(response.data)); // Llama al método login con el email y la contraseña
-      console.log('localStorage--->', localStorage.userData);
+      console.log("localStorage--->", localStorage.userData);
       navigate("/");
     } catch (error) {
       if (!isValidPassword(password)) {
@@ -57,7 +65,7 @@ export default function Login() {
             </label>
             <input
               className="block w-full bg-gray-200 border-gray-300 rounded py-2 px-4 text-gray-700"
-              type="email"
+              type="text"
               id="email"
               placeholder="Enter your email"
               value={email}
@@ -82,7 +90,7 @@ export default function Login() {
               className="block w-full bg-blue-500 text-white font-bold py-2 px-4 hover:bg-blue-700 transition ease-in-out duration-150"
               type="submit"
             >
-              log in
+              Login
             </button>
           </div>
           {/* Componente de autenticación de Google */}

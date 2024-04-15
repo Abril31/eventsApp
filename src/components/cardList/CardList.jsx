@@ -9,6 +9,7 @@ import up from "../../assets/icons/up.svg";
 import down from "../../assets/icons/down.svg";
 import Paginate from "../pagination/Paginate";
 import { usePaginationStore } from "../../store/paginationStore";
+import Loading from "../spinner/Loading";
 
 const CardList = () => {
   const currentPage = usePaginationStore((state) => state.currentPage);
@@ -30,7 +31,7 @@ const CardList = () => {
     citiesAndCats();
   }, []);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loading />;
   if (!events) return <div>There are no events.</div>;
   if (error) return <div>Something bad happened 😥</div>;
 
