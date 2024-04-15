@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import axios from "axios";
+import api from "../api/events";
 import { toast } from "sonner";
 
 export const useAuthStore = create((set) => {
@@ -72,10 +72,7 @@ export const useAuthStore = create((set) => {
       });
 
       try {
-        const response = await axios.post(
-          `http://localhost:3001/api/v1/register`,
-          userData
-        );
+        const response = await api.post(`/register`, userData);
         const newUser = response.data;
 
         set({
