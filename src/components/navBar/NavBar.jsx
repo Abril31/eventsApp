@@ -47,7 +47,7 @@ const Navbar = () => {
                     <img
                       src={fullCart}
                       alt="Cart"
-                      className="cursor-pointer my-2 ml-3"
+                      className="cursor-pointer my-2 ml-3 animate-pulse filter brightness-150"
                     />
                   ) : (
                     <img
