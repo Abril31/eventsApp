@@ -34,7 +34,7 @@ export const useTicketStore = create(
             (ticket) => ticket.idEvent === idEvent
           );
           console.log("capturadeid",idEvent)
-
+          
           // Actualizas solo las propiedades
           if (ticketIndex !== -1) {
             const updatedCartTickets = [...state.cartTickets];
@@ -139,7 +139,8 @@ export const useTicketStore = create(
             
           const quantity = cartTickets.reduce((total, ticket) => total + ticket.count, 0);
             console.log("quantity", quantity);
-            const id_user = cartTickets[0]?.id_user;
+            const userData = JSON.parse(localStorage.getItem('userData'));
+            const id_user = userData?.id_user || userData?.user_id;
             console.log("id_user", id_user);
         
             const response = await axios.post(
@@ -149,7 +150,8 @@ export const useTicketStore = create(
                 eventPrice: totalAmount,
                 id_ticket: idEvent,
                 quantity: quantity,
-                id_user:id_user
+                id_user:id_user,
+                
                 
               }
             );

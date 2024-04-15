@@ -44,7 +44,7 @@ export const useAuthStore = create((set) => {
         type_user,
         status,
         image,
-        user_id,
+        id_user,
       } = userData;
       set({ user: userData, isLogged: true });
       localStorage.setItem(
@@ -58,7 +58,7 @@ export const useAuthStore = create((set) => {
             type_user,
             status,
             image,
-            user_id,
+            id_user,
           },
           isLogged: true,
         })
