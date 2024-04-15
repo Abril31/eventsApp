@@ -32,6 +32,8 @@ const CreateEvent = () => {
     const [successMessage, setSuccessMessage] = useState("");
     const [previewImage, setPreviewImage] = useState("");
     const [sponsors, setSponsor] = useState([]);
+    const [tickets, setTickets] = useState(2);
+    const [nroSponsors, setNroSponsors] = useState(2);
 
     const openPopup = () => {
         window.open('', 'popup', 'width=400,height=200');
@@ -126,7 +128,7 @@ const CreateEvent = () => {
                 city:'',
                 id_user:'',
                 id_sponsor:'',
-                tickets:{ticket_type:'', price:0}
+                tickets:{ticket_type:'', price:0, available_quantity:0}
             });
             setTimeout(() => {
                 setSuccessMessage("");
@@ -239,6 +241,172 @@ const CreateEvent = () => {
                 {formErrors.city && <p className={styles.errors}>{formErrors.city}</p>}
             </div>
 
+            <div className={styles.formControl}>
+                <label className={styles.city}>Categoria: </label>
+                <input 
+                type="text" 
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+                />
+                {formErrors.category && <p className={styles.errors}>{formErrors.category}</p>}
+            </div>
+            <div name="sponsor" className={styles.sponsors}>
+            Sponsors:
+            <div className={styles.formControl}>
+                <label className={styles.sponsor}>Sponsor 1: </label>
+                <select
+                name="id_sponsor1"
+                value={formData.id_sponsor1}
+                onChange={handleChange}
+                className={styles.select}
+                >
+                <option value='' selected disabled>
+                    Seleccione Primer Sponsor
+                </option>
+                {sponsors.map((sponsor,index) => ( 
+                    <option key={index} value={sponsor.id_sponsor} className={styles.option}>
+                        {sponsor.enterprise_name}
+                    </option>
+                
+                ))}
+                </select>
+            </div>
+
+            <div className={styles.formControl}>
+                <label className={styles.sponsor}>Sponsor 2: </label>
+                <select
+                name="id_sponsor2"
+                value={formData.id_sponsor2}
+                onChange={handleChange}
+                className={styles.select}
+                >
+                <option value='' selected disabled>
+                    Seleccione Segundo Sponsor
+                </option>
+                {sponsors.map((sponsor,index) => ( 
+                    <option key={index} value={sponsor.id_sponsor} className={styles.option}>
+                        {sponsor.enterprise_name}
+                    </option>
+                
+                ))}
+                </select>
+            </div>
+
+            <div className={styles.formControl}>
+                <label className={styles.sponsor}>Sponsor 3: </label>
+                <select
+                name="id_sponsor3"
+                value={formData.id_sponsor3}
+                onChange={handleChange}
+                className={styles.select}
+                >
+                <option value='' selected disabled>
+                    Seleccione Tercer Sponsor
+                </option>
+                {sponsors.map((sponsor,index) => ( 
+                    <option key={index} value={sponsor.id_sponsor} className={styles.option}>
+                        {sponsor.enterprise_name}
+                    </option>
+                
+                ))}
+                </select>
+            </div>
+            </div>
+            <div className={styles.formControl}>
+                <label className={styles.access}>Tipo de Pago: </label>
+                <select
+                name="access"
+                value={formData.access}
+                onChange={handleChange}
+                className={styles.select}
+                >
+                    <option value='' disabled>Seleccione Tipo de Pago</option>
+                    <option value="paid" className={styles.option}>PAID</option>
+                    <option value="free" className={styles.option}>FREE</option>
+                </select>
+                {formErrors.access && <p className={styles.errors}>{formErrors.access}</p>}
+            </div>
+            <div name="tickets" className={styles.tickets}>
+                Datos del Ticket 1:
+                <div id="ticket_1" name="ticket_1">
+                    <div className={styles.formControl}>
+                        <label className={styles.city}>Tipo de Ticket: </label>
+                        <input 
+                        type="text" 
+                        name="ticket_type_1"
+                        value="General 1"
+                        />
+                    </div>
+                    <div className={styles.formControl}>
+                        <label className={styles.available_quantity}>Cantidad de tickets a la venta: </label>
+                        <input 
+                        type="number" 
+                        name="available_quantity_1"
+                        />
+                    </div>
+                    <div className={styles.formControl}>
+                        <label className={styles.available_quantity}>Precio del ticket: </label>
+                        <input 
+                        type="number" 
+                        name="price_1"
+                        />
+                    </div>
+                    <hr/>
+                </div>
+                Datos del Ticket 2:
+                <div id="ticket_2" name="ticket_2">
+                    <div className={styles.formControl}>
+                        <label className={styles.city}>Tipo de Ticket: </label>
+                        <input 
+                        type="text" 
+                        name="ticket_type_2"
+                        value="General 2"
+                        />
+                    </div>
+                    <div className={styles.formControl}>
+                        <label className={styles.available_quantity}>Cantidad de tickets a la venta: </label>
+                        <input 
+                        type="number" 
+                        name="available_quantity_2"
+                        />
+                    </div>
+                    <div className={styles.formControl}>
+                        <label className={styles.available_quantity}>Precio del ticket: </label>
+                        <input 
+                        type="number" 
+                        name="price_2"
+                        />
+                    </div>
+                    <hr/>
+                </div>
+                Datos del Ticket 3:
+                <div id="ticket_3" name="ticket_3">
+                    <div className={styles.formControl}>
+                        <label className={styles.city}>Tipo de Ticket: </label>
+                        <input 
+                        type="text" 
+                        name="ticket_type_3"
+                        value="General 3"
+                        />
+                    </div>
+                    <div className={styles.formControl}>
+                        <label className={styles.available_quantity}>Cantidad de tickets a la venta: </label>
+                        <input 
+                        type="number" 
+                        name="available_quantity_3"
+                        />
+                    </div>
+                    <div className={styles.formControl}>
+                        <label className={styles.available_quantity}>Precio del ticket: </label>
+                        <input 
+                        type="number" 
+                        name="price_3"
+                        />
+                    </div>
+                    <hr/>
+                </div>
+            </div>
             <div>
                 <label className={styles.image} htmlFor="image">
                     Image:
@@ -259,63 +427,6 @@ const CreateEvent = () => {
                 {formErrors.image && (
                     <p className={styles.errors}>{formErrors.image}</p>
                 )}
-            </div>
-
-            <div className={styles.formControl}>
-                <label className={styles.city}>Categoria: </label>
-                <input 
-                type="text" 
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-                />
-                {formErrors.category && <p className={styles.errors}>{formErrors.category}</p>}
-            </div>
-
-            <div className={styles.formControl}>
-                <label className={styles.sponsor}>Sponsor: </label>
-                <select
-                name="id_sponsor"
-                value={formData.id_sponsor}
-                onChange={handleChange}
-                className={styles.select}
-                >
-                <option value='' disabled>
-                    Seleccione Sponsor
-                </option>
-                {sponsors.map((sponsor,index) => ( 
-                    <option key={index} value={sponsor.id_sponsor} className={styles.option}>
-                        {sponsor.enterprise_name}
-                    </option>
-                
-                ))}
-                </select>
-                {formErrors.id_sponsor && <p className={styles.errors}>{formErrors.id_sponsor}</p>}
-            </div>
-
-            <div className={styles.formControl}>
-                <label className={styles.access}>Tipo de evento: </label>
-                <select
-                name="access"
-                value={formData.access}
-                onChange={handleChange}
-                className={styles.select}
-                >
-                    <option value='' disabled>Tipo de evento</option>
-                    <option value="paid" className={styles.option}>PAID</option>
-                    <option value="free" className={styles.option}>FREE</option>
-                </select>
-                {formErrors.access && <p className={styles.errors}>{formErrors.access}</p>}
-            </div>
-            <div className={styles.formControl}>
-                <label className={styles.available_quantity}>Cantidad de tickets a la venta: </label>
-                <input 
-                type="number" 
-                name="available_quantity"
-                value={formData.available_quantity}
-                onChange={handleChange}
-                />
-                {formErrors.available_quantity && <p className={styles.errors}> {formErrors.available_quantity}</p>}
             </div>
             <button type="sumbit"  className={styles.button}>Crear Evento</button>
          </form>
