@@ -148,7 +148,7 @@ export const useTicketStore = create(
           const id_user = userData?.id_user || userData?.user_id;
           console.log("id_user", id_user);
 
-          const response = await api.post("/payment/create-checkout-session", {
+          const response = await api.post("payment/create-checkout-session", {
             eventName: eventNames,
             eventPrice: totalAmount,
             id_ticket: idEvent,
