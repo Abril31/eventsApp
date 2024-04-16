@@ -25,17 +25,19 @@ export const useAuthStore = create((set) => {
     ...initialState(),
     authgoogle: (userData) => {
       // Realizar una solicitud POST para registrar al usuario en la base de datos
-      axios.post("http://localhost:3001/api/v1/register", userData)
+      api
+        .post("/register", userData)
         .then((response) => {
           // Registro exitoso, realizar una solicitud de inicio de sesión
           console.log("Datos del usuario después del registro:", userData); // Registrar los datos del usuario después del registro exitoso
-          axios.post("http://localhost:3001/api/v1/login", userData)
+          api
+            .post("/login", userData)
             .then((response) => {
               // El usuario ha iniciado sesión correctamente
               const { user_id } = response.data;
-              console.log("el id",response.data) // Obtener el id_user de la respuesta de inicio de sesión
+              console.log("el id", response.data); // Obtener el id_user de la respuesta de inicio de sesión
               userData.id_user = user_id; // Asignar el id_user al objeto userData
-                
+
               alert("Inicio de sesión exitoso"); // Mostrar una alerta o notificación
               set({ user: userData, isLogged: true });
               localStorage.setItem(
