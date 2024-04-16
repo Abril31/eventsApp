@@ -49,7 +49,7 @@ export default function Login() {
       localStorage.setItem("userData", JSON.stringify(response.data)); // Llama al método login con el email y la contraseña
       console.log("localStorage--->", localStorage.userData);
       navigate("/");
-      toast.message("successful login")
+      toast.success("successful login")
     } catch (error) {
       if (!isValidPassword(password)) {
         toast.error("Incorrect Password.");

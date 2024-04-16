@@ -46,7 +46,7 @@ export const useAuthStore = create((set) => {
               );
               localStorage.setItem("userData", JSON.stringify(userData)); // Guardar los datos del usuario en el localStorage
               window.location.replace('/');
-              toast.message("successful login"); // Mostrar una alerta o notificación
+              
             })
             .catch((error) => {
               // Error al iniciar sesión
