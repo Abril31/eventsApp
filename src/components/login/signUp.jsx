@@ -2,6 +2,7 @@ import { useAuthStore } from '../../store/authStore';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { isValidEmail, isValidPassword, isValidname } from './validation';
+import Authgoogle from "./authgoogle";
 
 
 export default function RegistrationForm() {
@@ -125,6 +126,8 @@ export default function RegistrationForm() {
         >
           Sign Up
         </button>
+          {/* Componente de autenticación de Google */}
+          <Authgoogle />
       </div>
     </div>
   );
