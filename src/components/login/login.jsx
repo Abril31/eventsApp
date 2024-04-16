@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore"; // Importa useAuthStore
 import { isValidEmail, isValidPassword } from "./validation";
-
+import Authgoogle from "./authgoogle";
 import api from "../../api/events";
 import { toast } from "sonner";
 
@@ -46,6 +46,7 @@ export default function Login() {
       localStorage.setItem("userData", JSON.stringify(response.data)); // Llama al método login con el email y la contraseña
       console.log("localStorage--->", localStorage.userData);
       navigate("/");
+      toast.message("successful login")
     } catch (error) {
       if (!isValidPassword(password)) {
         toast.error("Incorrect Password.");
@@ -94,7 +95,7 @@ export default function Login() {
             </button>
           </div>
           {/* Componente de autenticación de Google */}
-          <AuthgoogleLogin />
+          <Authgoogle />
         </form>
       </div>
     </div>

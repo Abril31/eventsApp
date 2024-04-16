@@ -11,3 +11,7 @@ export function isValidEmail(email) {
     const nameParts = name.split(' ');
     return nameParts.length === 2 && nameParts.every((part) => part.trim().length > 0);
   }
+  export function isValidImage(image) {
+    const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
+    return urlRegex.test(image);
+  }

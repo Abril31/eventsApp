@@ -36,7 +36,6 @@ export const useAuthStore = create((set) => {
               console.log("el id",response.data) // Obtener el id_user de la respuesta de inicio de sesión
               userData.id_user = user_id; // Asignar el id_user al objeto userData
                 
-              alert("Inicio de sesión exitoso"); // Mostrar una alerta o notificación
               set({ user: userData, isLogged: true });
               localStorage.setItem(
                 "authState",
@@ -46,7 +45,8 @@ export const useAuthStore = create((set) => {
                 })
               );
               localStorage.setItem("userData", JSON.stringify(userData)); // Guardar los datos del usuario en el localStorage
-              //window.location.replace('/');
+              window.location.replace('/');
+              toast.message("successful login"); // Mostrar una alerta o notificación
             })
             .catch((error) => {
               // Error al iniciar sesión
@@ -70,6 +70,15 @@ export const useAuthStore = create((set) => {
         image,
         id_user,
       } = userData;
+    
+      // Check if the access is false (i.e., banned user)
+      if (access === false) {
+        // Display a toast message indicating that the user is banned
+        toast("Usuario baneado");
+        return; // Exit the function and prevent login
+      }
+    
+      // Continue with the login process for non-banned users
       set({ user: userData, isLogged: true });
       localStorage.setItem(
         "authState",
@@ -127,7 +136,7 @@ export const useAuthStore = create((set) => {
       localStorage.removeItem("authState");
       localStorage.removeItem("login");
       localStorage.removeItem("userData");
-      localStorage.removeItem("id_user");
+      localStorage.removeItem("authStateLogin");
     },
   };
 });

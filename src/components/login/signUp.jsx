@@ -1,8 +1,8 @@
 import { useAuthStore } from '../../store/authStore';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { isValidEmail, isValidPassword, isValidname } from './validation';
-
+import { isValidEmail, isValidPassword, isValidname,isValidImage } from './validation';
+import { toast } from "sonner";
 
 
 export default function RegistrationForm() {
@@ -18,17 +18,21 @@ export default function RegistrationForm() {
     event.preventDefault();
   
     if (!isValidname(name)) {
-      setErrorMessage('Please enter your full name.');
+      toast.error('Please enter your full name.');
       return;
     }
   
     if (!isValidEmail(email)) {
-      setErrorMessage('Please enter a valid email address.');
+      toast.error('Please enter a valid email address.');
       return;
     }
   
     if (!isValidPassword(password)) {
-      setErrorMessage('Password should be at least 6 characters long.');
+      toast.error('Password should be at least 6 characters long.');
+      return;
+    }
+    if (!isValidImage(image)) {
+      toast.error('Por favor ingresa una URL de imagen válida.');
       return;
     }
   
@@ -43,6 +47,7 @@ export default function RegistrationForm() {
     try {
       await register(userData);
       navigate('/');
+      toast.message("Successful registration")
       setErrorMessage('');
     } catch (error) {
       const errorMessage = error.response
