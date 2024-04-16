@@ -71,14 +71,14 @@ export const useAuthStore = create((set) => {
         id_user,
       } = userData;
     
-      // Check if the access is false (i.e., banned user)
-      if (access === false) {
-        // Display a toast message indicating that the user is banned
+    
+      if (status === false) {
+      
         toast("Usuario baneado");
-        return; // Exit the function and prevent login
+        return; 
       }
     
-      // Continue with the login process for non-banned users
+      
       set({ user: userData, isLogged: true });
       localStorage.setItem(
         "authState",
