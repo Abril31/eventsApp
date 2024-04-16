@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore"; // Importa useAuthStore
 import { isValidEmail, isValidPassword } from "./validation";
-import Authgoogle from "./authgoogle";
+import AuthgoogleLogin from "./authgoogleLogin";
 import api from "../../api/events";
 import { toast } from "sonner";
 
@@ -94,7 +94,7 @@ export default function Login() {
             </button>
           </div>
           {/* Componente de autenticación de Google */}
-          <Authgoogle />
+          <AuthgoogleLogin />
         </form>
       </div>
     </div>
