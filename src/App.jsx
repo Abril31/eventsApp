@@ -21,6 +21,7 @@ function App() {
   return (
     <div className="flex flex-col h-screen justify-between">
       <NavBar />
+      <Toaster richColors position="top-center" />
       <Routes>
         <Route path="/register" element={<RegistrationForm />} />
         <Route path="/" element={<Home />} />
@@ -37,7 +38,7 @@ function App() {
         <Route path="/succes" element={<Succes />} />
         <Route path="/about" element={<AboutUs />} />
       </Routes>
-      <Toaster richColors position="top-right" />
+
       <Footer />
     </div>
   );

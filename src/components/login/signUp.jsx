@@ -1,58 +1,52 @@
 import { useAuthStore } from '../../store/authStore';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { isValidEmail, isValidPassword, isValidname,isValidImage } from './validation';
-import { toast } from "sonner";
+import { isValidEmail, isValidPassword, isValidname } from './validation';
+
 
 
 export default function RegistrationForm() {
-  const [name, setName] = useState(''); // Cambiado de 'fullName' a 'name'
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [image, setImage] = useState('');
+  const [name, setName] = useState(""); // Cambiado de 'fullName' a 'name'
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [image, setImage] = useState("");
   const navigate = useNavigate();
   const { register } = useAuthStore();
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     if (!isValidname(name)) {
-      toast.error('Please enter your full name.');
+      setErrorMessage('Please enter your full name.');
       return;
     }
-  
+
     if (!isValidEmail(email)) {
-      toast.error('Please enter a valid email address.');
+      setErrorMessage('Please enter a valid email address.');
       return;
     }
-  
+
     if (!isValidPassword(password)) {
-      toast.error('Password should be at least 6 characters long.');
+      setErrorMessage('Password should be at least 6 characters long.');
       return;
     }
-    if (!isValidImage(image)) {
-      toast.error('Por favor ingresa una URL de imagen válida.');
-      return;
-    }
-  
+
     const userData = {
       name,
       email,
       password,
       image,
-    
     };
-  
+
     try {
       await register(userData);
       navigate('/');
-      toast.message("Successful registration")
       setErrorMessage('');
     } catch (error) {
       const errorMessage = error.response
-        ? error.response.data.message || 'Registration failed.'
-        : 'Unable to reach the server. Please check your connection.';
+        ? error.response.data.message || "Registration failed."
+        : "Unable to reach the server. Please check your connection.";
       setErrorMessage(errorMessage);
     }
   };
@@ -117,7 +111,7 @@ export default function RegistrationForm() {
                 className="mt-2"
                 src={image}
                 alt="User Image"
-                style={{ maxWidth: '100px' }}
+                style={{ maxWidth: "100px" }}
               />
             )}
           </div>

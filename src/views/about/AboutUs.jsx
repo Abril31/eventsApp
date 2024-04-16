@@ -1,5 +1,6 @@
 import mission from "../../assets/images/mission.png";
 import story from "../../assets/images/story.png";
+
 const AboutUs = () => {
   return (
     <div className="flex flex-col justify-center">
@@ -39,6 +40,7 @@ const AboutUs = () => {
           </p>
         </div>
       </div>
+      <div></div>
     </div>
   );
 };
