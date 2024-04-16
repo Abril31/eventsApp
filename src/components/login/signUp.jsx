@@ -45,8 +45,9 @@ export default function RegistrationForm() {
 
     try {
       await register(userData);
-      navigate('/');
-      setErrorMessage('');
+      navigate("/");
+      setErrorMessage("");
+      toast.success("Your Account was successfully created");
     } catch (error) {
       const errorMessage = error.response
         ? error.response.data.message || "Registration failed."
