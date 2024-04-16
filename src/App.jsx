@@ -16,6 +16,7 @@ import AdminUsers from "./components/Dashboard/AdminUser/AdminUsers";
 import AdminSponsors from "./components/Dashboard/AdminSponsors/AdminSponsors";
 import Purchase from "./views/purchase/Purchase";
 import Succes from "./views/succes/Succes";
+import AboutUs from "./views/about/AboutUs";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
         <Route path="/dashboard/sponsor" element={<AdminSponsors />} />
         <Route path="/cart" element={<Purchase />} />
         <Route path="/succes" element={<Succes />} />
+        <Route path="/about" element={<AboutUs />} />
       </Routes>
       <Toaster richColors position="top-right" />
       <Footer />

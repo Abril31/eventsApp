@@ -23,16 +23,42 @@ export const useAuthStore = create((set) => {
 
   return {
     ...initialState(),
-
     authgoogle: (userData) => {
-      set({ user: userData, isLogged: true });
-      localStorage.setItem(
-        "authState",
-        JSON.stringify({
-          user: userData,
-          isLogged: true,
+      // Realizar una solicitud POST para registrar al usuario en la base de datos
+      api
+        .post("/register", userData)
+        .then((response) => {
+          // Registro exitoso, realizar una solicitud de inicio de sesión
+          console.log("Datos del usuario después del registro:", userData); // Registrar los datos del usuario después del registro exitoso
+          api
+            .post("/login", userData)
+            .then((response) => {
+              // El usuario ha iniciado sesión correctamente
+              const { user_id } = response.data;
+              console.log("el id", response.data); // Obtener el id_user de la respuesta de inicio de sesión
+              userData.id_user = user_id; // Asignar el id_user al objeto userData
+
+              alert("Inicio de sesión exitoso"); // Mostrar una alerta o notificación
+              set({ user: userData, isLogged: true });
+              localStorage.setItem(
+                "authState",
+                JSON.stringify({
+                  user: userData,
+                  isLogged: true,
+                })
+              );
+              localStorage.setItem("userData", JSON.stringify(userData)); // Guardar los datos del usuario en el localStorage
+              //window.location.replace('/');
+            })
+            .catch((error) => {
+              // Error al iniciar sesión
+              console.error("Error al iniciar sesión:", error);
+            });
         })
-      );
+        .catch((error) => {
+          // Error al registrar al usuario
+          console.error("Error al registrar al usuario:", error);
+        });
     },
 
     login: (userData) => {
@@ -100,6 +126,7 @@ export const useAuthStore = create((set) => {
       localStorage.removeItem("authState");
       localStorage.removeItem("login");
       localStorage.removeItem("userData");
+      localStorage.removeItem("id_user");
     },
   };
 });

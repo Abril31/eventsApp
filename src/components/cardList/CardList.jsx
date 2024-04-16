@@ -225,6 +225,7 @@ const CardList = () => {
               startHour={event.start_hour}
               category={event.category}
               access={event.access}
+              rating={event.rating}
             />
           ))}
         </div>
