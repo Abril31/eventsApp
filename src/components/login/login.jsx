@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore"; // Importa useAuthStore
 import { isValidEmail, isValidPassword } from "./validation";
-import AuthgoogleLogin from "./authgoogleLogin";
+
 import api from "../../api/events";
 import { toast } from "sonner";
 
