@@ -70,15 +70,7 @@ export const useAuthStore = create((set) => {
         image,
         id_user,
       } = userData;
-    
-    
-      if (status === false) {
-      
-        toast("Usuario baneado");
-        return; 
-      }
-    
-      
+  
       set({ user: userData, isLogged: true });
       localStorage.setItem(
         "authState",

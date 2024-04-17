@@ -36,9 +36,6 @@ export default function Login() {
       return;
     }
 
-    
-
-   
     try {
       const response = await api.post("/login", {
         email,
@@ -49,15 +46,20 @@ export default function Login() {
       localStorage.setItem("userData", JSON.stringify(response.data)); // Llama al método login con el email y la contraseña
       console.log("localStorage--->", localStorage.userData);
       navigate("/");
-      toast.success("successful login")
+      toast.success("successful login");
     } catch (error) {
       if (!isValidPassword(password)) {
         toast.error("Incorrect Password.");
         return;
       }
-      console.error("Error en el login:", error);
+      if (error.response && error.response.status === 403 && error.response.data === "User Banned, please contact with your admin") {
+        toast.error("The user has been banned. Please contact the administrator.");
+      } else {
+        console.error("Error en el login:", error);
+      }
     }
   };
+
 
   return (
     <div className="login-container justify-center">
