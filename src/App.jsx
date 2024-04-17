@@ -15,11 +15,13 @@ import AdminUsers from "./components/Dashboard/AdminUser/AdminUsers";
 import AdminSponsors from "./components/Dashboard/AdminSponsors/AdminSponsors";
 import Purchase from "./views/purchase/Purchase";
 import Succes from "./views/succes/Succes";
+import AboutUs from "./views/about/AboutUs";
 
 function App() {
   return (
     <div className="flex flex-col h-screen justify-between">
       <NavBar />
+      <Toaster richColors position="top-center" />
       <Routes>
         <Route path="/register" element={<RegistrationForm />} />
         <Route path="/" element={<Home />} />
@@ -27,15 +29,16 @@ function App() {
         <Route path="/categories/:category" element={<Category />} />
         <Route path="/dashboard" element={<HomeDashboard />} />
         <Route path="/dashboard/events/new" element={<CreateEvent />} />
-        <Route path="/login" element={<Login/>} />
+        <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/dashboard/events" element={<AdminEvents />} />
         <Route path="/dashboard/users" element={<AdminUsers />} />
         <Route path="/dashboard/sponsor" element={<AdminSponsors />} />
         <Route path="/cart" element={<Purchase />} />
         <Route path="/succes" element={<Succes />} />
+        <Route path="/about" element={<AboutUs />} />
       </Routes>
-      <Toaster richColors position="top-right" />
+
       <Footer />
     </div>
   );

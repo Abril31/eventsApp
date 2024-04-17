@@ -26,6 +26,7 @@ const CardList = () => {
 
   const [access, setAccess] = useState("All");
   const { data: events, isLoading, error } = useAllEvents();
+
   // Cats and cities
   useEffect(() => {
     citiesAndCats();
@@ -225,6 +226,8 @@ const CardList = () => {
               startHour={event.start_hour}
               category={event.category}
               access={event.access}
+              rating={event.rating}
+              status={event.status}
             />
           ))}
         </div>

@@ -1,12 +1,15 @@
 import { Link } from "react-router-dom";
+import { useTicketStore } from "../../store/ticketStore";
 import { useAuthStore } from "../../store/authStore";
 import styles from "./navBar.module.css";
 import profile from "../../assets/icons/profile.svg";
 import cart from "../../assets/icons/cart.svg";
-
+import fullCart from "../../assets/icons/fullCart.svg";
 const Navbar = () => {
   const { isLogged, logout, user } = useAuthStore();
-  console.log("Nav Bar user-->", user);
+  const cartTickets = useTicketStore((state) => state.cartTickets);
+  console.log(cartTickets);
+  console.log("user-->", user);
   const renderUserImage = () => {
     if (user.image) {
       return <img src={user.image} alt="Profile" className={styles.image} />;
@@ -36,15 +39,23 @@ const Navbar = () => {
           {/* Mostrar el icono de perfil y el botón de Logout si el usuario ha iniciado sesión */}
           {isLogged ? (
             <>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 <p className="text-white">{user.name}</p>
                 <Link to="/profile">{renderUserImage()}</Link>
                 <Link to="/cart">
-                  <img
-                    src={cart}
-                    alt="Cart"
-                    className="cursor-pointer my-2 mx-3"
-                  />
+                  {cartTickets.length > 0 ? (
+                    <img
+                      src={fullCart}
+                      alt="Cart"
+                      className="cursor-pointer my-2 ml-3 animate-pulse filter brightness-150"
+                    />
+                  ) : (
+                    <img
+                      src={cart}
+                      alt="Cart"
+                      className="cursor-pointer my-2 ml-3"
+                    />
+                  )}
                 </Link>
               </div>
               <button

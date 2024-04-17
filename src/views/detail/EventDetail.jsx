@@ -8,11 +8,13 @@ import cosmic from "../../assets/icons/cosmic.svg";
 import { Modal } from "../../components/modal/Modal";
 import { useState } from "react";
 import Loading from "../../components/spinner/Loading";
+import EventReviews from "../../components/reviews/EventReviews";
 
 const EventDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { data, isLoading } = useGetEvent();
+
   console.log(data);
 
   const handleOpenModal = () => {
@@ -22,7 +24,10 @@ const EventDetail = () => {
   if (isLoading) {
     return <Loading />;
   }
-  if (!data) return <div>There are no details for this event.</div>;
+
+  if (!data) {
+    return <div>There are no details for this event.</div>;
+  }
 
   return (
     <div className="flex flex-col my-10 mx-10">
@@ -42,7 +47,6 @@ const EventDetail = () => {
             >
               <p className="flex justify-end h-full">
                 <span className="flex items-center border-l-8 border-otro px-4">
-                  {" "}
                   {data.city}
                 </span>
               </p>
@@ -163,6 +167,9 @@ const EventDetail = () => {
               )}
             </div>
           </div>
+          <div className="flex flex-col mt-10 p-2">
+            <EventReviews id_event={data?.id_event} />
+          </div>
         </div>
       </div>
 
@@ -177,7 +184,7 @@ const EventDetail = () => {
         quantityAvailable={data?.Tickets[0]?.available_quantity}
         id_user={data?.Tickets[0]?.id_user}
         image={data?.image}
-        id_ticket={data?.Tickets[0].id_ticket}
+        id_ticket={data?.Tickets[0]?.id_ticket}
         city={data?.city}
         location={data?.location}
       />
