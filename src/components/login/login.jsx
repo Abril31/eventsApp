@@ -54,6 +54,8 @@ export default function Login() {
       }
       if (error.response && error.response.status === 403 && error.response.data === "User Banned, please contact with your admin") {
         toast.error("The user has been banned. Please contact the administrator.");
+        setEmail("");
+        setPassword("");
       } else {
         console.error("Error en el login:", error);
       }
