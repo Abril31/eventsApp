@@ -95,8 +95,6 @@ const HomeDashboard = () => {
             <th className={styles.name}>Imagen</th>
             <th className={styles.name}>Ciudad</th>
             <th className={styles.name}>Estado</th>
-            <th className={styles.name}>Votos</th>
-            <th className={styles.name}>Acciones</th>
           </tr>
         </thead>
         <tbody>
