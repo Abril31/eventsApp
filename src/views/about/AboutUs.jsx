@@ -1,5 +1,6 @@
 import mission from "../../assets/images/mission.png";
 import story from "../../assets/images/story.png";
+import SliderSponsors from "../../components/carousel/Slider";
 
 const AboutUs = () => {
   return (
@@ -40,7 +41,9 @@ const AboutUs = () => {
           </p>
         </div>
       </div>
-      <div></div>
+      <div className="mt-20 mr-20">
+        <SliderSponsors />
+      </div>
     </div>
   );
 };
