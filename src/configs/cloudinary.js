@@ -64,13 +64,17 @@ export const enterImg = enter
 
 //Imágenes about
 const tech1 = cld.image("event_images/logos/TechInnovations_cvckez");
-export const tech1Img = tech1.resize(fill().width(450).height(450));
+export const tech1Img = tech1.resize(fill().width(300).height(300));
 const olivia = cld.image("event_images/logos/OliviaWilsonGallery_euhjlh");
-export const oliviaImg = olivia.resize(fill().width(450).height(450));
+export const oliviaImg = olivia.resize(fill().width(300).height(300));
 const foodLogo = cld.image("event_images/logos/HotSauceCo_u2fnis");
-export const foodLogoImg = foodLogo.resize(fill().width(450).height(450));
+export const foodLogoImg = foodLogo.resize(fill().width(300).height(300));
 const madison = cld.image("event_images/logos/madisonLogo_r5bzzo");
-export const madisonImg = madison.resize(fill().width(450).height(450));
+export const madisonImg = madison.resize(fill().width(300).height(300));
 
 const global = cld.image("event_images/logos/GlobalSolutionsCo_khfnyu");
-export const globalImg = global.resize(fill().width(450).height(450));
+export const globalImg = global.resize(fill().width(300).height(300));
+
+//Imágenes Equipo
+const leo = cld.image("leo");
+export const leoImg = leo.resize(fill().width(100).height(100));
