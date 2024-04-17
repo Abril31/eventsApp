@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { useAuthStore } from "../../../store/authStore";
 import styles from './adminUsers.module.css';
 
 const AdminUsers = () => {
     const [users, setUsers] = useState([]);
+    const { user } = useAuthStore();
+    console.log('admin users userData--->', user);
     const url="http://localhost:3001/api/v1";
 
     const fetchUsers = async () => {
@@ -75,10 +78,10 @@ const AdminUsers = () => {
                                 {user.type_user === "admin" ? "Quitar Admin" : "Hacer Admin"}
                             </button>
                             <button
-                                className={`${styles.bannedButton} ${user.state ? styles.unbanned : styles.banned}`}
-                                onClick={() => handleBanUser(user.id, !user.state)}
+                                className={`${styles.bannedButton} ${user.status ? styles.unbanned : styles.banned}`}
+                                onClick={() => handleBanUser(user.user_id, !user.status)}
                             >
-                                {user.state ? "Banear" : "Desbanear"}
+                                {user.status ? "Banear" : "Desbanear"}
                             </button>
                         </div>
                     </li>

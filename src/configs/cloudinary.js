@@ -7,6 +7,8 @@ import { face } from "@cloudinary/url-gen/qualifiers/focusOn";
 const cld = new Cloudinary({
   cloud: {
     cloudName: "dcvxjhqk8",
+    api_key: '521923274491417', 
+    api_secret: 'RqUuw470QhKw4mzq0t_pyTRRcWg'
   },
 });
 

@@ -34,9 +34,10 @@ const CreateEvent = () => {
     const [sponsors, setSponsor] = useState([]);
     const [tickets, setTickets] = useState(2);
     const [nroSponsors, setNroSponsors] = useState(2);
+    const cloudinaryUploadPreset = "events";
 
     const openPopup = () => {
-        window.open('', 'popup', 'width=400,height=200');
+        window.alert('', 'popup', 'width=400,height=200');
         setPopupOpen(true);
     }
     useEffect(() => {
@@ -67,35 +68,35 @@ const CreateEvent = () => {
 
     const handleImage = async (event) => {
         const selectedImage = event.target.files [0];
-  
+        console.log('selectedImage---> ', selectedImage);
         if(selectedImage){
           setPreviewImage(URL.createObjectURL(selectedImage))
-        
-         try{
-             const formData = new FormData();
-             formData.append("image",selectedImage);
+          const formData = new FormData();
+          formData.append("file", selectedImage);
+          formData.append("upload_preset", cloudinaryUploadPreset);
   
-             const cloudinaryResponse = await axios.post(`${baseURL}/imagenes/uploadImage`,formData,{
-              headers: {
-                  "Content-Type": "multipart/form-data",
+          try {
+              const cloudinaryResponse = await axios.post(
+                  `https://api.cloudinary.com/v1_1/${cloudinary.cloud_name}/image/upload`,
+                  formData,
+                  {
+                      headers: {
+                          "Content-Type": "multipart/form-data",
+                      }
+                  }
+              );
+  
+              if (cloudinaryResponse.status === 200) {
+                  const imageUrl = cloudinaryResponse.data.secure_url;
+                  console.log("Imagen subida a Cloudinary exitosamente:", imageUrl);
+                  setPreviewImage(imageUrl);
+              } else {
+                  console.error("Error al subir la imagen a Cloudinary");
               }
-             })
-  
-             if(cloudinaryResponse.status === 200 ){
-              const cloudinaryData = cloudinaryResponse.data;
-              console.log("Imagen subida a Cloudinary exitosamente:", cloudinaryData.imageUrl);
-              setFormData((prevData) => ({
-                  ...prevData,
-                  imagen:cloudinaryData.imageUrl
-              }))
-              console.log("formData--->", formData);
-             }else{
-              console.error("Error al subir la imagen a Cloudinary")
-             }
-  
-         }catch(error){
-          console.error("Error al enviar la imagen a Cloudinary:", error);
-      }
+          } catch (error) {
+              console.error("Error al enviar la imagen a Cloudinary:", error);
+          }
+         
     } else {
       setPreviewImage("");
     }

@@ -6,7 +6,7 @@ import cart from "../../assets/icons/cart.svg";
 
 const Navbar = () => {
   const { isLogged, logout, user } = useAuthStore();
-  console.log("user-->", user);
+  console.log("Nav Bar user-->", user);
   const renderUserImage = () => {
     if (user.image) {
       return <img src={user.image} alt="Profile" className={styles.image} />;

@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
+import { useAuthStore } from "../../../store/authStore";
 import React, { useEffect, useState } from "react";
 import styles from "./homeDashboard.module.css";
 import axios from "axios";
 
 const HomeDashboard = () => {
+  const { user } = useAuthStore();
+  console.log("DasjBoard user-->", user);
   const [events, setevents] = useState([]);
   const url="http://localhost:3001/api/v1";
 
@@ -32,9 +35,7 @@ const HomeDashboard = () => {
     );
     if (confirmRestore) {
       try {
-        await axios.put(`${url}/events/change/${id_event}`, {
-          status: true,
-        });
+        await axios.put(`${url}/updateevent/${user.user_id}/${id_event}/true`);
         const response = await axios.get(`${url}/getallevents`);
         setevents(response.data);
       } catch (error) {
@@ -49,9 +50,7 @@ const HomeDashboard = () => {
     );
     if (confirmDelete) {
       try {
-        await axios.put(`${url}/events/change/${id_event}`, {
-          status: false,
-        });
+        await axios.put(`${url}/updateevent/${user.user_id}/${id_event}/false`);
         const response = await axios.get(`${url}/getallevents`);
         setevents(response.data);
       } catch (error) {
@@ -59,7 +58,12 @@ const HomeDashboard = () => {
       }
     }
   };
-
+  events.map(async (event) => {
+    if (new Date(event.end_date) < new Date()) {
+      await axios.put(`${url}/updateevent/${user.user_id}/${event.id_event}/false`);
+    }
+  });
+  events.sort((a, b) => new Date(a.start_date) - new Date(b.start_date));
   return (
     <div className={styles.eventsContainer}>
       <div className={styles.buttonContainer}>
@@ -126,16 +130,28 @@ const HomeDashboard = () => {
                     Eliminar
                   </button>
                 ) : (
-                  <button
-                    className={`${styles.actionButton} ${styles.restoreButton}`}
-                    onClick={() => restoreEvent(event.id_event)}
-                  >
-                    Restaurar
-                  </button>
+                  (() => {
+                    const isEventExpired = new Date(event.end_date) < new Date();
+                    if (!isEventExpired) {
+                      return (
+                        <button
+                          className={`${styles.actionButton} ${styles.restoreButton}`}
+                          onClick={() => restoreEvent(event.id_event)}
+                        >
+                          Restaurar
+                        </button>
+                      );
+                    }
+                    return null;
+                  })()
                 )}
-                <Link to={`/dashboard/modifications/events/${event.id_event}`} className={styles.linkEditar}>
-                  Editar
-                </Link>
+                {new Date(event.end_date) > new Date() ? (
+                  <Link to={`/dashboard/modifications/events/${event.id_event}`} className={styles.linkEditar}>
+                    Editar
+                  </Link>
+                ) : (
+                  <span>Finalizado</span>
+                )}
               </td>
             </tr>
           ))}

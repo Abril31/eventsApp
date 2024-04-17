@@ -158,13 +158,14 @@ const Profile = () => {
             <input id="upload-image" type="file" accept="image/*" onChange={handleImageChange} className={styles.hiddenInput} />
             <FaCamera />
           </label>
-          <h3 className={styles.profileSectionTitle}>Nombre:</h3>
+          <h3 className={styles.profileSectionTitle}>Nombre:
           <input
             type="text"
+            value={user.name}
             {...register('nombre', { required: 'El nombre es requerido', maxLength: { value: 20, message: 'El nombre no puede tener más de 20 caracteres' } })}
           />
           {errors.nombre && <p className={styles.errorMessage}>{errors.nombre.message}</p>}
-
+          </h3>
           <h3 className={styles.profileSectionTitle}>Teléfono:</h3>
           <input
             type="text"
