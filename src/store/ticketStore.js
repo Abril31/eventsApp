@@ -147,7 +147,7 @@ export const useTicketStore = create(
             mode: "payment",
             cancelUrl: "https://events-app-eta-ruddy.vercel.app/#/cart",
 
-            successUrl: "https://events-app-eta-ruddy.vercel.app/#/success",
+            successUrl: "https://events-app-eta-ruddy.vercel.app/#/succes",
           });
           if (error) {
             console.error("Error al redirigir a la página de pago:", error);
