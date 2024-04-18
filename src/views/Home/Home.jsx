@@ -1,12 +1,10 @@
-import { useAuthStore } from "../../store/authStore";
 import CategoryBar from "../../components/categoryBar/CategoryBar";
 import CardList from "../../components/cardList/CardList";
 import Carousel from "../../components/carousel/Carousel";
 
 const Home = () => {
   //Filtros
-  const { user } = useAuthStore();
-  
+
   return (
     <>
       <div className="flex justify-between items-center">
@@ -16,8 +14,8 @@ const Home = () => {
       <div>
         <Carousel />
         <CategoryBar />
-        <h1 className="mx-40 mt-10 mb-4 w-3/12 px-10 font-extrabold text-3xl">
-          EVENTS
+        <h1 className="mx-52 mt-10 mb-4 w-3/12 px-10 font-extrabold text-3xl flex ">
+          ALL EVENTS
         </h1>
       </div>
 
