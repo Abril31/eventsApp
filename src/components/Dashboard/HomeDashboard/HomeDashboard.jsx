@@ -66,7 +66,7 @@ const HomeDashboard = () => {
   };
   events.map(async (event) => {
     if (new Date(event.end_date) < new Date()) {
-      await axios.put(
+      await api.put(
         `${url}/updateevent/${user.user_id}/${event.id_event}/false`
       );
     }
