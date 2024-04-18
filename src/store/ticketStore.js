@@ -7,7 +7,7 @@ import { persist } from "zustand/middleware";
 //   "pk_test_51P1uzsRtxcncuebvqofmHPj5v0MnrsAj3c5rUj4GtgrE0Pj3LcCmd1Mxdx0wf1kj5AuTd7WR6fIEiIPFOquAvl5i0060tOGXTS"
 // ); // Reemplaza "pk_test_tu_clave_publica" con tu clave pública de Stripe
 
-const stripePromise = loadStripe(process.env.STRIPE_ID);
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_ID);
 
 export const useTicketStore = create(
   persist(
