@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { loadStripe } from "../../vite.config/";
+import { loadStripe } from "@stripe/stripe-js";
 import { persist } from "zustand/middleware";
 
 // Carga la instancia de Stripe con tu clave pública
