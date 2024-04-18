@@ -1,9 +1,18 @@
 import { Link } from "react-router-dom";
+import { useAuthStore } from "../../../store/authStore";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./homeDashboard.module.css";
 
 const HomeDashboard = () => {
+  const { user } = useAuthStore();
+  console.log("DasjBoard user-->", user);
   const [events, setevents] = useState([]);
+  const navigate = useNavigate();
+  const url = "http://localhost:3001/api/v1";
+  if (user.type_user !== "admin") {
+    navigate("/");
+  }
 
   useEffect(() => {
     const fetchevents = async () => {
@@ -32,10 +41,8 @@ const HomeDashboard = () => {
     );
     if (confirmRestore) {
       try {
-        await api.put(`/getallevents/events/change/${id_event}`, {
-          status: true,
-        });
-        const response = await api.get("/getallevents");
+        await axios.put(`${url}/updateevent/${user.user_id}/${id_event}/true`);
+        const response = await axios.get(`${url}/getallevents`);
         setevents(response.data);
       } catch (error) {
         console.error("Error al actualizar evento:", error);
@@ -49,17 +56,22 @@ const HomeDashboard = () => {
     );
     if (confirmDelete) {
       try {
-        await api.delete(`/getallevents/events/change/${id_event}`, {
-          status: false,
-        });
-        const response = await api.get("/getallevents");
+        await axios.put(`${url}/updateevent/${user.user_id}/${id_event}/false`);
+        const response = await axios.get(`${url}/getallevents`);
         setevents(response.data);
       } catch (error) {
         console.error("Error al eliminar evento:", error);
       }
     }
   };
-
+  events.map(async (event) => {
+    if (new Date(event.end_date) < new Date()) {
+      await axios.put(
+        `${url}/updateevent/${user.user_id}/${event.id_event}/false`
+      );
+    }
+  });
+  events.sort((a, b) => new Date(a.start_date) - new Date(b.start_date));
   return (
     <div className={styles.eventsContainer}>
       <div className={styles.buttonContainer}>
@@ -97,8 +109,6 @@ const HomeDashboard = () => {
             <th className={styles.name}>Imagen</th>
             <th className={styles.name}>Ciudad</th>
             <th className={styles.name}>Estado</th>
-            <th className={styles.name}>Votos</th>
-            <th className={styles.name}>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -139,19 +149,32 @@ const HomeDashboard = () => {
                     Eliminar
                   </button>
                 ) : (
-                  <button
-                    className={`${styles.actionButton} ${styles.restoreButton}`}
-                    onClick={() => restoreEvent(event.id_event)}
-                  >
-                    Restaurar
-                  </button>
+                  (() => {
+                    const isEventExpired =
+                      new Date(event.end_date) < new Date();
+                    if (!isEventExpired) {
+                      return (
+                        <button
+                          className={`${styles.actionButton} ${styles.restoreButton}`}
+                          onClick={() => restoreEvent(event.id_event)}
+                        >
+                          Restaurar
+                        </button>
+                      );
+                    }
+                    return null;
+                  })()
                 )}
-                <Link
-                  to={`/dashboard/modifications/events/${event.id_event}`}
-                  className={styles.linkEditar}
-                >
-                  Editar
-                </Link>
+                {new Date(event.end_date) > new Date() ? (
+                  <Link
+                    to={`/dashboard/modifications/events/${event.id_event}`}
+                    className={styles.linkEditar}
+                  >
+                    Editar
+                  </Link>
+                ) : (
+                  <span>Finalizado</span>
+                )}
               </td>
             </tr>
           ))}

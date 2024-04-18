@@ -38,7 +38,6 @@ export const useAuthStore = create((set) => {
               console.log("el id", response.data); // Obtener el id_user de la respuesta de inicio de sesión
               userData.id_user = user_id; // Asignar el id_user al objeto userData
 
-              alert("Inicio de sesión exitoso"); // Mostrar una alerta o notificación
               set({ user: userData, isLogged: true });
               localStorage.setItem(
                 "authState",
@@ -48,7 +47,7 @@ export const useAuthStore = create((set) => {
                 })
               );
               localStorage.setItem("userData", JSON.stringify(userData)); // Guardar los datos del usuario en el localStorage
-              //window.location.replace('/');
+              window.location.replace("/");
             })
             .catch((error) => {
               // Error al iniciar sesión
@@ -72,6 +71,7 @@ export const useAuthStore = create((set) => {
         image,
         id_user,
       } = userData;
+
       set({ user: userData, isLogged: true });
       localStorage.setItem(
         "authState",
@@ -126,7 +126,8 @@ export const useAuthStore = create((set) => {
       localStorage.removeItem("authState");
       localStorage.removeItem("login");
       localStorage.removeItem("userData");
-      localStorage.removeItem("id_user");
+      localStorage.removeItem("authStateLogin");
+      window.location.replace("/");
     },
   };
 });

@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import { gapi } from "gapi-script";
 import GoogleLogin from "react-google-login";
 import { useAuthStore } from "../../store/authStore"; // Importa el hook useAuthStore
-
-function AuthgoogleLogin() {
+import { toast } from "sonner";
+function Authgoogle() {
   const clientID =
-    "820127376127-j56dpiu9dsl9aok9aiv4namiu6m9egac.apps.googleusercontent.com";
+    "438503221838-iuce1ukmr3gdpfvgh06btgp8v4qfi8g5.apps.googleusercontent.com";
   const [user, setUser] = useState({});
   const { authgoogle } = useAuthStore(); // Obtiene la función login del store
 
@@ -23,6 +23,7 @@ function AuthgoogleLogin() {
     setUser(userData);
     authgoogle(userData); // Almacena el objeto de usuario completo utilizando la función login del store
     console.log("que hay ahora?", userData);
+    toast.success("successful login");
     // window.location.replace('/');
   };
   useEffect(() => {
