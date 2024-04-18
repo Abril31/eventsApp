@@ -10,10 +10,10 @@ import queryClient from "./queryClient.js";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <HashRouter>
+      <BrowserRouter>
         <App />
         <ReactQueryDevtools initialIsOpen={false} />
-      </HashRouter>
+      </BrowserRouter>
     </QueryClientProvider>
   </React.StrictMode>
 );
