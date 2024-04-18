@@ -27,6 +27,7 @@ export const useTicketStore = create(
         ticketType,
         location,
         quantityAvailable,
+        price_cat,
       }) =>
         set((state) => {
           // Verificar si el ticket ya está en el carrito
@@ -76,7 +77,9 @@ export const useTicketStore = create(
                   ticketType,
                   location,
                   quantityAvailable: quantityAvailable - count,
+                  price_cat
                 },
+                
               ],
               count: state.count + count,
             };
@@ -85,101 +88,101 @@ export const useTicketStore = create(
               "La cantidad solicitada excede la cantidad disponible."
             );
             return state;
+            
           }
         }),
-      removeFromCartTickets: (idEvent) =>
+        removeFromCartTickets: (idEvent) =>
         set((state) => ({
           cartTickets: state.cartTickets.filter(
             (item) => item.idEvent !== idEvent
           ),
         })),
-
-      incrementCount: (idEvent) =>
+        
+        incrementCount: (idEvent) =>
         set((state) => ({
           cartTickets: state.cartTickets.map((ticket) =>
             ticket.idEvent === idEvent
-              ? {
-                  ...ticket,
-                  count: ticket.count + 1,
-                  total: (ticket.count + 1) * ticket.ticketPrice,
-                }
-              : ticket
+            ? {
+              ...ticket,
+              count: ticket.count + 1,
+              total: (ticket.count + 1) * ticket.ticketPrice,
+            }
+            : ticket
           ),
           count: state.count + 1,
         })),
-      decrementCount: (idEvent) =>
+        decrementCount: (idEvent) =>
         set((state) => ({
           cartTickets: state.cartTickets.map((ticket) =>
-            ticket.idEvent === idEvent
-              ? {
-                  ...ticket,
-                  count: Math.max(ticket.count - 1, 0),
-                  total: Math.max(ticket.count - 1, 0) * ticket.ticketPrice,
-                }
-              : ticket
-          ),
-          count: Math.max(state.count - 1, 0),
-        })),
-
-        checkout: async (totalAmount) => {
-          const stripe = await stripePromise;
+          ticket.idEvent === idEvent
+          ? {
+            ...ticket,
+            count: Math.max(ticket.count - 1, 0),
+            total: Math.max(ticket.count - 1, 0) * ticket.ticketPrice,
+          }
+          : ticket
+        ),
+        count: Math.max(state.count - 1, 0),
+      })),
+      
+      
+      Payment: async () => {
+        const stripe = await stripePromise;
+        const { cartTickets } = get();
+        console.log("aca pa", cartTickets)
+          try {
+            console.log("esto hay en prueba",PRUEBA);
+            // Crear los items para el checkout
+            const lineItems = cartTickets.map((ticket) => ({
+              price: 'price_1P6acSRtxcncuebvGcSkVrhg',
+              // Obtener el precio del evento correspondiente , // Reemplaza 'priceId' con la clave del precio en Stripe
+              quantity: ticket.count,
+            }));
+            
+            // Redirigir al checkout de Stripe
+            const { error } = await stripe.redirectToCheckout({
+              lineItems,
+              mode: 'payment',
+              successUrl: 'http://localhost:5173/#/succes',
+              cancelUrl: 'http://localhost:5173/#/cart',
+            });
+            if (error) {
+              console.error("Error al redirigir a la página de pago:", error);
+            }
+          } catch (error) {
+            console.error("Error al procesar el pago:", error);
+          }
+        } ,
+        checkout: async () => {
+          const cartTickets = get().cartTickets;
         
           try {
-            // Realiza la petición al endpoint utilizando Axios
-            console.log("Procesando pago...");
-            const cartTickets = get().cartTickets;
-            const eventNames = cartTickets.map((item) => item.eventName).join(", ");
-            console.log("Datos en cartTickets:", cartTickets);
-        
-            // Aquí asumimos que todos los tickets en el carrito pertenecen al mismo evento
-            // y tomamos el idEvent del primer ticket. Si este no es el caso, necesitarás
-            // ajustar este código para manejar múltiples idEvents.
-            const idEvent = cartTickets[0]?.idEvent;
-            console.log("id", idEvent);
-            
-          const quantity = cartTickets.reduce((total, ticket) => total + ticket.count, 0);
-            console.log("quantity", quantity);
-            const userData = JSON.parse(localStorage.getItem('userData'));
-            const id_user = userData?.id_user || userData?.user_id;
-            console.log("id_user", id_user);
-        
-            const response = await axios.post(
-              "http://localhost:3001/api/v1/payment/create-checkout-session",
-              {
-                eventName: eventNames,
-                eventPrice: totalAmount,
-                id_ticket: idEvent,
-                quantity: quantity,
-                id_user:id_user,
-                
-                
-              }
-            );
-
-          const session = response.data;
-          console.log("Sesión deee pago creada:", session);
-
-          // Cuando se haya creado la sesión de pago, redirige al usuario a la página de pago de Stripe
-          const result = await stripe.redirectToCheckout({
-            sessionId: session.id,
-          });
-
-          if (result.error) {
-            // Muestra un mensaje de error al usuario si algo sale mal
-            console.error("Error al procesar el pago:", result.error.message);
+            for (const ticket of cartTickets) {
+              const response = await axios.post(
+                "http://localhost:3001/api/v1/payment/success",
+                {
+                  id_ticket: ticket.id_ticket,
+                  quantity: ticket.count,
+                  id_user:ticket.id_user
+                  // Otros datos necesarios para la llamada
+                }
+              );
+              console.log("Respuesta de la API para ticket", ticket.idEvent, ":", response.data);
+            }
+            console.log("Proceso de tickets completado.");
+          } catch (error) {
+            console.error("Error al procesar los tickets:", error);
           }
-        } catch (error) {
-          // Maneja cualquier error que pueda ocurrir durante la petición
-          console.error("Error al procesar el pago:", error);
-        }
       },
+        
+        
       clearTickets: () =>
         set((state) => ({
           cartTickets: [],
           count: 0,
         })),
     }),
-
+      
     {
       name: "almacen-tickets",
     }
