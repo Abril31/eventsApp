@@ -174,8 +174,8 @@ const CreateEvent = () => {
       console.log(
         `URL---> ${baseURL}/registerevent/${user.user_id || user.id_user}`
       );
-      const newEvent = await axios.post(
-        `${baseURL}/registerevent/${user.user_id || user.id_user}`,
+      const newEvent = await api.post(
+        `/registerevent/${user.user_id || user.id_user}`,
         dataEvent
       );
       console.log("Nuevo evento--->", newEvent.data);
@@ -190,7 +190,7 @@ const CreateEvent = () => {
           id_user: user.user_id || user.id_user,
         });
         console.log("Objeto para ticket 1--->", dataTicket);
-        await axios.post(`${baseURL}/createticket/${id_event}`, dataTicket);
+        await api.post(`/createticket/${id_event}`, dataTicket);
       }
       if (formData.ticket_name_2) {
         setDataTicket({
@@ -201,7 +201,7 @@ const CreateEvent = () => {
           id_user: user.user_id || user.id_user,
         });
         console.log("Objeto para ticket 1--->", dataTicket);
-        await axios.post(`${baseURL}/createticket/${id_event}`, dataTicket);
+        await api.post(`/createticket/${id_event}`, dataTicket);
       }
       if (formData.ticket_name_3) {
         setDataTicket({
@@ -212,7 +212,7 @@ const CreateEvent = () => {
           id_user: user.user_id || user.id_user,
         });
         console.log("Objeto para ticket 1--->", dataTicket);
-        await axios.post(`${baseURL}/createticket/${id_event}`, dataTicket);
+        await api.post(`/createticket/${id_event}`, dataTicket);
       }
       setSuccessMessage("Evento creado exitosamente.");
       setFormData({
