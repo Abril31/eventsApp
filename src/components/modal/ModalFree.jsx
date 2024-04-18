@@ -18,6 +18,7 @@ export const ModalFree = ({
   city,
   location,
   startHour,
+  id_ticket,
 }) => {
   const count = useTicketStore((state) => state.count);
   const incrementCount = useTicketStore((state) => state.incrementCount);
@@ -28,12 +29,12 @@ export const ModalFree = ({
   useEffect(() => {
     setTicketsDisponibles(5000 - count);
   }, [count]);
-  const generateTicketId = () => {
-    const min = 500;
-    const max = 5000;
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  };
-  const id_ticket = generateTicketId();
+  // const generateTicketId = () => {
+  //   const min = 500;
+  //   const max = 5000;
+  //   return Math.floor(Math.random() * (max - min + 1)) + min;
+  // };
+  // const id_ticket = generateTicketId();
 
   if (!isOpen) return null;
 
@@ -61,7 +62,7 @@ export const ModalFree = ({
         eventName,
         idEvent,
         quantity: count,
-        id_ticket: 9, //llega por parámetro
+        id_ticket, //llega por parámetro
       });
 
       if (response.status === 200) {
@@ -73,7 +74,7 @@ export const ModalFree = ({
         console.error("Failed to grab tickets");
       }
     } catch (error) {
-      // Error al realizar la solicitud, manejarlo aquí
+      toast.error("We couldn't proccess your request, try later, please");
       console.error("Error grabbing tickets:", error);
     }
   };
