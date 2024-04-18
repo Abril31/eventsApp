@@ -18,7 +18,7 @@ export const useTicketStore = create(
         image,
         eventName,
         ticketPrice,
-        idEvent,  
+        idEvent,
         id_user,
         total,
         count,
@@ -27,14 +27,15 @@ export const useTicketStore = create(
         ticketType,
         location,
         quantityAvailable,
+        price_cat,
       }) =>
         set((state) => {
           // Verificar si el ticket ya está en el carrito
           const ticketIndex = state.cartTickets.findIndex(
             (ticket) => ticket.idEvent === idEvent
           );
-          console.log("capturadeid",idEvent)
-          
+          console.log("capturadeid", idEvent);
+
           // Actualizas solo las propiedades
           if (ticketIndex !== -1) {
             const updatedCartTickets = [...state.cartTickets];
@@ -75,6 +76,7 @@ export const useTicketStore = create(
                   city,
                   ticketType,
                   location,
+                  price_cat,
                   quantityAvailable: quantityAvailable - count,
                 },
               ],
@@ -121,40 +123,43 @@ export const useTicketStore = create(
           count: Math.max(state.count - 1, 0),
         })),
 
-        checkout: async (totalAmount) => {
-          const stripe = await stripePromise;
-        
-          try {
-            // Realiza la petición al endpoint utilizando Axios
-            console.log("Procesando pago...");
-            const cartTickets = get().cartTickets;
-            const eventNames = cartTickets.map((item) => item.eventName).join(", ");
-            console.log("Datos en cartTickets:", cartTickets);
-        
-            // Aquí asumimos que todos los tickets en el carrito pertenecen al mismo evento
-            // y tomamos el idEvent del primer ticket. Si este no es el caso, necesitarás
-            // ajustar este código para manejar múltiples idEvents.
-            const idEvent = cartTickets[0]?.idEvent;
-            console.log("id", idEvent);
-            
-          const quantity = cartTickets.reduce((total, ticket) => total + ticket.count, 0);
-            console.log("quantity", quantity);
-            const userData = JSON.parse(localStorage.getItem('userData'));
-            const id_user = userData?.id_user || userData?.user_id;
-            console.log("id_user", id_user);
-        
-            const response = await axios.post(
-              "http://localhost:3001/api/v1/payment/create-checkout-session",
-              {
-                eventName: eventNames,
-                eventPrice: totalAmount,
-                id_ticket: idEvent,
-                quantity: quantity,
-                id_user:id_user,
-                
-                
-              }
-            );
+      checkout: async (totalAmount) => {
+        const stripe = await stripePromise;
+
+        try {
+          // Realiza la petición al endpoint utilizando Axios
+          console.log("Procesando pago...");
+          const cartTickets = get().cartTickets;
+          const eventNames = cartTickets
+            .map((item) => item.eventName)
+            .join(", ");
+          console.log("Datos en cartTickets:", cartTickets);
+
+          // Aquí asumimos que todos los tickets en el carrito pertenecen al mismo evento
+          // y tomamos el idEvent del primer ticket. Si este no es el caso, necesitarás
+          // ajustar este código para manejar múltiples idEvents.
+          const idEvent = cartTickets[0]?.idEvent;
+          console.log("id", idEvent);
+
+          const quantity = cartTickets.reduce(
+            (total, ticket) => total + ticket.count,
+            0
+          );
+          console.log("quantity", quantity);
+          const userData = JSON.parse(localStorage.getItem("userData"));
+          const id_user = userData?.id_user || userData?.user_id;
+          console.log("id_user", id_user);
+
+          const response = await axios.post(
+            "http://localhost:3001/api/v1/payment/create-checkout-session",
+            {
+              eventName: eventNames,
+              eventPrice: totalAmount,
+              id_ticket: idEvent,
+              quantity: quantity,
+              id_user: id_user,
+            }
+          );
 
           const session = response.data;
           console.log("Sesión deee pago creada:", session);
