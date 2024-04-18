@@ -249,7 +249,7 @@ const CreateEvent = () => {
             }, 3000);
 
         window.alert("Evento guardado exitosamente");
-        navigate("/");
+        navigate("/#/home");
 
     } catch (error) {
        
