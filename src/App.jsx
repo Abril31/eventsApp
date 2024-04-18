@@ -1,6 +1,6 @@
 import NavBar from "./components/navBar/NavBar";
 import Home from "./views/Home/Home";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import EventDetail from "./views/detail/EventDetail";
 import { Toaster } from "sonner";
 import Login from "./components/login/login";
@@ -16,15 +16,20 @@ import AdminSponsors from "./components/Dashboard/AdminSponsors/AdminSponsors";
 import Purchase from "./views/purchase/Purchase";
 import Succes from "./views/succes/Succes";
 import AboutUs from "./views/about/AboutUs";
+import LandingPage from "./views/landing/LandingPage";
 
 function App() {
+  const location = useLocation();
+  const isLandingPage = location.pathname === "/";
+
   return (
     <div className="flex flex-col h-screen justify-between">
-      <NavBar />
+      {!isLandingPage && <NavBar />}
       <Toaster richColors position="top-center" />
       <Routes>
+        <Route path="/" element={<LandingPage />} />
         <Route path="/register" element={<RegistrationForm />} />
-        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/evento/:id" element={<EventDetail />} />
         <Route path="/categories/:category" element={<Category />} />
         <Route path="/dashboard" element={<HomeDashboard />} />
@@ -39,7 +44,7 @@ function App() {
         <Route path="/about" element={<AboutUs />} />
       </Routes>
 
-      <Footer />
+      {!isLandingPage && <Footer />}
     </div>
   );
 }

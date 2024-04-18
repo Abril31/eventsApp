@@ -20,18 +20,19 @@ const AboutUs = () => {
         <div className="flex mt-6 mx-28 gap-3">
           <div className="flex justify-end items-center">
             <p className="text-2xl px-28 py-2 w-4/5 font-medium">
-              "At EventApp, our mission is to connect people with unforgettable
-              experiences by providing a platform where they can easily discover
-              and access a diverse array of events from around the world. We
-              believe in the power of events to inspire, entertain, and enrich
-              lives. Our platform serves as a hub for individuals seeking to
-              explore and engage with a wide range of cultural, entertainment,
-              and educational experiences. Whether it's a music concert, a
-              theater performance, a sports match, or a culinary festival, we
-              strive to make the process of discovering and attending events
-              seamless and enjoyable for our users. Our mission is to facilitate
-              connections, foster community, and ensure that every ticket
-              purchased leads to an extraordinary and memorable experience."
+              "At <strong>HORIZON EVENTS</strong>, our mission is to connect
+              people with unforgettable experiences by providing a platform
+              where they can easily discover and access a diverse array of
+              events from around the world. We believe in the power of events to
+              inspire, entertain, and enrich lives. Our platform serves as a hub
+              for individuals seeking to explore and engage with a wide range of
+              cultural, entertainment, and educational experiences. Whether it's
+              a music concert, a theater performance, a sports match, or a
+              culinary festival, we strive to make the process of discovering
+              and attending events seamless and enjoyable for our users. Our
+              mission is to facilitate connections, foster community, and ensure
+              that every ticket purchased leads to an extraordinary and
+              memorable experience."
             </p>
             <img src={mission} className="w-1/4" />
           </div>
