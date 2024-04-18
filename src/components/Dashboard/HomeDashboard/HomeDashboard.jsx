@@ -3,7 +3,7 @@ import { useAuthStore } from "../../../store/authStore";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./homeDashboard.module.css";
-import api from "../api/events";
+import api from "../../../api/events";
 const HomeDashboard = () => {
   const { user } = useAuthStore();
   console.log("DasjBoard user-->", user);
