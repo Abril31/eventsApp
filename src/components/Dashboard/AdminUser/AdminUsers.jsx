@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../../../store/authStore";
 import styles from "./adminUsers.module.css";
@@ -13,7 +12,7 @@ const AdminUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await api.get("$/getallusers");
+      const response = await api.get("/getallusers");
       let sortedUsers = response.data;
       if (order === "asc") {
         sortedUsers = response.data.sort((a, b) =>
