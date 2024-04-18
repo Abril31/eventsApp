@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Succes.css";
 import pago from "../../assets/icons/pago.svg";
-import axios from "axios";
+import api from "../../api/events";
 import { useTicketStore } from "../../store/ticketStore";
 
 const Success = () => {
@@ -13,15 +13,12 @@ const Success = () => {
     const fetchData = async () => {
       try {
         for (const ticket of cartTickets) {
-          const response = await axios.post(
-            "http://localhost:3001/api/v1/payment/create-checkout-session",
-            {
-              id_ticket: ticket.id_ticket,
-              quantity: ticket.count,
-              id_user: ticket.id_user
-              // Otros datos necesarios para la llamada
-            }
-          );
+          const response = await api.post("/payment/create-checkout-session", {
+            id_ticket: ticket.id_ticket,
+            quantity: ticket.count,
+            id_user: ticket.id_user,
+            // Otros datos necesarios para la llamada
+          });
           console.log(
             "Respuesta de la API para el ticket",
             ticket.idEvent,
@@ -35,10 +32,10 @@ const Success = () => {
       }
       await clearTickets();
     };
-    
+
     fetchData();
   }, []); // El array de dependencias vacío asegura que el efecto se ejecute solo una vez
-  
+
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <div className="success-container">
