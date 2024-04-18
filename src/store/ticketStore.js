@@ -1,12 +1,7 @@
 import { create } from "zustand";
 import { loadStripe } from "@stripe/stripe-js";
 import { persist } from "zustand/middleware";
-
-// Carga la instancia de Stripe con tu clave pública
-// const stripePromise = loadStripe(
-//   "pk_test_51P1uzsRtxcncuebvqofmHPj5v0MnrsAj3c5rUj4GtgrE0Pj3LcCmd1Mxdx0wf1kj5AuTd7WR6fIEiIPFOquAvl5i0060tOGXTS"
-// ); // Reemplaza "pk_test_tu_clave_publica" con tu clave pública de Stripe
-
+import api from "../api/events";
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_ID);
 
 export const useTicketStore = create(
@@ -150,8 +145,9 @@ export const useTicketStore = create(
           const { error } = await stripe.redirectToCheckout({
             lineItems,
             mode: "payment",
-            cancelUrl: "http://localhost:5173/#/cart",
-            successUrl: "http://localhost:5173/#/succes",
+            cancelUrl: "https://events-app-eta-ruddy.vercel.app/#/cart",
+
+            successUrl: "https://events-app-eta-ruddy.vercel.app/#/success",
           });
           if (error) {
             console.error("Error al redirigir a la página de pago:", error);
