@@ -5,7 +5,7 @@ import { useAuthStore } from "../../store/authStore"; // Importa el hook useAuth
 import { toast } from "sonner";
 function AuthgoogleLogin() {
   const clientID =
-    "438503221838-iuce1ukmr3gdpfvgh06btgp8v4qfi8g5.apps.googleusercontent.com";
+    "820127376127-j56dpiu9dsl9aok9aiv4namiu6m9egac.apps.googleusercontent.com";
   const [user, setUser] = useState({});
   const { authgoogle } = useAuthStore(); // Obtiene la función login del store
 
