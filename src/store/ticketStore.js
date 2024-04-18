@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { loadStripe } from "@stripe/stripe-js";
 
 import { persist } from "zustand/middleware";
 

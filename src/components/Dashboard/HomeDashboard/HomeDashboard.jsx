@@ -3,13 +3,13 @@ import { useAuthStore } from "../../../store/authStore";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./homeDashboard.module.css";
-
+import api from "../api/events";
 const HomeDashboard = () => {
   const { user } = useAuthStore();
   console.log("DasjBoard user-->", user);
   const [events, setevents] = useState([]);
   const navigate = useNavigate();
-  const url = "http://localhost:3001/api/v1";
+
   if (user.type_user !== "admin") {
     navigate("/");
   }
@@ -41,8 +41,8 @@ const HomeDashboard = () => {
     );
     if (confirmRestore) {
       try {
-        await axios.put(`${url}/updateevent/${user.user_id}/${id_event}/true`);
-        const response = await axios.get(`${url}/getallevents`);
+        await api.put(`/updateevent/${user.user_id}/${id_event}/true`);
+        const response = await axios.get(`/getallevents`);
         setevents(response.data);
       } catch (error) {
         console.error("Error al actualizar evento:", error);
@@ -56,8 +56,8 @@ const HomeDashboard = () => {
     );
     if (confirmDelete) {
       try {
-        await axios.put(`${url}/updateevent/${user.user_id}/${id_event}/false`);
-        const response = await axios.get(`${url}/getallevents`);
+        await api.put(`${url}/updateevent/${user.user_id}/${id_event}/false`);
+        const response = await api.get("/getallevents");
         setevents(response.data);
       } catch (error) {
         console.error("Error al eliminar evento:", error);

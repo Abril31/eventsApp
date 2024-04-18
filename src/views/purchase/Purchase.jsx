@@ -4,7 +4,6 @@ import { useAuthStore } from "../../store/authStore";
 import { Link } from "react-router-dom";
 import trash from "../../assets/icons/trash.svg";
 import { BiMinus, BiPlus } from "react-icons/bi";
-import { loadStripe } from "@stripe/stripe-js";
 
 const Purchase = () => {
   const isLogged = useAuthStore((state) => state.isLogged);
@@ -34,8 +33,8 @@ const Purchase = () => {
   const handleCheckout = async () => {
     try {
       await Payment(finalAmount); // Pasa el valor total como argumento
-      
-      console.log("Checkout exitoso",Checkout);
+
+      console.log("Checkout exitoso", Checkout);
     } catch (error) {
       console.error("Error al procesar el pago:", error);
     }

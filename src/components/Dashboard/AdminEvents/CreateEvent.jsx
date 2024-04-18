@@ -3,11 +3,11 @@ import { useAuthStore } from "../../../store/authStore";
 import { Cloudinary } from "@cloudinary/url-gen";
 import validation from "./validationEvent";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../../api/events";
 import styles from "./creationEvent.module.css";
 
 const CreateEvent = () => {
-  const baseURL = "http://localhost:3001/api/v1";
+  //const baseURL = "http://localhost:3001/api/v1";
 
   const { user } = useAuthStore();
   const [errorMessage, setErrorMessage] = useState("");
@@ -71,7 +71,7 @@ const CreateEvent = () => {
   useEffect(() => {
     const fetchSponsors = async () => {
       try {
-        const response = await axios.get(`${baseURL}/sponsor`);
+        const response = await axios.get("/sponsor");
         setSponsor(response.data);
       } catch (error) {
         console.error("Error al obtener a los Sponsors:", error);
