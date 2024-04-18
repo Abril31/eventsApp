@@ -32,6 +32,8 @@ export const useTicketStore = create(
       }) =>
         set((state) => {
           // Verificar si el ticket ya está en el carrito
+          console.log("Valor de quantityAvailable:", quantityAvailable);
+
           const ticketIndex = state.cartTickets.findIndex(
             (ticket) => ticket.idEvent === idEvent
           );
@@ -80,7 +82,6 @@ export const useTicketStore = create(
                   price,
                   quantityAvailable: quantityAvailable - count,
                 },
-                
               ],
               count: state.count + count,
             };
@@ -89,44 +90,42 @@ export const useTicketStore = create(
               "La cantidad solicitada excede la cantidad disponible."
             );
             return state;
-            
           }
         }),
-        removeFromCartTickets: (idEvent) =>
+      removeFromCartTickets: (idEvent) =>
         set((state) => ({
           cartTickets: state.cartTickets.filter(
             (item) => item.idEvent !== idEvent
           ),
         })),
-        
-        incrementCount: (idEvent) =>
+
+      incrementCount: (idEvent) =>
         set((state) => ({
           cartTickets: state.cartTickets.map((ticket) =>
             ticket.idEvent === idEvent
-            ? {
-              ...ticket,
-              count: ticket.count + 1,
-              total: (ticket.count + 1) * ticket.ticketPrice,
-            }
-            : ticket
+              ? {
+                  ...ticket,
+                  count: ticket.count + 1,
+                  total: (ticket.count + 1) * ticket.ticketPrice,
+                }
+              : ticket
           ),
           count: state.count + 1,
         })),
-        decrementCount: (idEvent) =>
+      decrementCount: (idEvent) =>
         set((state) => ({
           cartTickets: state.cartTickets.map((ticket) =>
-          ticket.idEvent === idEvent
-          ? {
-            ...ticket,
-            count: Math.max(ticket.count - 1, 0),
-            total: Math.max(ticket.count - 1, 0) * ticket.ticketPrice,
-          }
-          : ticket
-        ),
-        count: Math.max(state.count - 1, 0),
-      })),
-      
-      
+            ticket.idEvent === idEvent
+              ? {
+                  ...ticket,
+                  count: Math.max(ticket.count - 1, 0),
+                  total: Math.max(ticket.count - 1, 0) * ticket.ticketPrice,
+                }
+              : ticket
+          ),
+          count: Math.max(state.count - 1, 0),
+        })),
+
       Payment: async () => {
         const stripe = await stripePromise;
         const { cartTickets } = get();
@@ -173,7 +172,7 @@ export const useTicketStore = create(
           count: 0,
         })),
     }),
-      
+
     {
       name: "almacen-tickets",
     }

@@ -18,9 +18,9 @@ const EventReviews = ({ id_event }) => {
   const toggleShowReviews = () => {
     setShowReviews(!showReviews);
   };
-  const counter = eventReview.length;
+  const counter = eventReview?.length;
   const filteredUsers = users?.filter((user) =>
-    eventReview.some((review) => review.id_user === user.id_user)
+    eventReview?.some((review) => review.id_user === user.id_user)
   );
 
   return (

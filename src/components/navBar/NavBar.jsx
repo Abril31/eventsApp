@@ -5,6 +5,7 @@ import styles from "./navBar.module.css";
 import profile from "../../assets/icons/profile.svg";
 import cart from "../../assets/icons/cart.svg";
 import fullCart from "../../assets/icons/fullCart.svg";
+import logo from "../../assets/images/logo.png";
 const Navbar = () => {
   const { isLogged, logout, user } = useAuthStore();
   const cartTickets = useTicketStore((state) => state.cartTickets);
@@ -20,8 +21,9 @@ const Navbar = () => {
   return (
     <>
       <div className="flex justify-between gap-10 bg-base text-xl items-center font-jomhuria">
-        <div className="flex ml-5">
-          <Link to="/">
+        <div className="flex items-center mx-5">
+          <img src={logo} width={100} />
+          <Link to="/home">
             <h2 className="text-white border-r-4 border-otro pr-3 cursor-pointer my-5 mx-3">
               HOME
             </h2>
@@ -32,9 +34,7 @@ const Navbar = () => {
             </h2>
           </Link>
         </div>
-        <div className="flex items-center">
-          <h1 className="text-white text-4xl font-jomhuria mb-2">EventApp</h1>
-        </div>
+
         <div className="flex gap-6 items-center my-2">
           {/* Mostrar el icono de perfil y el botón de Logout si el usuario ha iniciado sesión */}
           {isLogged ? (

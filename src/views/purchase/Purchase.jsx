@@ -4,6 +4,7 @@ import { useAuthStore } from "../../store/authStore";
 import { Link } from "react-router-dom";
 import trash from "../../assets/icons/trash.svg";
 import { BiMinus, BiPlus } from "react-icons/bi";
+import { loadStripe } from "@stripe/stripe-js";
 
 const Purchase = () => {
   const isLogged = useAuthStore((state) => state.isLogged);
@@ -18,15 +19,17 @@ const Purchase = () => {
   );
 
   const Payment = useTicketStore((state) => state.Payment);
-  const Checkout = useTicketStore((state) => state.Checkout)
+  const Checkout = useTicketStore((state) => state.Checkout);
   const finalAmount = cartTickets.reduce(
     (total, item) => total + item.total,
     0
   );
-    console.log("ACa", cartTickets)
+  console.log("ACa", cartTickets);
   const handleRemoveFromCart = (idEvent) => {
     removeFromCartTickets(idEvent);
   };
+
+  //Payment
 
   const handleCheckout = async () => {
     try {
