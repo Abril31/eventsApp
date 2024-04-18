@@ -9,6 +9,7 @@ import { Modal } from "../../components/modal/Modal";
 import { useState } from "react";
 import Loading from "../../components/spinner/Loading";
 import EventReviews from "../../components/reviews/EventReviews";
+import { ModalFree } from "../../components/modal/ModalFree";
 
 const EventDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,6 +22,11 @@ const EventDetail = () => {
     setIsModalOpen(true);
     data.Tickets[0];
   };
+
+  const openModalFree = () => {
+    setIsModalOpen(true);
+  };
+
   if (isLoading) {
     return <Loading />;
   }
@@ -138,7 +144,7 @@ const EventDetail = () => {
                       <div className="flex justify-end">
                         <p className="text-xl">
                           <span className="font-semibold">
-                            $ {data.Tickets[0].price}
+                            $ {+data.Tickets[0].price}
                           </span>
                         </p>
                       </div>
@@ -154,15 +160,46 @@ const EventDetail = () => {
                       Get Tickets
                     </button>
                   </div>
+                  <Modal
+                    isOpen={isModalOpen}
+                    closeModal={() => setIsModalOpen(false)}
+                    idEvent={data.id_event}
+                    eventName={data.name}
+                    startDate={formatDate(data.start_date)}
+                    ticketType={data?.Tickets[0]?.ticket_type}
+                    ticketPrice={+data?.Tickets[0]?.price}
+                    quantityAvailable={data?.Tickets[0]?.available_quantity}
+                    id_user={data?.Tickets[0]?.id_user}
+                    image={data?.image}
+                    id_ticket={data?.Tickets[0]?.id_ticket}
+                    city={data?.city}
+                    location={data?.location}
+                    price_cat={data?.Tickets[0].price_cat}
+                  />
                 </div>
               ) : (
                 <div className="border border-gray-300 h-40 rounded-md shadow-xl py-3 px-10 mt-10">
                   <p className="flex w-full justify-center text-2xl font-semibold border-otro border-b-4 py-2">
                     Ticket Information
                   </p>
-                  <button className="bg-deco rounded text-button1 px-24 py-2 my-3 font-bold text-xl h-14">
+                  <button
+                    className="bg-deco rounded text-button1 px-24 py-2 my-3 font-bold text-xl h-14"
+                    onClick={openModalFree}
+                  >
                     FREE
                   </button>
+                  <ModalFree
+                    isOpen={isModalOpen}
+                    closeModal={() => setIsModalOpen(false)}
+                    idEvent={data.id_event}
+                    eventName={data.name}
+                    startDate={formatDate(data.start_date)}
+                    ticketPrice={+data.ticket_price}
+                    city={data.city}
+                    location={data.location}
+                    startHour={formatHour(data.start_hour)}
+                    id_user={+data.id_user}
+                  />
                 </div>
               )}
             </div>
@@ -173,21 +210,6 @@ const EventDetail = () => {
         </div>
       </div>
 
-      <Modal
-        isOpen={isModalOpen}
-        closeModal={() => setIsModalOpen(false)}
-        idEvent={data.id_event}
-        eventName={data.name}
-        startDate={formatDate(data.start_date)}
-        ticketType={data?.Tickets[0]?.ticket_type}
-        ticketPrice={data?.Tickets[0]?.price}
-        quantityAvailable={data?.Tickets[0]?.available_quantity}
-        id_user={data?.Tickets[0]?.id_user}
-        image={data?.image}
-        id_ticket={data?.Tickets[0]?.id_ticket}
-        city={data?.city}
-        location={data?.location}
-      />
       <BackButton />
     </div>
   );

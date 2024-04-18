@@ -41,6 +41,7 @@ export const Modal = ({
       city,
       ticketType,
       location,
+      price_cat,
       quantityAvailable: quantityAvailable - count,
       price
     });

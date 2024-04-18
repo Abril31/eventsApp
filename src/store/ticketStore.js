@@ -18,7 +18,7 @@ export const useTicketStore = create(
         image,
         eventName,
         ticketPrice,
-        idEvent,  
+        idEvent,
         id_user,
         total,
         count,
@@ -34,8 +34,8 @@ export const useTicketStore = create(
           const ticketIndex = state.cartTickets.findIndex(
             (ticket) => ticket.idEvent === idEvent
           );
-          console.log("capturadeid",idEvent)
-          
+          console.log("capturadeid", idEvent);
+
           // Actualizas solo las propiedades
           if (ticketIndex !== -1) {
             const updatedCartTickets = [...state.cartTickets];
@@ -76,8 +76,8 @@ export const useTicketStore = create(
                   city,
                   ticketType,
                   location,
+                  price_cat,
                   quantityAvailable: quantityAvailable - count,
-                  price_cat
                 },
                 
               ],
