@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../../../store/authStore";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./homeDashboard.module.css";
 import axios from "axios";
 
@@ -8,7 +9,11 @@ const HomeDashboard = () => {
   const { user } = useAuthStore();
   console.log("DasjBoard user-->", user);
   const [events, setevents] = useState([]);
+  const navigate = useNavigate();
   const url="http://localhost:3001/api/v1";
+  if(user.type_user!=="admin"){
+    navigate("/");
+  }
 
   useEffect(() => {
     const fetchevents = async () => {

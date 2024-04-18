@@ -1,40 +1,70 @@
 import { useState, useEffect } from "react";
+import { useAuthStore } from "../../../store/authStore";
+import { Cloudinary } from "@cloudinary/url-gen";
 import validation from "./validationEvent";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "./creationEvent.module.css"
 
 const CreateEvent = () => {
     const baseURL = 'http://localhost:3001/api/v1';
+
+    const { user } = useAuthStore();
     const [ errorMessage,setErrorMessage] = useState("")
     const [popupOpen, setPopupOpen] = useState(false);
 
     const [formData, setFormData] = useState({
-        name: '',
-        description: '',
-        start_date: '',
-        end_date: '',
-        start_hour: '',
-        end_hour: '',
-        location: '',
-        category: '',
-        access: '',
-        image: '',
-        city:'',
-        id_user:'',
-        id_sponsor:'',
-        available_quantity:'',
-        ticket:{}
+        
+            name: '',
+            description: '',
+            start_date: '',
+            end_date: '',
+            start_hour: '',
+            end_hour: '',
+            location: '',
+            category: '',
+            access: '',
+            city:'',
+        
+            ticket_name_1: "",
+            ticket_price_1: 0,
+            ticket_available_quantity_1: 0,
+            ticket_catalog_1: "",
+            
+            ticket_name_2: "",
+            ticket_price_2: 0,
+            ticket_available_quantity_2: 0,
+            ticket_catalog_2: "",
+        
+            ticket_name_3: "",
+            ticket_price_3: 0,
+            ticket_available_quantity_3: 0,
+            ticket_catalog_3: "",
+            
+            id_sponsor1:0,
+            id_sponsor2:0,
+            id_sponsor3:0
+        
     });
+
+    const cld = new Cloudinary({
+        cloud: {
+          cloudName: "dcvxjhqk8",
+          api_key: '521923274491417', 
+          api_secret: 'RqUuw470QhKw4mzq0t_pyTRRcWg',
+          file: "event"
+        },
+      });
 
     const [formErrors, setFormErrors] = useState({});
     const [formHasErrors, setFormHasErrors] = useState(false);
     const [successMessage, setSuccessMessage] = useState("");
     const [previewImage, setPreviewImage] = useState("");
+    const [dataEvent, setDataEvent] = useState({});
     const [sponsors, setSponsor] = useState([]);
-    const [tickets, setTickets] = useState(2);
+    const [dataTicket, setDataTicket] = useState({});
     const [nroSponsors, setNroSponsors] = useState(2);
-    const cloudinaryUploadPreset = "events";
+    const navigate = useNavigate();
 
     const openPopup = () => {
         window.alert('', 'popup', 'width=400,height=200');
@@ -73,11 +103,11 @@ const CreateEvent = () => {
           setPreviewImage(URL.createObjectURL(selectedImage))
           const formData = new FormData();
           formData.append("file", selectedImage);
-          formData.append("upload_preset", cloudinaryUploadPreset);
+          formData.append("upload_preset", "events");
   
           try {
               const cloudinaryResponse = await axios.post(
-                  `https://api.cloudinary.com/v1_1/${cloudinary.cloud_name}/image/upload`,
+                  `https://api.cloudinary.com/v1_1/dcvxjhqk8/image/upload`,
                   formData,
                   {
                       headers: {
@@ -105,6 +135,7 @@ const CreateEvent = () => {
   const onSubmit = async (event) => {
     event.preventDefault();
     const errors = validation(formData);
+    console.log('formData--->', formData);
 
     if (Object.values(errors).some((error) => error !== "")) {
         setFormErrors(errors);
@@ -113,28 +144,108 @@ const CreateEvent = () => {
     }
 
     try {
-        await axios.post(`${baseURL}/register`, formData);
+        console.log('user en createEvent--->', user);
+        setDataEvent({
+            name        : formData.name, 
+            description : formData.description, 
+            start_date  : formData.start_date, 
+            end_date    : formData.end_date, 
+            start_hour  : formData.start_hour, 
+            end_hour    : formData.end_hour, 
+            location    : formData.location, 
+            category    : formData.category, 
+            access      : formData.access, 
+            city        : formData.city,
+            id_user     : user.user_id || user.id_user,
+            image       : [previewImage],
+            sponsor     : [formData.id_sponsor1, formData.id_sponsor2, formData.id_sponsor3]
+            })
+        console.log('Objeto enviado a back--->', dataEvent);
+        const newEvent=await axios.post(`${baseURL}/register`, dataEvent);
+        console.log("Nuevo evento--->", newEvent.data);
+        const id_event = newEvent.data.id_event;
+
+        if(formData.ticket_name_1){
+            setDataTicket({
+            ticket_type        : formData.ticket_name_1,
+            price              : formData.ticket_price_1,
+            available_quantity : formData.ticket_available_quantity_1,
+            price_cat          : formData.ticket_catalog_1,
+            id_user            : user.user_id || user.id_user,
+            id_event           : id_event,
+            })
+            await axios.post(`${baseURL}/createticket/${id_event}`, dataTicket);
+            console.log('Objeto para ticket 1--->', dataTicket);
+        }
+        if(formData.ticket_name_2){
+            setDataTicket({
+            ticket_type        : formData.ticket_name_2,
+            price              : formData.ticket_price_2,
+            available_quantity : formData.ticket_available_quantity_2,
+            price_cat          : formData.ticket_catalog_2,
+            id_user            : user.user_id || user.id_user,
+            id_event           : id_event,
+            })
+            await axios.post(`${baseURL}/createticket/${id_event}`, dataTicket);
+        }
+        if(formData.ticket_name_3){
+            setDataTicket({
+            ticket_type        : formData.ticket_name_3,
+            price              : formData.ticket_price_3,
+            available_quantity : formData.ticket_available_quantity_3,
+            price_cat          : formData.ticket_catalog_3,
+            id_user            : user.user_id || user.id_user,
+            id_event           : id_event,
+            })
+            await axios.post(`${baseURL}/createticket/${id_event}`, dataTicket);
+        }
             setSuccessMessage("Evento creado exitosamente.");
             setFormData({
-                name: "",
-                description: "",
-                start_date: "",
-                end_date: "",
-                start_hour: "",
-                end_hour: "",
-                location: "",
-                category: "",
-                access: "",
-                image: "",
-                city:'',
-                id_user:'',
-                id_sponsor:'',
-                tickets:{ticket_type:'', price:0, available_quantity:0}
+                name        : '',
+                description : '',
+                start_date  : '',
+                end_date    : '',
+                start_hour  : '',
+                end_hour    : '',
+                location    : '',
+                category    : '',
+                access      : '',
+                city        : '',
+            
+                ticket_name_1               : "",
+                ticket_price_1              : 0,
+                ticket_available_quantity_1 : 0,
+                ticket_catalog_1            : "",
+                
+                ticket_name_2               : "",
+                ticket_price_2              : 0,
+                ticket_available_quantity_2 : 0,
+                ticket_catalog_2            : "",
+            
+                ticket_name_3               : "",
+                ticket_price_3              : 0,
+                ticket_available_quantity_3 : 0,
+                ticket_catalog_3            : "",
+                
+                id_sponsor1 : 0,
+                id_sponsor2 : 0,
+                id_sponsor3 : 0
             });
+            setDataTicket({
+                ticket_type        : "",
+                price              : "",
+                available_quantity : "",
+                price_cat          : "",
+                id_user            : "",
+                id_event           : "",
+                })
             setTimeout(() => {
                 setSuccessMessage("");
             }, 3000);
-        
+
+        window.alert("Evento guardado exitosamente");
+        navigate("/");
+
     } catch (error) {
        
         setErrorMessage(error.response.data.error); 
@@ -254,7 +365,7 @@ const CreateEvent = () => {
             </div>
             <div name="sponsor" className={styles.sponsors}>
             Sponsors:
-            <div className={styles.formControl}>
+            <div className={styles.formControl} name="sponsors">
                 <label className={styles.sponsor}>Sponsor 1: </label>
                 <select
                 name="id_sponsor1"
@@ -332,25 +443,41 @@ const CreateEvent = () => {
                 Datos del Ticket 1:
                 <div id="ticket_1" name="ticket_1">
                     <div className={styles.formControl}>
-                        <label className={styles.city}>Tipo de Ticket: </label>
+                        <label className={styles.city}>Descripciónt: </label>
                         <input 
                         type="text" 
-                        name="ticket_type_1"
-                        value="General 1"
+                        value={formData.ticket_name_1}
+                        name="ticket_name_1"
+                        placeholder="Descripción del Ticket"
+                        onChange={handleChange}
                         />
                     </div>
                     <div className={styles.formControl}>
                         <label className={styles.available_quantity}>Cantidad de tickets a la venta: </label>
                         <input 
-                        type="number" 
-                        name="available_quantity_1"
+                        type="number"
+                        value={formData.ticket_available_quantity_1} 
+                        name="ticket_available_quantity_1"
+                        onChange={handleChange}
                         />
                     </div>
                     <div className={styles.formControl}>
                         <label className={styles.available_quantity}>Precio del ticket: </label>
                         <input 
                         type="number" 
-                        name="price_1"
+                        value={formData.ticket_price_1}
+                        name="ticket_price_1"
+                        onChange={handleChange}
+                        />
+                    </div>
+                    <div className={styles.formControl}>
+                        <label className={styles.city}>Cod. Catalogo: </label>
+                        <input 
+                        type="text" 
+                        value={formData.ticket_catalog_1}
+                        name="ticket_catalog_1"
+                        placeholder="Generar en Stripe"
+                        onChange={handleChange}
                         />
                     </div>
                     <hr/>
@@ -358,25 +485,41 @@ const CreateEvent = () => {
                 Datos del Ticket 2:
                 <div id="ticket_2" name="ticket_2">
                     <div className={styles.formControl}>
-                        <label className={styles.city}>Tipo de Ticket: </label>
+                        <label className={styles.city}>Descripción: </label>
                         <input 
                         type="text" 
-                        name="ticket_type_2"
-                        value="General 2"
+                        value={formData.ticket_name_2}
+                        name="ticket_name_2"
+                        placeholder="Descripción del Ticket"
+                        onChange={handleChange}
                         />
                     </div>
                     <div className={styles.formControl}>
                         <label className={styles.available_quantity}>Cantidad de tickets a la venta: </label>
                         <input 
                         type="number" 
-                        name="available_quantity_2"
+                        value={formData.ticket_available_quantity_2}
+                        name="ticket_available_quantity_2"
+                        onChange={handleChange}
                         />
                     </div>
                     <div className={styles.formControl}>
                         <label className={styles.available_quantity}>Precio del ticket: </label>
                         <input 
                         type="number" 
-                        name="price_2"
+                        value={formData.ticket_price_2}
+                        name="ticket_price_2"
+                        onChange={handleChange}
+                        />
+                    </div>
+                    <div className={styles.formControl}>
+                        <label className={styles.city}>Cod. Catalogo: </label>
+                        <input 
+                        type="text" 
+                        name="ticket_catalog_2"
+                        value={formData.ticket_catalog_2}
+                        placeholder="Generar en Stripe"
+                        onChange={handleChange}
                         />
                     </div>
                     <hr/>
@@ -384,25 +527,41 @@ const CreateEvent = () => {
                 Datos del Ticket 3:
                 <div id="ticket_3" name="ticket_3">
                     <div className={styles.formControl}>
-                        <label className={styles.city}>Tipo de Ticket: </label>
+                        <label className={styles.city}>Descripción: </label>
                         <input 
                         type="text" 
-                        name="ticket_type_3"
-                        value="General 3"
+                        value={formData.ticket_name_3}
+                        name="ticket_name_3"
+                        placeholder="Descripción del Ticket"
+                        onChange={handleChange}
                         />
                     </div>
                     <div className={styles.formControl}>
                         <label className={styles.available_quantity}>Cantidad de tickets a la venta: </label>
                         <input 
                         type="number" 
-                        name="available_quantity_3"
+                        value={formData.ticket_available_quantity_3}
+                        name="ticket_available_quantity_3"
+                        onChange={handleChange}
                         />
                     </div>
                     <div className={styles.formControl}>
                         <label className={styles.available_quantity}>Precio del ticket: </label>
                         <input 
                         type="number" 
-                        name="price_3"
+                        value={formData.ticket_price_3}
+                        name="ticket_price_3"
+                        onChange={handleChange}
+                        />
+                    </div>
+                    <div className={styles.formControl}>
+                        <label className={styles.city}>Cod. Catalogo: </label>
+                        <input 
+                        type="text" 
+                        value={formData.ticket_catalog_3}
+                        name="ticket_catalog_3"
+                        placeholder="Generar en Stripe"
+                        onChange={handleChange}
                         />
                     </div>
                     <hr/>
@@ -429,10 +588,11 @@ const CreateEvent = () => {
                     <p className={styles.errors}>{formErrors.image}</p>
                 )}
             </div>
-            <button type="sumbit"  className={styles.button}>Crear Evento</button>
+            <button type="submit"  className={styles.button}>Crear Evento</button>
          </form>
         {errorMessage && (alert(errorMessage))}
-        {successMessage && (alert(successMessage))}  
+        {successMessage && (alert(successMessage))} 
+        <><hr/>---O---</> 
         <button className={styles.homeButton}>
             <Link to="/dashboard" className={styles.homeLink}>
             HomeDashboard
