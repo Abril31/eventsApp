@@ -4,6 +4,7 @@ import { useAuthStore } from "../../store/authStore";
 import { Link } from "react-router-dom";
 import trash from "../../assets/icons/trash.svg";
 import { BiMinus, BiPlus } from "react-icons/bi";
+import { loadStripe } from "@stripe/stripe-js";
 
 const Purchase = () => {
   const isLogged = useAuthStore((state) => state.isLogged);
@@ -28,13 +29,40 @@ const Purchase = () => {
     removeFromCartTickets(idEvent);
   };
 
+  //Payment
+
   const handleCheckout = async () => {
-    try {
-      await checkout(finalAmount); // Pasa el valor total como argumento
-      console.log("Checkout exitoso");
-    } catch (error) {
-      console.error("Error al procesar el pago:", error);
+    const stripe = await loadStripe(
+      "pk_test_51P1uzsRtxcncuebvqofmHPj5v0MnrsAj3c5rUj4GtgrE0Pj3LcCmd1Mxdx0wf1kj5AuTd7WR6fIEiIPFOquAvl5i0060tOGXTS"
+    );
+    const body = {
+      tickets: cartTickets,
+    };
+    const headers = {
+      "Content-type": "application/json",
+    };
+    const response = await fetch(
+      "http://localhost:3001/api/v1/payment/create-checkout-session",
+      {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(body),
+      }
+    );
+    const session = await response.json();
+
+    const result = stripe.redirectToCheckout({
+      sessionId: session.id,
+    });
+    if (result.error) {
+      console.log(result.error);
     }
+    // try {
+    //   await checkout(finalAmount); // Pasa el valor total como argumento
+    //   console.log("Checkout exitoso");
+    // } catch (error) {
+    //   console.error("Error al procesar el pago:", error);
+    // }
   };
 
   return (
