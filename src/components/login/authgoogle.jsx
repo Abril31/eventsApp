@@ -3,7 +3,7 @@ import { gapi } from "gapi-script";
 import GoogleLogin from "react-google-login";
 import { useAuthStore } from "../../store/authStore"; // Importa el hook useAuthStore
 import { toast } from "sonner";
-function Authgoogle() {
+function AuthgoogleLogin() {
   const clientID =
     "438503221838-iuce1ukmr3gdpfvgh06btgp8v4qfi8g5.apps.googleusercontent.com";
   const [user, setUser] = useState({});
