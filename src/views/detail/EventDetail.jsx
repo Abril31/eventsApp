@@ -215,7 +215,7 @@ const EventDetail = () => {
                     id_ticket={data?.Tickets[0]?.id_ticket}
                     city={data?.city}
                     location={data?.location}
-                    price_cat={data?.Tickets[0]?.price_cat}
+                    price={data?.price}
                   />
                 </div>
               )}
