@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import styles from "./adminSponsors.module.css";
+import api from "../api/events";
 
 const AdminSponsors = () => {
   const [sponsors, setSponsor] = useState([]);

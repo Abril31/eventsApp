@@ -1,6 +1,5 @@
 import { create } from "zustand";
-import { loadStripe } from "@stripe/stripe-js";
-import api from "../api/events";
+
 import { persist } from "zustand/middleware";
 
 // Carga la instancia de Stripe con tu clave pública
@@ -27,9 +26,12 @@ export const useTicketStore = create(
         ticketType,
         location,
         quantityAvailable,
+        price,
       }) =>
         set((state) => {
           // Verificar si el ticket ya está en el carrito
+          console.log("Valor de quantityAvailable:", quantityAvailable);
+
           const ticketIndex = state.cartTickets.findIndex(
             (ticket) => ticket.idEvent === idEvent
           );
@@ -75,6 +77,7 @@ export const useTicketStore = create(
                   city,
                   ticketType,
                   location,
+                  price,
                   quantityAvailable: quantityAvailable - count,
                 },
               ],
@@ -121,58 +124,41 @@ export const useTicketStore = create(
           count: Math.max(state.count - 1, 0),
         })),
 
-      checkout: async (totalAmount) => {
+      Payment: async () => {
         const stripe = await stripePromise;
+        const { cartTickets } = get();
 
         try {
-          // Realiza la petición al endpoint utilizando Axios
-          console.log("Procesando pago...");
-          const cartTickets = get().cartTickets;
-          const eventNames = cartTickets
-            .map((item) => item.eventName)
-            .join(", ");
-          console.log("Datos en cartTickets:", cartTickets);
+          const lineItems = cartTickets.map((ticket) => ({
+            price: ticket.price, // Utilizar el price_cat correspondiente de cada elemento
+            quantity: ticket.count,
+          }));
 
-          // Aquí asumimos que todos los tickets en el carrito pertenecen al mismo evento
-          // y tomamos el idEvent del primer ticket. Si este no es el caso, necesitarás
-          // ajustar este código para manejar múltiples idEvents.
-          const idEvent = cartTickets[0]?.idEvent;
-          console.log("id", idEvent);
+          // Eliminar duplicados en lineItems basados en el price
+          const uniqueLineItems = lineItems.reduce((acc, current) => {
+            const x = acc.find((item) => item.price === current.price);
+            if (!x) {
+              return acc.concat([current]);
+            } else {
+              return acc;
+            }
+          }, []);
 
-          const quantity = cartTickets.reduce(
-            (total, ticket) => total + ticket.count,
-            0
-          );
-          console.log("quantity", quantity);
-          const userData = JSON.parse(localStorage.getItem("userData"));
-          const id_user = userData?.id_user || userData?.user_id;
-          console.log("id_user", id_user);
-
-          const response = await api.post("/payment/create-checkout-session", {
-            eventName: eventNames,
-            eventPrice: totalAmount,
-            id_ticket: idEvent,
-            quantity: quantity,
-            id_user: id_user,
+          // Redirigir al checkout de Stripe
+          const { error } = await stripe.redirectToCheckout({
+            lineItems,
+            mode: "payment",
+            cancelUrl: "http://localhost:5173/#/cart",
+            successUrl: "http://localhost:5173/#/succes",
           });
-
-          const session = response.data;
-          console.log("Sesión deee pago creada:", session);
-
-          // Cuando se haya creado la sesión de pago, redirige al usuario a la página de pago de Stripe
-          const result = await stripe.redirectToCheckout({
-            sessionId: session.id,
-          });
-
-          if (result.error) {
-            // Muestra un mensaje de error al usuario si algo sale mal
-            console.error("Error al procesar el pago:", result.error.message);
+          if (error) {
+            console.error("Error al redirigir a la página de pago:", error);
           }
         } catch (error) {
-          // Maneja cualquier error que pueda ocurrir durante la petición
           console.error("Error al procesar el pago:", error);
         }
       },
+
       clearTickets: () =>
         set((state) => ({
           cartTickets: [],

@@ -19,6 +19,7 @@ export const Modal = ({
   id_ticket,
   city,
   location,
+  price,
 }) => {
   const count = useTicketStore((state) => state.count);
   const incrementCount = useTicketStore((state) => state.incrementCount);
@@ -26,6 +27,7 @@ export const Modal = ({
   const addToCartTickets = useTicketStore((state) => state.addToCartTickets);
 
   const total = count * ticketPrice;
+
   const handleAddToCart = () => {
     addToCartTickets({
       image: image,
@@ -40,7 +42,9 @@ export const Modal = ({
       city,
       ticketType,
       location,
+      price_cat,
       quantityAvailable: quantityAvailable - count,
+      price
     });
   };
 
@@ -49,7 +53,9 @@ export const Modal = ({
     toast.success("Ticket Saved");
   };
   const handleNotisRem = () => {
-    toast.warning("Ticket Removed");
+    if (count > 0) {
+      toast.warning("Ticket Removed");
+    }
   };
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-70 z-50">

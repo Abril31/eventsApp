@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useAllEvents } from "../../hooks/useEvents";
 import Card from "../../components/card/Card";
+import Loading from "../../components/spinner/Loading";
 // import Paginate from "../../components/pagination/Paginate";
 
 const Category = ({ setCurrentPage, currentPage }) => {
@@ -8,7 +9,9 @@ const Category = ({ setCurrentPage, currentPage }) => {
 
   const { category } = useParams();
   const { data: events, isLoading } = useAllEvents();
-  if (isLoading) return <div>Loading...</div>;
+
+  console.log(events);
+  if (isLoading) return <Loading />;
   if (!events) return <div>There are no events in this category.</div>;
 
   const filteredEvents = events.filter(
@@ -16,8 +19,7 @@ const Category = ({ setCurrentPage, currentPage }) => {
       event.category.toLowerCase().includes(category.toLowerCase()) ||
       event.name.toLowerCase().includes(category.toLowerCase())
   );
-  const totalEvents = filteredEvents.length;
-
+  console.log(filteredEvents);
   return (
     <div>
       <h1 className="text-3xl text-center mt-10 font-extrabold">
@@ -46,6 +48,7 @@ const Category = ({ setCurrentPage, currentPage }) => {
                 endDate={event.end_date}
                 startHour={event.start_hour}
                 category={event.category}
+                status={event.status}
               />
             ))}
         </div>

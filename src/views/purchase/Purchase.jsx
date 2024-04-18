@@ -17,21 +17,24 @@ const Purchase = () => {
     (state) => state.removeFromCartTickets
   );
 
-  const checkout = useTicketStore((state) => state.checkout);
-
+  const Payment = useTicketStore((state) => state.Payment);
+  const Checkout = useTicketStore((state) => state.Checkout);
   const finalAmount = cartTickets.reduce(
     (total, item) => total + item.total,
     0
   );
-
+  console.log("ACa", cartTickets);
   const handleRemoveFromCart = (idEvent) => {
     removeFromCartTickets(idEvent);
   };
 
+  //Payment
+
   const handleCheckout = async () => {
     try {
-      await checkout(finalAmount); // Pasa el valor total como argumento
-      console.log("Checkout exitoso");
+      await Payment(finalAmount); // Pasa el valor total como argumento
+
+      console.log("Checkout exitoso", Checkout);
     } catch (error) {
       console.error("Error al procesar el pago:", error);
     }
@@ -126,7 +129,7 @@ const Purchase = () => {
                   : "bg-otro text-gray-700 cursor-pointer hover:scale-110 transition-transform duration-300"
               }`}
             >
-              Checkout
+              Payment
             </button>
           </div>
           <div className="flex w-full">
