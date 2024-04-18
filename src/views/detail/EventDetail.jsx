@@ -9,7 +9,7 @@ import { Modal } from "../../components/modal/Modal";
 import { useState } from "react";
 import Loading from "../../components/spinner/Loading";
 import EventReviews from "../../components/reviews/EventReviews";
-import { ModalFree } from "../../components/modal/ModalFree";
+//import { ModalFree } from "../../components/modal/ModalFree";
 
 const EventDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -215,7 +215,31 @@ const EventDetail = () => {
                     id_ticket={data?.Tickets[0]?.id_ticket}
                     city={data?.city}
                     location={data?.location}
-                    price_cat={data?.Tickets[0]?.price_cat}
+                    price={data?.price}
+                  />
+                </div>
+              ) : (
+                <div className="border border-gray-300 h-40 rounded-md shadow-xl py-3 px-10 mt-10">
+                  <p className="flex w-full justify-center text-2xl font-semibold border-otro border-b-4 py-2">
+                    Ticket Information
+                  </p>
+                  <button
+                    className="bg-deco rounded text-button1 px-24 py-2 my-3 font-bold text-xl h-14"
+                    onClick={openModalFree}
+                  >
+                    FREE
+                  </button>
+                  <ModalFree
+                    isOpen={isModalOpen}
+                    closeModal={() => setIsModalOpen(false)}
+                    idEvent={data.id_event}
+                    eventName={data.name}
+                    startDate={formatDate(data.start_date)}
+                    ticketPrice={+data.ticket_price}
+                    city={data.city}
+                    location={data.location}
+                    startHour={formatHour(data.start_hour)}
+                    id_user={+data.id_user}
                   />
                 </div>
               )}

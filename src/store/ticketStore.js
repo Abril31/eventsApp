@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { loadStripe } from "@stripe/stripe-js";
-import api from "../api/events";
+
 import { persist } from "zustand/middleware";
 
 // Carga la instancia de Stripe con tu clave pública
@@ -27,7 +27,7 @@ export const useTicketStore = create(
         ticketType,
         location,
         quantityAvailable,
-        price_cat,
+        price,
       }) =>
         set((state) => {
           // Verificar si el ticket ya está en el carrito
@@ -78,7 +78,7 @@ export const useTicketStore = create(
                   city,
                   ticketType,
                   location,
-                  price_cat,
+                  price,
                   quantityAvailable: quantityAvailable - count,
                 },
               ],
@@ -128,54 +128,35 @@ export const useTicketStore = create(
       Payment: async () => {
         const stripe = await stripePromise;
         const { cartTickets } = get();
-        console.log("aca pa", cartTickets);
+
         try {
-          console.log("esto hay en prueba", PRUEBA);
-          // Crear los items para el checkout
           const lineItems = cartTickets.map((ticket) => ({
-            price: "price_1P6acSRtxcncuebvGcSkVrhg",
-            // Obtener el precio del evento correspondiente , // Reemplaza 'priceId' con la clave del precio en Stripe
+            price: ticket.price, // Utilizar el price_cat correspondiente de cada elemento
             quantity: ticket.count,
           }));
+
+          // Eliminar duplicados en lineItems basados en el price
+          const uniqueLineItems = lineItems.reduce((acc, current) => {
+            const x = acc.find((item) => item.price === current.price);
+            if (!x) {
+              return acc.concat([current]);
+            } else {
+              return acc;
+            }
+          }, []);
 
           // Redirigir al checkout de Stripe
           const { error } = await stripe.redirectToCheckout({
             lineItems,
             mode: "payment",
-            successUrl: "http://localhost:5173/#/succes",
             cancelUrl: "http://localhost:5173/#/cart",
+            successUrl: "http://localhost:5173/#/succes",
           });
           if (error) {
             console.error("Error al redirigir a la página de pago:", error);
           }
         } catch (error) {
           console.error("Error al procesar el pago:", error);
-        }
-      },
-      checkout: async () => {
-        const cartTickets = get().cartTickets;
-
-        try {
-          for (const ticket of cartTickets) {
-            const response = await axios.post(
-              "http://localhost:3001/api/v1/payment/success",
-              {
-                id_ticket: ticket.id_ticket,
-                quantity: ticket.count,
-                id_user: ticket.id_user,
-                // Otros datos necesarios para la llamada
-              }
-            );
-            console.log(
-              "Respuesta de la API para ticket",
-              ticket.idEvent,
-              ":",
-              response.data
-            );
-          }
-          console.log("Proceso de tickets completado.");
-        } catch (error) {
-          console.error("Error al procesar los tickets:", error);
         }
       },
 
