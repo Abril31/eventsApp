@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../../../store/authStore";
 import styles from "./adminUsers.module.css";
-import api from "../api/events";
+import api from "../../../api/events";
 
 const AdminUsers = () => {
   const [users, setUsers] = useState([]);
