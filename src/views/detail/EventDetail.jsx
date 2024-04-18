@@ -9,7 +9,7 @@ import { Modal } from "../../components/modal/Modal";
 import { useState } from "react";
 import Loading from "../../components/spinner/Loading";
 import EventReviews from "../../components/reviews/EventReviews";
-import { ModalFree } from "../../components/modal/ModalFree";
+//import { ModalFree } from "../../components/modal/ModalFree";
 
 const EventDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -174,7 +174,7 @@ const EventDetail = () => {
                     id_ticket={data?.Tickets[0]?.id_ticket}
                     city={data?.city}
                     location={data?.location}
-                    price_cat={data?.Tickets[0].price_cat}
+                    price={data?.price}
                   />
                 </div>
               ) : (

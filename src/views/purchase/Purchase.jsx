@@ -31,7 +31,7 @@ const Purchase = () => {
   const handleCheckout = async () => {
     try {
       await Payment(finalAmount); // Pasa el valor total como argumento
-      await Checkout();
+      
       console.log("Checkout exitoso",Checkout);
     } catch (error) {
       console.error("Error al procesar el pago:", error);

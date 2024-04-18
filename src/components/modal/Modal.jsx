@@ -19,7 +19,7 @@ export const Modal = ({
   id_ticket,
   city,
   location,
-  price
+  price,
 }) => {
   const count = useTicketStore((state) => state.count);
   const incrementCount = useTicketStore((state) => state.incrementCount);
@@ -41,9 +41,8 @@ export const Modal = ({
       city,
       ticketType,
       location,
-      price_cat,
+      price,
       quantityAvailable: quantityAvailable - count,
-      price
     });
   };
 
