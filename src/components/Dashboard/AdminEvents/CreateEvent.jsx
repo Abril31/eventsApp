@@ -95,6 +95,11 @@ const CreateEvent = () => {
         setFormHasErrors(false); 
         
     }
+    function convertirFecha(fecha) {
+        var partes = fecha.split('/');
+        var fechaConvertida = partes[2] + '-' + partes[1].padStart(2, '0') + '-' + partes[0].padStart(2, '0');
+        return fechaConvertida;
+    }
 
     const handleImage = async (event) => {
         const selectedImage = event.target.files [0];
@@ -148,8 +153,8 @@ const CreateEvent = () => {
         setDataEvent({
             name        : formData.name, 
             description : formData.description, 
-            start_date  : formData.start_date, 
-            end_date    : formData.end_date, 
+            start_date  : convertirFecha(formData.start_date), 
+            end_date    : convertirFecha(formData.end_date), 
             start_hour  : formData.start_hour, 
             end_hour    : formData.end_hour, 
             location    : formData.location, 
@@ -161,9 +166,10 @@ const CreateEvent = () => {
             sponsor     : [formData.id_sponsor1, formData.id_sponsor2, formData.id_sponsor3]
             })
         console.log('Objeto enviado a back--->', dataEvent);
-        const newEvent=await axios.post(`${baseURL}/register`, dataEvent);
+        console.log(`URL---> ${baseURL}/registerevent/${user.user_id || user.id_user}`);
+        const newEvent=await axios.post(`${baseURL}/registerevent/${user.user_id || user.id_user}`, dataEvent);
         console.log("Nuevo evento--->", newEvent.data);
-        const id_event = newEvent.data.id_event;
+        const id_event = newEvent.data.event.id_event;
 
         if(formData.ticket_name_1){
             setDataTicket({
@@ -172,10 +178,9 @@ const CreateEvent = () => {
             available_quantity : formData.ticket_available_quantity_1,
             price_cat          : formData.ticket_catalog_1,
             id_user            : user.user_id || user.id_user,
-            id_event           : id_event,
             })
-            await axios.post(`${baseURL}/createticket/${id_event}`, dataTicket);
             console.log('Objeto para ticket 1--->', dataTicket);
+            await axios.post(`${baseURL}/createticket/${id_event}`, dataTicket);
         }
         if(formData.ticket_name_2){
             setDataTicket({
@@ -184,8 +189,8 @@ const CreateEvent = () => {
             available_quantity : formData.ticket_available_quantity_2,
             price_cat          : formData.ticket_catalog_2,
             id_user            : user.user_id || user.id_user,
-            id_event           : id_event,
             })
+            console.log('Objeto para ticket 1--->', dataTicket);
             await axios.post(`${baseURL}/createticket/${id_event}`, dataTicket);
         }
         if(formData.ticket_name_3){
@@ -195,8 +200,8 @@ const CreateEvent = () => {
             available_quantity : formData.ticket_available_quantity_3,
             price_cat          : formData.ticket_catalog_3,
             id_user            : user.user_id || user.id_user,
-            id_event           : id_event,
             })
+            console.log('Objeto para ticket 1--->', dataTicket);
             await axios.post(`${baseURL}/createticket/${id_event}`, dataTicket);
         }
             setSuccessMessage("Evento creado exitosamente.");
@@ -393,7 +398,7 @@ const CreateEvent = () => {
                 onChange={handleChange}
                 className={styles.select}
                 >
-                <option value='' selected disabled>
+                <option value='' selected>
                     Seleccione Segundo Sponsor
                 </option>
                 {sponsors.map((sponsor,index) => ( 
@@ -413,7 +418,7 @@ const CreateEvent = () => {
                 onChange={handleChange}
                 className={styles.select}
                 >
-                <option value='' selected disabled>
+                <option value='' selected>
                     Seleccione Tercer Sponsor
                 </option>
                 {sponsors.map((sponsor,index) => ( 
