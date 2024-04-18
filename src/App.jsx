@@ -16,9 +16,11 @@ import AdminSponsors from "./components/Dashboard/AdminSponsors/AdminSponsors";
 import Purchase from "./views/purchase/Purchase";
 import Succes from "./views/succes/Succes";
 import AboutUs from "./views/about/AboutUs";
+import { useAuthStore } from "./store/authStore";
 import LandingPage from "./views/landing/LandingPage";
 
 function App() {
+  const { user } = useAuthStore();
   const location = useLocation();
   const isLandingPage = location.pathname === "/";
 
@@ -36,9 +38,13 @@ function App() {
         <Route path="/dashboard/events/new" element={<CreateEvent />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
+        {user && user.type_user === "admin" && (
+          <>
         <Route path="/dashboard/events" element={<AdminEvents />} />
         <Route path="/dashboard/users" element={<AdminUsers />} />
         <Route path="/dashboard/sponsor" element={<AdminSponsors />} />
+        </>
+        )}
         <Route path="/cart" element={<Purchase />} />
         <Route path="/succes" element={<Succes />} />
         <Route path="/about" element={<AboutUs />} />
