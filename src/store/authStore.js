@@ -1,7 +1,6 @@
 import { create } from "zustand";
-import api from "../api/events";
 import { toast } from "sonner";
-
+import api from "../api/events";
 export const useAuthStore = create((set) => {
   const initialState = () => {
     const storedState = localStorage.getItem("authState");
