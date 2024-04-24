@@ -45,7 +45,6 @@ function AuthgoogleLogin() {
           onSuccess={onSuccess}
           buttonText="Continue with Google"
           cookiePolicy={"single_host_origin"}
-          redirectUri="https://events-app-eta-ruddy.vercel.app/login"
         />
       </div>
     </div>
