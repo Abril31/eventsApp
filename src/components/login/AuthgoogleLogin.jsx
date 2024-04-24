@@ -3,9 +3,9 @@ import { gapi } from "gapi-script";
 import GoogleLogin from "react-google-login";
 import { useAuthStore } from "../../store/authStore"; // Importa el hook useAuthStore
 import { toast } from "sonner";
+
 function AuthgoogleLogin() {
-  const clientID =
-    "820127376127-j56dpiu9dsl9aok9aiv4namiu6m9egac.apps.googleusercontent.com";
+  const clientID = import.meta.env.VITE_CLIENT_ID;
   const [user, setUser] = useState({});
   const { authgoogle } = useAuthStore(); // Obtiene la función login del store
 
@@ -30,6 +30,7 @@ function AuthgoogleLogin() {
     function start() {
       gapi.client.init({
         clientId: clientID,
+        scope: "profile email",
       });
     }
     gapi.load("client:auth2", start);

@@ -5,7 +5,7 @@ import { isValidEmail, isValidPassword } from "./validation";
 
 import api from "../../api/events";
 import { toast } from "sonner";
-import AuthgoogleLogin from "./authgoogle";
+import AuthgoogleLogin from "./AuthgoogleLogin";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -47,12 +47,25 @@ export default function Login() {
       localStorage.setItem("userData", JSON.stringify(response.data)); // Llama al método login con el email y la contraseña
       console.log("localStorage--->", localStorage.userData);
       navigate("/");
+      toast.success("successful login");
     } catch (error) {
       if (!isValidPassword(password)) {
         toast.error("Incorrect Password.");
         return;
       }
-      console.error("Error en el login:", error);
+      if (
+        error.response &&
+        error.response.status === 403 &&
+        error.response.data === "User Banned, please contact with your admin"
+      ) {
+        toast.error(
+          "The user has been banned. Please contact the administrator."
+        );
+        setEmail("");
+        setPassword("");
+      } else {
+        console.error("Error en el login:", error);
+      }
     }
   };
 
